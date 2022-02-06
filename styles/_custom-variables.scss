@@ -1,0 +1,38 @@
+// -------------------------
+// Some classes and components are available for bizleal.com with CSS variables to overwrite default values.
+// -------------------------
+
+$nav-panel-bg: none;
+$nav-panel-font-color:                  rgba(0,106,124,1);
+
+$nav-links-item-default-arrow-color:    rgba(0, 125, 131, 0.35);
+
+//$menu-bg: #fff4de;
+$menu-bg:                               linear-gradient(90deg, rgb(154, 230, 247) 0%, rgb(182, 242, 253) 20%, rgba(219,249,255,1) 100%);
+$menu-font-color:                       rgba(7,60,70,1);
+//$menu-item-hover-bg:                  #ffd070;
+$menu-item-hover-bg:                    rgb(154, 230, 247);
+
+$indicator-hover-font-color:            #F1861E;
+$indicator-default-counter-font-color:  #F1861E;
+$indicator-hover-counter-font-color:    #F1861E;
+
+$departments-bg:                        rgba(0,106,124,1);
+//$departments-bg-gradient:             linear-gradient(90deg, rgba(0,106,124,1) 0%, rgba(26,160,185,1) 78%, rgba(11,183,218,1) 100%);
+$departments-bg-gradient:               linear-gradient(90deg, rgb(0, 106, 124) 0%, rgb(26, 160, 185) 78%, rgba(26, 160, 185, 1) 100%);
+$departments-font-color:                #f1fafb;
+//$departments-item-hover-bg: #00a1a9;
+$departments-item-hover-bg:             rgba(0,106,124,1);
+$departments-arrow-color:               #a7d4d6;
+//$departments-menu-icon-color: #a7d4d6;
+$departments-icon-color:                #a7d4d6;
+
+$block-header-filter-active-shadow:     0 0 0 2px #F1861E inset;
+//logo
+$logo-bizleal-max-width: 215px;
+
+$bizleal-yellow-color:                  rgba(11,183,218,1) !default;
+
+$product-card-hover-shadow:             0 0 0 2px rgba($bizleal-yellow-color, .7) inset  !default;
+
+$accent-color:                          #F1861E               !default;

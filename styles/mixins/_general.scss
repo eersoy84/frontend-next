@@ -1,0 +1,7 @@
+@import '../variables';
+
+
+@mixin bizle-al-border() {
+    border: $bizle-al-border;
+    border-radius: $bizle-al-border-radius;
+}

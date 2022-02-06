@@ -1,0 +1,28 @@
+@import './mixins/general';
+
+:root {
+    --blink-time: 1s;
+  }
+  .blink {
+    animation: var(--blink-time) blinker linear infinite;
+    -webkit-animation: var(--blink-time) blinker linear infinite;
+    -moz-animation: var(--blink-time) blinker linear infinite;
+  }
+
+  @-moz-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
+
+  @-webkit-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
+
+  @keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
