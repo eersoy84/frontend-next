@@ -26,16 +26,16 @@ class ProductTabs extends Component {
 
     render() {
         const { currentTab } = this.state;
-        const { withSidebar, adSpecs, product, questions, reviews } = this.props;
+        const { withSidebar, adSpecs, ad, questions, reviews } = this.props;
         const classes = classNames('product-tabs', {
             'product-tabs--layout--sidebar': withSidebar,
         });
 
         const tabs = [
-            { key: 'description', title: 'Açıklama', content: <ProductTabDescription product={product} /> },
+            { key: 'description', title: 'Açıklama', content: <ProductTabDescription product={ad} /> },
             { key: 'specification', title: 'Özellikler', content: <ProductTabSpecification adSpecs={adSpecs} /> },
-            { key: 'reviews', title: 'Yorumlar', content: <ProductTabReviews adId={product.adId} sellerId={product.sellerId} reviews={reviews} /> },
-            { key: 'questions', title: 'Sorular', content: <ProductTabQuestions adId={product.adId} sellerId={product.sellerId} questions={questions} /> },
+            { key: 'reviews', title: 'Yorumlar', content: <ProductTabReviews adId={ad.adId} sellerId={ad.sellerId} reviews={reviews} /> },
+            { key: 'questions', title: 'Sorular', content: <ProductTabQuestions adId={ad.adId} sellerId={ad.sellerId} questions={questions} /> },
         ];
 
         const tabsButtons = tabs.map((tab) => {

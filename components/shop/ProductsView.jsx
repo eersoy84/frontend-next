@@ -14,28 +14,16 @@ import ProductCard from '../shared/ProductCard';
 import { sidebarOpen } from '../../store/sidebar';
 import { mobileMenuOpen } from '../../store/mobile-menu';
 import Pagination from '../shared/Pagination'
-import { mergeArrays } from '../../helpers/merger';
 import Spinner from '../shared/Spinner';
 
 
 export default function ProductsView({ adList }) {
-    const { instantAdsInfo } = useSelector(state => ({
-        instantAdsInfo: state.ad.instantAdsInfo,
-    }), shallowEqual);
-    const [mergedList, setMergedList] = useState(adList);
-    const [pagedList, setPagedList] = useState(mergedList);
+    const [pagedList, setPagedList] = useState(adList);
     const dispatch = useDispatch();
     const handlePageChange = (items) => {
         setPagedList(items);
     };
 
-    useEffect(() => {
-        setMergedList(mergeArrays(adList, instantAdsInfo));
-    }, [adList, instantAdsInfo]);
-
-    useEffect(() => {
-        setPagedList(mergedList)
-    }, [mergedList])
 
     const count = adList?.length || 0;
     const list = pagedList?.map(product => {
@@ -89,7 +77,7 @@ export default function ProductsView({ adList }) {
             {(adList?.length > 10)
                 && (
                     <div className="products-view__pagination">
-                        <Pagination items={mergedList} limit={10} onPageChange={(items) => handlePageChange(items)} />
+                        <Pagination items={adList} limit={10} onPageChange={(items) => handlePageChange(items)} />
                     </div>
                 )}
         </div >

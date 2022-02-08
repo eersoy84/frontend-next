@@ -49,6 +49,7 @@ export default function ProductCard({ product }) {
     const image = (
         product.imageUrl ?
             <Link href={`/ilanlar/${product.adId}/${friendlyUrl}`} >
+            {/* <Link href={`/ilanlar/${product.adId}`} > */}
                 <a
                     style={{ backgroundImage: `url(${product?.imageUrl})` }}
                 >

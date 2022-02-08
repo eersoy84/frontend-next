@@ -37,7 +37,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 // import ChartView from './ChartView'
 
 function Product(props) {
-    const { product, layout } = props;
+    const { ad, layout } = props;
     const { cart, favorites } = useSelector((state) => ({
         favorites: state.userAccount.favorites,
         cart: state.cart,
@@ -62,26 +62,25 @@ function Product(props) {
     //     }
     // }, [location, history])
 
-
     const handleChangeAmount = (amount) => {
         setAmount(amount);
     };
-    const salePrice = `${(product.productPrice).toLocaleString(undefined,
+    const salePrice = `${(ad.productPrice).toLocaleString(undefined,
         {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         })}${' '}₺`;
 
     let isFollowing = false;
-    const [updatedParticipants, setUpdatedParticipants] = useState((product && product.participants) || 0);
+    const [updatedParticipants, setUpdatedParticipants] = useState((ad && ad.participants) || 0);
     const onAdFollow = (participants) => {
         setUpdatedParticipants(participants);
     };
 
-    const adName = product && (`${product.categoryName} ${product.brandName} ${product.modelName}`);
+    const adName = ad && (`${ad.categoryName} ${ad.brandName} ${ad.modelName}`);
     const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
     favorites && favorites.map((fav) => {
-        if (fav === product.adId) {
+        if (fav === ad.adId) {
             isFollowing = true;
         }
     });
@@ -91,31 +90,32 @@ function Product(props) {
     let targetPrice;
     let listPrice = 0;
     let instantDiscount = '0';
+    let navigator;
 
-    if (product.instantPrice) {
-        instantPrice = `${(product.instantPrice).toLocaleString(undefined,
+    if (ad.instantPrice) {
+        instantPrice = `${(ad.instantPrice).toLocaleString(undefined,
             {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             })}${' '}₺`;
 
-        instantProfit = `${((product.productPrice - product.instantPrice)).toLocaleString(undefined,
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            })}${' '}₺`;
-    }
-
-    if (product.targetPrice) {
-        targetPrice = `${(product.targetPrice).toLocaleString(undefined,
+        instantProfit = `${((ad.productPrice - ad.instantPrice)).toLocaleString(undefined,
             {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             })}${' '}₺`;
     }
 
-    if (product.instantDiscountPercent) {
-        instantDiscount = `% ${(product.instantDiscountPercent).toLocaleString(undefined,
+    if (ad.targetPrice) {
+        targetPrice = `${(ad.targetPrice).toLocaleString(undefined,
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })}${' '}₺`;
+    }
+
+    if (ad.instantDiscountPercent) {
+        instantDiscount = `% ${(ad.instantDiscountPercent).toLocaleString(undefined,
             {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -135,19 +135,19 @@ function Product(props) {
                 Başlangıç Fiyatı:
             </span>
             <span className="text-danger" style={{ textDecoration: 'line-through' }}>
-                <Currency value={product.productPrice} />
+                <Currency value={ad.productPrice} />
             </span>
         </div>
     );
 
-    if (product.instantPrice) {
-        instantPrice = `${(product.instantPrice).toLocaleString(undefined,
+    if (ad.instantPrice) {
+        instantPrice = `${(ad.instantPrice).toLocaleString(undefined,
             {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             })}${' '}₺`;
 
-        instantProfit = `${(product.productPrice - product.instantPrice).toLocaleString(undefined,
+        instantProfit = `${(ad.productPrice - ad.instantPrice).toLocaleString(undefined,
             {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -155,20 +155,20 @@ function Product(props) {
     }
 
     // let images = [];
-    // if (product && product.imageUrl) {
-    //     images = product?.images?.map(
+    // if (ad && ad.imageUrl) {
+    //     images = ad?.images?.map(
     //         {
     //             return <Image/>
     //         });
 
-    //     // for(i in product.images) {
-    //     //     let im = product.images[i].url;
+    //     // for(i in ad.images) {
+    //     //     let im = ad.images[i].url;
     //     // }
-    //     // // images = [product.imageUrl];
-    //     // images[0] = (product.imageUrl);
+    //     // // images = [ad.imageUrl];
+    //     // images[0] = (ad.imageUrl);
     // }
 
-    const images = product?.images?.map((image, index) => {
+    const images = ad?.images?.map((image, index) => {
         return (
             <div key={index}>
                 <Image src={image.url} height={300} width={300} />
@@ -182,15 +182,15 @@ function Product(props) {
             text: 'Ortak satın alma platformu!',
             url,
         };
-        if (navigator.share) {
-            navigator.share(shareData)
+        if (navigator?.share) {
+            navigator?.share(shareData)
                 .then(() => {
                 }).catch((err) => {
                     console.log(err);
                 });
         }
     };
-    const ad_finish_date = moment(product.endDate);
+    const ad_finish_date = moment(ad.endDate);
     moment().locale('tr');
 
     const CompletionList = () => (
@@ -240,11 +240,11 @@ function Product(props) {
     return (
         <>
             <Head>
-                <title>{`${product.brandName} ${product.modelName} ${product.instantPrice} TL'ye`}</title>
-                <meta name="description" content={`${product.categoryName} ${product.brandName} ${product.modelName}`} />
+                <title>{`${ad.brandName} ${ad.modelName} ${ad.instantPrice} TL'ye`}</title>
+                <meta name="description" content={`${ad.categoryName} ${ad.brandName} ${ad.modelName}`} />
                 <meta property="og:type" content="https://bizleal.com" />
-                <meta property="og:image" content={`${product.image}`} />
-                <meta property="og:url" content={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`} />
+                <meta property="og:image" content={`${ad.image}`} />
+                <meta property="og:url" content={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`} />
             </Head>
             <div className="row">
                 <div className="col-12 col-md-6 col-lg-4">
@@ -257,16 +257,16 @@ function Product(props) {
                     <div className="row">
                         <div className="col-10 col-lg-4">
                             <div className="bizleal_product_detail_title_first">
-                                {product.brandName}
+                                {ad.brandName}
                                 {' '}
-                                {product.modelName}
+                                {ad.modelName}
                             </div>
-                            <div className="bizleal_product_detail_title_second">{product.description}</div>
+                            <div className="bizleal_product_detail_title_second">{ad.description}</div>
                         </div>
                         <div className="col-2 col-lg-2">
                             <div className="bizleal_product_detail_like">
                                 <FollowButton
-                                    adId={product.adId}
+                                    adId={ad.adId}
                                     isFollowing={isFollowing}
                                     onFollow={(participants) => onAdFollow(participants)}
                                     numOfParticipants={updatedParticipants}
@@ -282,27 +282,27 @@ function Product(props) {
                     </div>
                     <div className="row mt-4">
                         <div className="col-12 col-lg-6">
-                            {/* <ChartView product={product} /> */}
+                            {/* <ChartView ad={ad} /> */}
                             <div className="row mt-3 mt-sm-0">
                                 <div className="col-12 d-flex justify-content-between my-2">
-                                    {product?.numOrders > 0 &&
+                                    {ad?.numOrders > 0 &&
                                         <div style={{ fontSize: '12px', display: 'inline-block' }} className="d-flex align-items-baseline">
                                             Satılan:&nbsp;
                                             <span className="text-success">
-                                                {product.numOrders}
+                                                {ad.numOrders}
                                             </span>
                                         </div>}
-                                    {product?.numOrders > 0 &&
+                                    {ad?.numOrders > 0 &&
                                         <div style={{ fontSize: '12px', display: 'inline-block' }} className="d-flex align-items-baseline">
                                             Kalan:&nbsp;
                                             <span className="text-danger">
-                                                {product.quantity - product.numOrders}
+                                                {ad.quantity - ad.numOrders}
                                             </span>
                                         </div>}
                                     <div style={{ fontSize: '12px' }} className="d-flex align-items-baseline">
                                         Stok:&nbsp;
                                         <span className="text-info">
-                                            {product?.quantity}
+                                            {ad?.quantity}
                                         </span>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@ function Product(props) {
                                     <span><Image src={'/icons/info-icon.svg'} height={16} width={16} /></span>&nbsp;&nbsp;
                                     <span style={{ fontSize: '12px' }}>
                                         Toplam satın alma adedine göre fiyat düşer&nbsp;
-                                        {(product.instantPrice < product.productPrice) && <span className="text-success">{`(${instantPrice})`}</span>}
+                                        {(ad?.instantPrice < ad?.productPrice) && <span className="text-success">{`(${instantPrice})`}</span>}
                                     </span>
                                 </div>
                                 <ToolTip id={'discountInfo'}
@@ -339,7 +339,7 @@ function Product(props) {
                                     <span><Image src={'/icons/info-icon.svg'} height={16} width={16} /></span>&nbsp;&nbsp;
                                     <span style={{ fontSize: '12px' }}>
                                         İlan süresi sonunda, fiyat farkı hesabınıza iade edilir&nbsp;
-                                        {(product.productPrice - product.instantPrice) > 0 && <span className="text-success">{`(${instantProfit})`}</span>}
+                                        {(ad.productPrice - ad.instantPrice) > 0 && <span className="text-success">{`(${instantProfit})`}</span>}
                                     </span>
                                 </div>
                                 <ToolTip id={'diffInfo'}
@@ -362,7 +362,7 @@ function Product(props) {
                                             //   data-for="share"
                                             quote="title"
                                             description={"deneme"}
-                                            url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
+                                            url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
                                         >
                                             <WhatsappIcon
                                                 size={32}
@@ -370,13 +370,13 @@ function Product(props) {
                                             />
                                         </WhatsappShareButton>
                                     </span>
-                                    {navigator.share ?
+                                    {navigator?.share ?
                                         <span>
                                             <button data-tip data-for="share"
                                                 className="btn btn-plain"
                                                 quote={'title'}
-                                                url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
-                                                onClick={() => { shareSheet(`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`) }}
+                                                url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
+                                                onClick={() => { shareSheet(`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`) }}
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
                                             </button>
@@ -386,7 +386,7 @@ function Product(props) {
                                             <FacebookShareButton
                                                 data-tip data-for="share"
                                                 quote="title"
-                                                url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
+                                                url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
                                             >
                                                 <FacebookIcon
                                                     size={32} borderRadius={10}
@@ -399,7 +399,7 @@ function Product(props) {
                                             data-tip
                                             data-for="share"
                                             quote="title"
-                                            url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
+                                            url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
                                         >
                                             <TelegramIcon
                                                 size={32}
@@ -411,9 +411,9 @@ function Product(props) {
                                 <div className="col-12 d-flex align-items-baseline">
                                     <span style={{ fontSize: '14px' }} className="pl-2 d-flex align-items-baseline">
                                         Satıcı:&nbsp;&nbsp;
-                                        <Link href={`/tedarikci/${product.sellerId}`} >
+                                        <Link href={`/tedarikci/${ad.sellerId}`} >
                                             <a style={{ color: '#f1861d' }}>
-                                                {product.sellerName}
+                                                {ad.sellerName}
                                             </a>
                                         </Link>
                                     </span>&nbsp;
@@ -442,7 +442,7 @@ function Product(props) {
                                             <div className="col-12 d-flex align-items-center justify-content-between mt-3">
                                                 <span>
                                                     <InputNumber
-                                                        id="product-amount"
+                                                        id="ad-amount"
                                                         aria-label="amount"
                                                         className="product__amount"
                                                         size="sm"
@@ -454,7 +454,7 @@ function Product(props) {
                                                 </span>
                                                 <span>
                                                     <AsyncAction
-                                                        action={() => dispatch(cartUpdate(cartId, product.adId, amount))}
+                                                        action={() => dispatch(cartUpdate(cartId, ad.adId, amount))}
                                                         render={({ run, loading }) => (
                                                             <button
                                                                 style={{ borderRadius: '10px' }}
@@ -494,7 +494,7 @@ function Product(props) {
                                                 <div className="col-12 d-flex align-items-center justify-content-between">
                                                     <span>
                                                         <InputNumber
-                                                            id="product-amount"
+                                                            id="ad-amount"
                                                             aria-label="Amount"
                                                             className="product__amount"
                                                             size="sm"
@@ -506,7 +506,7 @@ function Product(props) {
                                                     </span>
                                                     <span>
                                                         <AsyncAction
-                                                            action={() => dispatch(cartUpdate(cartId, product.adId, amount))}
+                                                            action={() => dispatch(cartUpdate(cartId, ad.adId, amount))}
                                                             render={({ run, loading }) => (
                                                                 <button
                                                                     style={{ borderRadius: '10px' }}
@@ -544,8 +544,8 @@ function Product(props) {
 
 
 Product.propTypes = {
-    /** product object */
-    product: PropTypes.object.isRequired,
+    /** ad object */
+    ad: PropTypes.object.isRequired,
     /** one of ['standard', 'sidebar', 'columnar', 'quickview'] (default: 'standard') */
     layout: PropTypes.oneOf(['standard', 'sidebar', 'columnar', 'quickview']),
 };

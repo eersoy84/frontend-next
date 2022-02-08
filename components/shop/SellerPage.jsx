@@ -9,7 +9,6 @@ import { getInstantAdsInfo } from '../../store/ad/adActions';
 import ProductsView from './ProductsView';
 import CategorySidebar from './CategorySidebar';
 import theme from '../../data/theme';
-import { mergeArrays } from '../../helpers/merger';
 import PageHeader from '../shared/PageHeader';
 import Rating from '../shared/Rating'
 import axios from 'axios';
@@ -21,19 +20,13 @@ import RatingPoint from '../shared/RatingPoint'
 
 export default function SellerPage(props) {
     const { match } = props;
-    const [mergedList, setMergedList] = useState([]);
-    const { adList, instantAdsInfo } = useSelector((state) => ({
+    const { adList } = useSelector((state) => ({
         adList: state.ad.adList,
-        instantAdsInfo: state.ad.instantAdsInfo,
-        categories: state.category.categories,
     }), shallowEqual);
     console.log(match)
-    let filteredList = mergedList && mergedList.filter(q => q.sellerId === parseInt(match.params.id));
+    let filteredList = adList && adList.filter(q => q.sellerId === parseInt(match.params.id));
 
-    useEffect(() => {
-        setMergedList(mergeArrays(adList, instantAdsInfo));
-    }, [adList, instantAdsInfo]);
-    console.log(adList)
+
     let provider = adList && adList.find(q => q.sellerId === parseInt(match.params.id))
     let breadcrumb = [
         { title: 'Anasayfa', url: '/' },
@@ -86,7 +79,7 @@ export default function SellerPage(props) {
                             {(filteredList && filteredList.length > 0)
                                 ? (
                                     <ProductsView
-                                        mergedList={filteredList}
+                                        adList={filteredList}
                                         limit={15}
                                     />
                                 )

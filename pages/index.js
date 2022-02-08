@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { wrapper } from '../store/configureStore'
 // third-party
 import HomePage from '../components/home/HomePage';
-import { getAds, getInstantAdsInfo } from '../store/ad';
+import { getAds } from '../store/ad';
 import theme from '../data/theme';
 import { getCategories } from '../store/category';
 
@@ -23,5 +23,4 @@ export default function Index() {
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
   await store.dispatch(getCategories())
   await store.dispatch(getAds())
-  await store.dispatch(getInstantAdsInfo())
 })

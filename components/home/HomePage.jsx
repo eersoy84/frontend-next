@@ -5,22 +5,15 @@ import BizlealHotAdsSlider from '../blocks/BizlealHotAdsSlider';
 import { useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link'
 import Image from 'next/image'
-import { mergeArrays } from '../../helpers/merger'
 import PageHeader from '../shared/PageHeader';
 import BlockSlideShow from '../blocks/BlockSlideShow';
 import dynamic from 'next/dynamic'
 const CategorySlider = dynamic(() => import('../blocks/CategorySlider'), { ssr: false });
 
 export default function HomePage() {
-    const { adList, instantAdsInfo } = useSelector((state) => ({
+    const { adList } = useSelector((state) => ({
         adList: state.ad.adList,
-        instantAdsInfo: state.ad.instantAdsInfo,
     }), shallowEqual);
-    const [mergedList, setMergedList] = useState(adList);
-
-    useEffect(() => {
-        setMergedList(mergeArrays(adList, instantAdsInfo));
-    }, [adList, instantAdsInfo]);
 
     return (
         <>
@@ -31,7 +24,7 @@ export default function HomePage() {
                     <BizlealHotAdsSlider
                         title="Anlık Fırsatlar"
                         layout="grid-1"
-                        mergedList={mergedList}
+                        adList={adList}
                     />
                 </div>
             </div>
@@ -213,14 +206,14 @@ export default function HomePage() {
                 {/* <BizlealAdsSlider
                     gridLayout="home_new_ads_list"
                     numOfSlidesToShow={4}
-                    list={mergedList}
+                    list={adList}
                     title="Yeni Ürünler"
                 />
                 <br />
                 <BizlealAdsSlider
                     gridLayout="home_favorite_ads_list"
                     numOfSlidesToShow={4}
-                    list={mergedList}
+                    list={adList}
                     title="En Çok Satanlar"
                 /> */}
             </div>

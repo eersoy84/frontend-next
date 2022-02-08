@@ -8,16 +8,12 @@ import { Helmet } from 'react-helmet-async';
 import ProductsView from './ProductsView';
 import CategorySidebar from './CategorySidebar';
 import theme from '../../data/theme';
-import { mergeArrays } from '../../helpers/merger';
 import PageHeader from '../shared/PageHeader';
 
 export default function ShopPageCategory(props) {
   const { location } = props;
-  const [mergedList, setMergedList] = useState([]);
-  const [instantAds, setInstantAds] = useState([]);
-  const { adList, instantAdsInfo, categories } = useSelector((state) => ({
+  const { adList, categories } = useSelector((state) => ({
     adList: state.ad.adList,
-    instantAdsInfo: state.ad.instantAdsInfo,
     categories: state.category.categories,
   }), shallowEqual);
 
@@ -29,11 +25,8 @@ export default function ShopPageCategory(props) {
     { title: 'İlanlar', url: '/kategori' },
   ];
 
-  useEffect(() => {
-    setMergedList(mergeArrays(adList, instantAdsInfo));
-  }, [adList, instantAdsInfo]);
 
-  const items = (mergedList && mergedList.length > 0) ? mergedList : [];
+  const items = (adList && adList.length > 0) ? adList : [];
   const parsed = queryString.parse(location.search);
   const { parentId, categoryId, brandId } = parsed;
 
@@ -42,35 +35,35 @@ export default function ShopPageCategory(props) {
     filteredList = items.filter((q) => (q.brandId === parseInt(brandId) && q.categoryId === parseInt(categoryId)));
     const item = filteredList[0];
     breadcrumb = [...breadcrumb,
-      ...(item
-        ? ([...(item.parentId ? [{ title: `${item.parentId}`, url: `/kategori/?categoryId=${parentId}` }] : []),
-          { title: `${item.categoryName}`, url: `/kategori/?categoryId=${categoryId}` },
-          { title: `${item.brandName}`, url: `/kategori/?brandId=${brandId}` }])
-        : []),
+    ...(item
+      ? ([...(item.parentId ? [{ title: `${item.parentId}`, url: `/kategori/?categoryId=${parentId}` }] : []),
+      { title: `${item.categoryName}`, url: `/kategori/?categoryId=${categoryId}` },
+      { title: `${item.brandName}`, url: `/kategori/?brandId=${brandId}` }])
+      : []),
     ];
   } else if (parentId) {
     filteredList = items.filter((q) => (q.parentId || q.categoryId) === parseInt(parentId));
     const item = categories.find((q) => q.id === parseInt(parentId));
     breadcrumb = [...breadcrumb,
-      ...(item ? [{ title: `${item.name}`, url: `/kategori/?parentId=${parseInt(parentId)}` }] : []),
+    ...(item ? [{ title: `${item.name}`, url: `/kategori/?parentId=${parseInt(parentId)}` }] : []),
     ];
   } else if (categoryId) {
     filteredList = items.filter((q) => (q.categoryId) === parseInt(categoryId));
     const item = filteredList[0];
     breadcrumb = [...breadcrumb,
-      ...(item
-        ? ([...(item.parentId ? [{ title: `${item.parentName } ${item.parentId }`, url: `/kategori/?categoryId=${categoryId}` }] : []),
-          { title: `${item.categoryName}`, url: `/kategori/?categoryId=${categoryId}` }])
-        : []),
+    ...(item
+      ? ([...(item.parentId ? [{ title: `${item.parentName} ${item.parentId}`, url: `/kategori/?categoryId=${categoryId}` }] : []),
+      { title: `${item.categoryName}`, url: `/kategori/?categoryId=${categoryId}` }])
+      : []),
     ];
   } else if (brandId) {
     filteredList = items.filter((q) => q.brandId === parseInt(brandId));
     const item = filteredList[0];
     breadcrumb = [...breadcrumb,
-      ...(item ? [{ title: item && `${item.brandName}`, url: `/kategori/?categoryId=${parseInt(brandId)}` }] : []),
+    ...(item ? [{ title: item && `${item.brandName}`, url: `/kategori/?categoryId=${parseInt(brandId)}` }] : []),
     ];
   } else {
-    filteredList = mergedList;
+    filteredList = adList;
   }
 
   const sidebar = (
@@ -93,7 +86,7 @@ export default function ShopPageCategory(props) {
               {(filteredList && filteredList.length > 0)
                 ? (
                   <ProductsView
-                    mergedList={filteredList}
+                    adList={filteredList}
                     limit={15}
                   />
                 )
@@ -101,8 +94,8 @@ export default function ShopPageCategory(props) {
                   <div className="block-empty__body">
                     <div className="block-empty__message">Bu kategoride herhangi bir ürün bulunmamaktadır!</div>
                     <div className="block-empty__actions">
-                        <Link to="/kategori" className="btn btn-primary btn-sm">Geri Dön</Link>
-                      </div>
+                      <Link to="/kategori" className="btn btn-primary btn-sm">Geri Dön</Link>
+                    </div>
                   </div>
                 )}
             </div>

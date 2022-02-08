@@ -29,6 +29,7 @@ const makeStore = wrapMakeStore(() =>
           "userAccount.favorites",
           "profile.address",
           "order.orders",
+          "category.categories"
         ]
       }),
       thunkMiddleware

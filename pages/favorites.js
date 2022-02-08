@@ -21,8 +21,7 @@ import RatingPoint from '../components/shared/RatingPoint'
 import theme from '../data/theme';
 
 function ShopPageFavourites(props) {
-    const [mergedList, setMergedList] = useState([]);
-    const { adList, favorites, cartUpdate, unfollow, instantAdsInfo, cart, } = props;
+    const { adList, favorites, cartUpdate, unfollow, cart, } = props;
     // const [favList, setFavList] = useState([])
     console.log("favorites", favorites)
     const { info } = cart;
@@ -33,12 +32,9 @@ function ShopPageFavourites(props) {
         { title: 'Favoriler', url: '/favoriler' },
     ];
 
-    useEffect(() => {
-        setMergedList(mergeArrays(adList, instantAdsInfo));
-    }, [adList, instantAdsInfo]);
 
     const favList = [];
-    mergedList?.filter(ad => {
+    adList?.filter(ad => {
         return favorites?.map((fav) => {
             if (fav === ad.adId) {
                 favList.push(ad);

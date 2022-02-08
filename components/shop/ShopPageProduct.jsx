@@ -11,12 +11,10 @@ import { Helmet } from 'react-helmet-async';
 import PageHeader from '../shared/PageHeader';
 import ProductTabs from './ProductTabs';
 import Product from '../shared/Product';
-import { mergeArrays } from '../../helpers/merger';
 import axios from 'axios';
 import { API_BASE } from '../../config';
 
 export default function ShopPageProduct(props) {
-    const [mergedList, setMergedList] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [questions, setQuestions] = useState([]);
     const { layout, match } = props;
@@ -26,17 +24,13 @@ export default function ShopPageProduct(props) {
     let product = {};
     let adSpecs;
     const {
-        adList, instantAdsInfo, numOfOrders, favorites,
+        adList, numOfOrders, favorites,
     } = useSelector((state) => ({
         adList: state.ad.adList,
-        instantAdsInfo: state.ad.instantAdsInfo,
         numOfOrders: state.order.numOfOrders,
         favorites: state.userAccount.favorites,
     }), shallowEqual);
 
-    useEffect(() => {
-        setMergedList(mergeArrays(adList, instantAdsInfo));
-    }, [adList, instantAdsInfo]);
 
     useEffect(() => {
         axios.post(`${API_BASE}/item/reviews`, { adId })
@@ -53,7 +47,7 @@ export default function ShopPageProduct(props) {
     }, []);
 
     if (adId) {
-        product = (mergedList && mergedList.length > 0) && mergedList.find((x) => x.adId === parseFloat(adId));
+        product = (adList && adList.length > 0) && adList.find((x) => x.adId === parseFloat(adId));
         adSpecs = product && product.specs;
     }
     if ((adList && adList.length > 0) && (instantAdsInfo && instantAdsInfo.length > 0)) {

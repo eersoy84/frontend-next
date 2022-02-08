@@ -6,20 +6,18 @@ import Head from 'next/head'
 import ProductsView from '../../components/shop/ProductsView';
 import CategorySidebar from '../../components/shop/CategorySidebar';
 import theme from '../../data/theme';
-import { mergeArrays } from '../../helpers/merger';
 import PageHeader from '../../components/shared/PageHeader';
 import Spinner from '../../components/shared/Spinner'
 import axios from 'axios';
 import { API_BASE } from '../../config';
+import globalFetch from '../../helpers/globalFetch';
 
 export default function Ads(props) {
-    const { location, ads, instantAds } = props;
+    const { location, ads } = props;
     const { categories, } = useSelector((state) => ({
         categories: state.category.categories,
     }), shallowEqual);
 
-    console.log("ads in props", ads)
-    console.log("instantAds", instantAds)
     const queryString = require('query-string');
     let breadcrumb = [
         { title: 'Anasayfa', url: '/' },
@@ -101,15 +99,11 @@ export default function Ads(props) {
     );
 }
 export const getStaticProps = async () => {
-    const { data: instantAds } = await axios.get(`${API_BASE}/routines/instantadinfo`);
-    const { data: ads } = await axios.get(`${API_BASE}/routines/ads`);
-    console.log("instantAds", instantAds)
-    console.log("ads", ads)
-
-    return {
+    const ads = await globalFetch(`/routines/ads`)
+    return { 
         props: {
             ads,
-            instantAds
-        }
+        },
+        revalidate: 120
     }
 }

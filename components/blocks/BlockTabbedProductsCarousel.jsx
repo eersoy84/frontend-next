@@ -12,9 +12,9 @@ export default class BlockTabbedProductsCarousel extends Component {
 
     constructor(props) {
       super(props);
-      const { mergedList } = this.props;
+      const { adList } = this.props;
       this.state = {
-        localList: (mergedList && mergedList.length > 0) && mergedList.slice(),
+        localList: (adList && adList.length > 0) && adList.slice(),
         loading: false,
         groups: [
           // { id: 1, name: 'Tümü', current: true },

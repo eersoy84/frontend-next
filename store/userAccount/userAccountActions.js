@@ -394,7 +394,6 @@ export function follow(adId) {
             { headers: authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(postFollowSuccess(response.data));
-            // dispatch(getInstantAdsInfo());
             toast.success('İlan Takip Ediliyor');
         }).catch((err) => {
             if (err && err.response && err.response.data) {

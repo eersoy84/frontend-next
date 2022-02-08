@@ -1,6 +1,6 @@
 // react
-import React, { useState, useEffect, useRef, } from 'react';
-
+import { useState, useEffect, useRef, } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 // application
 import Pagination from '../shared/Pagination';
 import Rating from '../shared/Rating';
@@ -15,7 +15,9 @@ function ProductTabQuestions(props) {
   const { questions } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderList, setOrderList] = useState([]);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { user } = useSelector(state => ({
+    user: state.userAccount.user,
+  }), shallowEqual);
   const askQuestionsToSeller = () => {
     setIsModalOpen(true);
   }
@@ -30,7 +32,7 @@ function ProductTabQuestions(props) {
         <div className=" review__content">
           <div className=" review__author">{review.userName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-            {review.isBought  ?
+            {review.isBought ?
               (<span style={{ color: 'green' }}>
                 Ürünü satın aldı&nbsp;&nbsp;
                 <Image src='/icons/check-12x9.svg'

@@ -55,7 +55,6 @@ function InputNumber(props) {
   };
 
   const { size, className, ...otherProps } = props;
-  console.log("props", props)
 
   const classes = classNames('input-number', className);
   const formControlClasses = classNames('form-control input-number__input', {

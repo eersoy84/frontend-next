@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import Image from 'next/image'
 // application
 import Suggestions from './Suggestions';
-import { mergeArrays } from '../../helpers/merger';
 
 function Search(props) {
     const {
@@ -22,9 +21,7 @@ function Search(props) {
         onClose,
         location,
         adList,
-        instantAdsInfo,
     } = props;
-    const [mergedList, setMergedList] = useState([]);
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
     const [hasSuggestions, setHasSuggestions] = useState(false);
     const [suggestedProducts, setSuggestedProducts] = useState([]);
@@ -32,16 +29,12 @@ function Search(props) {
     const wrapper = useRef(null);
     const close = useCallback(() => {
         if (onClose) {
-            console.log("sss")
             onClose();
         }
 
         setSuggestionsOpen(false);
     }, [onClose]);
 
-    useEffect(() => {
-        setMergedList(mergeArrays(adList, instantAdsInfo));
-    }, [adList, instantAdsInfo]);
     useEffect(() => close(), [close, location]);
 
     useEffect(() => {
@@ -74,7 +67,7 @@ function Search(props) {
     }, [query]);
 
     const searchProductsByAdId = (query) => {
-        const items = (mergedList && mergedList.length > 0) ? mergedList : [];
+        const items = (adList?.length > 0) ? adList : [];
 
         const adsById = items.filter((item) => {
             const x = item.adId.toString().includes(query);

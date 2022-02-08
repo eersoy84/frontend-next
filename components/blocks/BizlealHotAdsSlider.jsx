@@ -64,10 +64,10 @@ class BizlealHotAdsSlider extends Component {
 
     productsColumns() {
         const columns = [];
-        const { rows, mergedList } = this.props;
+        const { rows, adList } = this.props;
         let slicedList = [];
         if (rows > 0) {
-            slicedList = (mergedList && mergedList.length > 0) && mergedList.slice();
+            slicedList = (adList && adList.length > 0) && adList.slice();
 
             while (slicedList && slicedList.length > 0) {
                 columns.push(slicedList.splice(0, rows));
