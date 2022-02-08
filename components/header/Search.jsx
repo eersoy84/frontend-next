@@ -32,6 +32,7 @@ function Search(props) {
     const wrapper = useRef(null);
     const close = useCallback(() => {
         if (onClose) {
+            console.log("sss")
             onClose();
         }
 
@@ -41,7 +42,6 @@ function Search(props) {
     useEffect(() => {
         setMergedList(mergeArrays(adList, instantAdsInfo));
     }, [adList, instantAdsInfo]);
-
     useEffect(() => close(), [close, location]);
 
     useEffect(() => {

@@ -11,7 +11,7 @@ import IndicatorDeneme from './IndicatorDeneme';
 export function IndicatorAccountDispatch({ user }) {
     let dropDown;
     let url;
-    if (user && Object.keys(user).length != 0) {
+    if (user) {
         url = "/hesap"
         dropDown = (
             <div className="account-menu">

@@ -22,16 +22,15 @@ import theme from '../data/theme';
 
 function ShopPageFavourites(props) {
     const [mergedList, setMergedList] = useState([]);
-    const {
-        adList, favorites, cartUpdate, unfollow, instantAdsInfo, cart,
-    } = props;
-
+    const { adList, favorites, cartUpdate, unfollow, instantAdsInfo, cart, } = props;
+    // const [favList, setFavList] = useState([])
+    console.log("favorites", favorites)
     const { info } = cart;
     const cartId = info && info.uuid;
 
     const breadcrumb = [
-        { title: 'Ana Sayfa', url: '' },
-        { title: 'Favoriler', url: '' },
+        { title: 'Ana Sayfa', url: '/' },
+        { title: 'Favoriler', url: '/favoriler' },
     ];
 
     useEffect(() => {
@@ -39,19 +38,19 @@ function ShopPageFavourites(props) {
     }, [adList, instantAdsInfo]);
 
     const favList = [];
-    mergedList && mergedList.filter((ad) => {
-        favorites && favorites.map((fav) => {
+    mergedList?.filter(ad => {
+        return favorites?.map((fav) => {
             if (fav === ad.adId) {
                 favList.push(ad);
+                return fav
             }
         });
     });
-
     const checkCondition = (adId) => cartUpdate(cartId, adId, 1);
 
     let content;
-    if (favList && favList.length) {
-        const itemsList = favList.map((item) => {
+    if (favList?.length > 0) {
+        const itemsList = favList?.map(item => {
             let instantDiscount;
             if (item.instantDiscountPercent) {
                 instantDiscount = `%${' '}${(item.instantDiscountPercent).toLocaleString(undefined,
@@ -63,7 +62,6 @@ function ShopPageFavourites(props) {
             const adName = item && (`${item.categoryName} ${item.brandName} ${item.modelName}`);
             const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
             let image;
-            const orderCount = item.numOrders;
             if (item.imageUrl) {
                 image = (
                     <Link href={`/ilanlar/${item.adId}/${friendlyUrl}`}>

@@ -17,7 +17,6 @@ import InputNumber from '../components/shared/InputNumber';
 import PageHeader from '../components/shared/PageHeader';
 import { cartUpdate, cartGet } from '../store/cart/cartActions';
 import RatingPoint from '../components/shared/RatingPoint'
-import useIsMounted from '../hooks/UseIsMounted';
 
 // data stubs
 import theme from '../data/theme';
@@ -261,7 +260,7 @@ export default function ShopPageCart() {
                     <div className={spinnerCardClass}>
                         <div className="d-xl-none">
                             <Link
-                                href="/kategori">
+                                href="/ilanlar">
                                 <a
                                     style={{ borderRadius: '10px' }}
                                     className="btn cart_continue_shoppingButton btn-lg w-100 mb-3">
@@ -276,7 +275,7 @@ export default function ShopPageCart() {
                             <div className="d-none d-xl-block">
 
                                 <Link
-                                    href="/kategori">
+                                    href="/ilanlar">
                                     <a style={{ borderRadius: '10px' }}
                                         className="btn cart_continue_shoppingButton btn-lg w-100 mt-3 mt-lg-0 mb-3"
                                     >

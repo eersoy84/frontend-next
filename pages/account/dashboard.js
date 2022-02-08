@@ -17,14 +17,11 @@ import AccountLayout from '../../components/account/AccountLayout';
 
 function Dashboard(props) {
     moment().locale('tr');
-    let user;
-    useEffect(() => {
-        user = JSON.parse(localStorage.getItem('user'));
-    }, [])
-    const { orders, address } = props;
+
+    const { orders, address, user } = props;
     const defaultAddress = address && address[0];
 
-    const orderList = orders && orders.slice(0, 3).map((order) => (
+    const orderList = orders?.slice(0, 3).map((order) => (
         <tr key={order.uuid}>
             <td>
                 <Link
@@ -52,7 +49,11 @@ function Dashboard(props) {
             <div className="address-card__body">
                 {addressInfo(defaultAddress, 'Varsayılan Adres')}
                 <div className="address-card__footer">
-                    <Link className="btn btn-primary btn-sm" to="/hesap/adres">Adres Düzenle</Link>
+                    <Link href="/hesap/adres">
+                        <a className="btn btn-primary btn-sm">
+                            Adres Düzenle
+                        </a>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -86,6 +87,7 @@ function Dashboard(props) {
                     </div>
                 </div>
                 {addressArea}
+                {orderList}
             </div>
         </AccountLayout>
 
@@ -96,6 +98,7 @@ const mapStateToProps = (state) => ({
     orders: state.order.orders,
     address: state.profile.address,
     adList: state.ad.adList,
+    user: state.userAccount.user
 });
 const mapDispatchToProps = (state) => ({
 });

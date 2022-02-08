@@ -68,12 +68,14 @@ export const postEditAddressFail = (error) =>
 });
 
 export function deleteAddress(id) {
+    console.log("id", id)
     return (dispatch) => {
         dispatch(postDeleteAddress(true));
         const asyncAction = axios.post(`${API_BASE}/routines/deleteAddress`,
             { id },
             { headers: authHeaderWithSecret() });
-        asyncAction.then((response) => {
+        asyncAction.then(response => {
+            console.log("response", response.data)
             dispatch(postDeleteAddressSuccess(response.data.id));
             toast.success('Adresiniz başarıyla silindi');
         }).catch((err) => {

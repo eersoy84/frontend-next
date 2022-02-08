@@ -1,7 +1,12 @@
 import NumberFormat from 'react-number-format';
-
+import { useSelector, shallowEqual } from 'react-redux';
 export default function addressInfo(item, badge) {
-    const user = JSON.parse(localStorage.getItem('user'));
+
+    // const { user } = useSelector(state => ({
+    //     user: state.userAccount.user
+    // }), shallowEqual);
+
+    let user = null;
     if (item) {
         return (
             <>
@@ -11,15 +16,15 @@ export default function addressInfo(item, badge) {
                             {badge}
                         </div>
                     )}
-                {item.addressTitle && <div className="address-card__name">{`${item.addressTitle}`}</div>}
-                {item.firstName && item.lastName
+                {item?.addressTitle && <div className="address-card__name">{`${item?.addressTitle}`}</div>}
+                {item?.firstName && item?.lastName
                     && (
                         <div>
                             <div className="address-card__row-title">Alıcı: Ad-Soyad</div>
                             <div>
-                                {item.firstName}
+                                {item?.firstName}
                                 {' '}
-                                {item.lastName}
+                                {item?.lastName}
                             </div>
                         </div>
                     )}
@@ -28,25 +33,25 @@ export default function addressInfo(item, badge) {
                         <div>
                             <div className="address-card__row-title">Şirket Bilgisi</div>
                             <div>
-                                {item.companyName}
+                                {item?.companyName}
                             </div>
                         </div>
                     )}
                 <div className="address-card__row-title">Adres</div>
                 <div className="address-card__row">
                     <div style={{ wordBreak: 'break-all' }}>
-                        {item.city}
+                        {item?.city}
                         {'/'}
-                        {item.district}
+                        {item?.district}
                         <br />
-                        {item.town}
+                        {item?.town}
                         <br />
-                        {item.addressText}
+                        {item?.addressText}
                     </div>
                 </div>
                 <div>
                     <div className="address-card__row-title">E-posta</div>
-                    <div>{user.email}</div>
+                    <div>{user?.email}</div>
                 </div>
                 <div>
                     <div className="address-card__row-title">Telefon</div>

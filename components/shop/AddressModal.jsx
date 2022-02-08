@@ -188,7 +188,7 @@ export default function AddressModal(props) {
     const adressFormat = 'Cadde/Sokak: Apartmant/Daire: Posta Kodu:';
 
     return (
-        <Modal isOpen={show} centered unmountOnClose>
+        <Modal isOpen={show} centered unmountOnClose animation={"false"}>
             <form onSubmit={handleSubmit}>
                 <div className="modal-header">
                     <h5 className="modal-title">{header}</h5>

@@ -56,10 +56,7 @@ const updateUser = (newUser) => {
 export default function userAccountReducer(state = initialState, action) {
     switch (action.type) {
         case HYDRATE:
-            console.log("mevcut state", state)
             const { userAccount } = action.payload
-            console.log("serverdaki bütün", action.payload)
-            console.log("userAccount", userAccount)
             if (userAccount) {
                 const { user, favorites } = userAccount
                 return {

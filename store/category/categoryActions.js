@@ -1,6 +1,6 @@
 // import { FETCH_CATEGORIES, FETCH_CATEGORIES_BY_ID } from './categoryActionTypes';
 import axios from 'axios';
-import { Router } from 'next/router';
+import Router from 'next/router';
 import { toast } from 'react-toastify';
 import { API_BASE } from '../../config';
 import { history, authHeader, authHeaderContentType } from '../../helpers';

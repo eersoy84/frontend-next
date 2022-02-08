@@ -3,7 +3,7 @@ import absoluteUrl from 'next-absolute-url';
 import axios from 'axios';
 import { API_BASE } from '../../config';
 import { history, authHeader, authHeaderWithSecret } from '../../helpers';
-import { Router } from 'next/router';
+import Router from 'next/router';
 export const CART_UPDATE = 'CART_UPDATE';
 export const CART_UPDATE_SUCCESS = 'CART_UPDATE_SUCCESS';
 export const CART_UPDATE_FAIL = 'CART_UPDATE_FAIL';
@@ -18,8 +18,8 @@ export function cartUpdate(cartId, adId, amount) {
         adId,
         amount
     }
-    let user = JSON.parse(localStorage.getItem('user'));
-    if (user === null) {
+    let token = JSON.parse(localStorage.getItem('token'));
+    if (token === null) {
         Router.push('/hesap/cikis')
         toast.warning("Ürünü sepete ekleyebilmek için lütfen giriş yapın!")
         return () => (

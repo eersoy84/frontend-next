@@ -7,9 +7,13 @@ import { deleteAddress } from '../../store/profile/profileActions';
 import AddressModal from '../../components/shop/AddressModal';
 import addressInfo from '../../helpers/addressInfo';
 import AccountLayout from '../../components/account/AccountLayout';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
-function AccountPageAddresses(props) {
-    const { address, deleteAddress } = props;
+function Address() {
+    const { address } = useSelector(state => ({
+        address: state.profile.address
+    }), shallowEqual);
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalAddress, setModalAddress] = useState('');
     const [modalHeader, setModalHeader] = useState('');
@@ -23,11 +27,12 @@ function AccountPageAddresses(props) {
     };
 
     const editModal = (address) => {
+        console.log("edit modal kaç kere")
         setModalHeader('Adres Düzenle');
         setModalAddress(address);
         setIsModalOpen(true);
     };
-    const addressList = address && address.map((addressItem) => !addressItem.hidden && (
+    const addressList = address?.map(addressItem => addressItem.hidden != 1 &&
         <div key={addressItem.id} className="col-12 col-sm-6 col-md-4 mb-3">
             <div
                 className="address-card__body text-center text-sm-left"
@@ -36,12 +41,13 @@ function AccountPageAddresses(props) {
                 {addressInfo(addressItem, null)}
                 <div className="address-card__footer">
                     <button className="btn btn-primary btn-sm" onClick={() => editModal(addressItem, false)}>Düzenle</button>
-                    <button className="btn btn-secondary btn-sm" onClick={() => deleteAddress(addressItem.id)}>Sil</button>
+                    <button className="btn btn-secondary btn-sm" onClick={() => dispatch(deleteAddress(addressItem.id))}>Sil</button>
                 </div>
             </div>
         </div>
 
-    ));
+    );
+    console.log("address", address)
 
     return (
         <AccountLayout>
@@ -49,7 +55,7 @@ function AccountPageAddresses(props) {
                 ? (
                     <AddressModal
                         show={isModalOpen}
-                        onHide={setIsModalOpen.bind(null, false)}
+                        onHide={() => setIsModalOpen(false)}
                         modalAddress={modalAddress}
                         header={modalHeader}
                         isBilling={isBilling}
@@ -60,7 +66,7 @@ function AccountPageAddresses(props) {
                 <div className="card-header">
                     <div className="address-info">
                         <h5>Adres Bilgilerim</h5>
-                        <div className="new_address_wrapper" onClick={openModal.bind(null, true)}>
+                        <div className="new_address_wrapper" onClick={openModal}>
                             <div className="address-list__plus" />
                             <span style={{ fontWeight: 600 }}>Yeni Adres Ekle</span>
                         </div>
@@ -79,15 +85,4 @@ function AccountPageAddresses(props) {
         </AccountLayout>
     );
 }
-const mapStateToProps = (state) => ({
-    address: state.profile.address,
-});
-
-const mapDispatchToProps = {
-    deleteAddress,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(AccountPageAddresses);
+export default Address

@@ -11,13 +11,17 @@ import Indicator from './Indicator';
 import { IndicatorAccountDispatch } from './IndicatorAccountDispatch';
 import IndicatorCart from './IndicatorCart';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import useIsMounted from '../../hooks/UseIsMounted';
+import useHasMounted from '../../hooks/useHasMounted';
 
 function Header() {
   const { favorites, user } = useSelector((state) => ({
     favorites: state.userAccount.favorites,
     user: state.userAccount.user,
   }), shallowEqual);
+  const hasMounted = useHasMounted()
+  if (!hasMounted) {
+    return null;
+  }
 
   let bannerSection = (
     <div className="site-header__middle container">

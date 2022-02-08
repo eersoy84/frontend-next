@@ -7,8 +7,6 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Link from 'next/link'
 import Image from 'next/image'
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 // application
 import {
@@ -39,7 +37,6 @@ export default function ProductCard({ product }) {
     let isFollowing = false;
 
     favorites && favorites.map((fav) => {
-        console.log("fav", fav)
         if (fav === product.adId) {
             isFollowing = true;
         }
@@ -105,6 +102,7 @@ export default function ProductCard({ product }) {
             <h6>İlan Süresi Dolmuştur!</h6>
         </div>
     );
+    let navigator;
     const shareSheet = (url) => {
         const shareData = {
             title: 'Ortak Satın Almaya Davet Edildin...',
@@ -119,7 +117,6 @@ export default function ProductCard({ product }) {
         }
     };
     const [tooltipOpen, setTooltipOpen] = useState(false);
-    const myAppRef = document.querySelector('.scrollable-div');
 
     const toggle = () => setTooltipOpen(!tooltipOpen);
     const renderer = ({
@@ -288,7 +285,7 @@ export default function ProductCard({ product }) {
                                 </WhatsappShareButton>
                             </span>
 
-                            {navigator.share ?
+                            {navigator?.share ?
                                 <span>
                                     <button data-tip data-for="share"
                                         className="btn btn-plain"

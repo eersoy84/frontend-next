@@ -5,9 +5,10 @@ import {
     authHeader, authHeaderWithSecret, responseChecker, confirmAuthHeaderWithSecret,
 } from '../../helpers';
 import { postCartGetFail } from '../cart/cartActions';
-import router from 'next/router'
+import Router from 'next/router'
 import { clearOrders } from '../order/orderActions';
 import { clearAddress } from '../profile/profileActions';
+import { getUserAddress } from '../profile/profileActions'
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -56,15 +57,16 @@ export function login({ email, password }) {
         asyncAction.then((response) => {
             dispatch(postLoginSuccess(response.data));
             localStorage.setItem('token', JSON.stringify(response.data.token));
-            router.push('/', undefined, { shallow: true })
+            Router.push('/', undefined, { shallow: true })
             dispatch(getFavorites())
+            dispatch(getUserAddress())
         }).catch((err) => {
             dispatch(postLoginFail(err?.response?.data?.code));
             if (err?.response?.data) {
                 toast.error(err.response.data.message);
                 return;
             }
-            router.back()
+            Router.back()
         });
         return asyncAction;
     };
@@ -82,14 +84,14 @@ export function loginWithFacebook(data) {
             dispatch(postLoginSuccess(response.data));
             localStorage.setItem('user', JSON.stringify(response.data.user));
             localStorage.setItem('token', JSON.stringify(response.data.token));
-            router.push('/');
+            Router.push('/');
         }).catch((err) => {
             dispatch(postLoginFail(err.response.data));
             if (err && err.response && err.response.data) {
                 toast.error(err.response.data);
                 return;
             }
-            router.back();
+            Router.back();
         });
         return asyncAction;
     };
@@ -105,14 +107,14 @@ export function loginWithGoogle(code) {
             dispatch(postLoginSuccess(response.data));
             localStorage.setItem('user', JSON.stringify(response.data.user));
             localStorage.setItem('token', JSON.stringify(response.data.token));
-            router.push('/');
+            Router.push('/');
         }).catch((err) => {
             dispatch(postLoginFail(err.response.data.failed));
             if (err && err.response && err.response.data) {
                 toast.error(err.response.data.failed);
                 return;
             }
-            router.back();
+            Router.back();
         });
         return asyncAction;
     };
@@ -128,14 +130,14 @@ export function loginWithTelegram(response) {
             dispatch(postLoginSuccess(response.data));
             localStorage.setItem('user', JSON.stringify(response.data.user));
             localStorage.setItem('token', JSON.stringify(response.data.token));
-            router.push('/');
+            Router.push('/');
         }).catch((err) => {
             dispatch(postLoginFail(err.response.data.failed));
             if (err && err.response && err.response.data) {
                 toast.error(err.response.data.failed);
                 return;
             }
-            router.back();
+            Router.back();
         });
         return asyncAction;
     };
@@ -147,13 +149,12 @@ export function changePassword(password) {
             { password },
             { headers: authHeaderWithSecret() });
         asyncAction.then((response) => {
-            console.log("response", response)
             dispatch(postChangePasswordSuccess(response.data));
-            router.push('/hesap');
+            Router.push('/hesap');
             toast.success('Şifreniz başarıyla değiştirilmiştir');
         }).catch((err) => {
             dispatch(postChangePasswordFail(err));
-            router.push('/hesap/sifre-yenile');
+            Router.push('/hesap/sifre-yenile');
             if (err && err.response && err.response.data) {
                 toast.error('Şifre değiştirilirken hata oluştu!');
             }
@@ -172,11 +173,11 @@ export function forgotPassword(email) {
             forgotPasswordModel);
         asyncAction.then((response) => {
             dispatch(postChangePasswordSuccess(response.data));
-            router.push('/hesap/cikis');
+            Router.push('/hesap/cikis');
             toast.success('Lütfen, size gönderdiğimiz kayıtlı e-posta adresinizden şifrenizi yenileyiniz!');
         }).catch((err) => {
             dispatch(postChangePasswordFail(err));
-            router.push('/hesap/sifre-yenile');
+            Router.push('/hesap/sifre-yenile');
             if (err && err.response && err.response.data) {
                 toast.error(err.response.data.message);
             }
@@ -196,10 +197,10 @@ export function loginConfirm(token, change) {
             localStorage.setItem('user', JSON.stringify(response.data));
             localStorage.setItem('token', JSON.stringify(token));
             if (change) {
-                router.push('/hesap/sifre-yenile');
+                Router.push('/hesap/sifre-yenile');
                 toast.info('Lütfen şifrenizi yenileyiniz');
             } else {
-                router.push('/');
+                Router.push('/');
                 toast.success('Tebrikler, artık bizleal\' maya başlayabilirsiniz!');
             }
         }).catch((err) => {
@@ -208,7 +209,7 @@ export function loginConfirm(token, change) {
                 toast.error('Kayıt işlemi sırasında hata oluştu, tekrar üye olmayı deneyiniz!');
                 return;
             }
-            router.back();
+            Router.back();
         });
         return asyncAction;
     };
@@ -221,7 +222,7 @@ export function deleteUnconfirmedUser() {
             { headers: authHeader() });
         asyncAction.then((response) => {
             dispatch(deleteUserSuccess(response.data));
-            router.push('/');
+            Router.push('/');
         }).catch((err) => dispatch(deleteUserFail(err)));
         return asyncAction;
     };
@@ -233,7 +234,6 @@ export function getFavorites() {
         const asyncAction = axios.get(`${API_BASE}/routines/favorites`,
             { headers: authHeaderWithSecret() });
         asyncAction.then((response) => {
-            console.log("respon", response.data)
             dispatch(fetchFavoritesSuccess(response.data));
         }).catch((err) => dispatch(fetchFavoritesFail(err)));
         return asyncAction;
@@ -336,12 +336,12 @@ export function register({
         asyncAction.then((response) => {
             dispatch(postRegisterSuccess());
             toast.info('E-posta adresinize gönderdiğimiz onay linkine tıklayarak,sisteme giriş yapabilirsiniz.');
-            router.push('/hesap/onay');
+            Router.push('/hesap/onay');
         }).catch((err) => {
             dispatch(postRegisterFail(err));
             if (err && err.response && err.response.data) {
                 toast.error(err.response.data.failed);
-                router.push('/hesap/cikis');
+                Router.push('/hesap/cikis');
                 return;
             }
             if (err) {
@@ -518,7 +518,7 @@ export function editProfile(firstName, lastName) {
             dispatch(postEditProfileSuccess(response.data));
             localStorage.setItem('user', JSON.stringify(response.data));
             toast.success('Profiliniz başarıyla güncellendi');
-            // router.back();
+            // Router.back();
         }).catch((err) => {
             dispatch(postEditProfileFail(err));
             toast.error(err.response.data.message);

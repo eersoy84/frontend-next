@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
 export default class FilterRadioDeneme extends Component {
   constructor(props) {
     super(props);

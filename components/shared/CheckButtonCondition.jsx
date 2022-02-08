@@ -5,13 +5,12 @@ import { toast } from 'react-toastify';
 import AsyncAction from './AsyncAction';
 import { follow, unfollow } from '../../store/userAccount';
 import Image from 'next/image'
-import router from 'next/router';
+import { useRouter } from 'next/router';
 
 function CheckButtonCondition(props) {
   const {
-    user, follow, unfollow, product,
-  } = props;
-
+    user, follow, unfollow, product } = props;
+  const router = useRouter()
   const checkCondition = () => {
     if (user) {
       console.log('product=>', product);

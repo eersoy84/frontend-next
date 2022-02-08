@@ -9,21 +9,24 @@ import theme from '../../data/theme';
 import { mergeArrays } from '../../helpers/merger';
 import PageHeader from '../../components/shared/PageHeader';
 import Spinner from '../../components/shared/Spinner'
+import axios from 'axios';
+import { API_BASE } from '../../config';
 
 export default function Ads(props) {
-    const { location } = props;
-    const { categories, instantAdsInfo, adList } = useSelector((state) => ({
+    const { location, ads, instantAds } = props;
+    const { categories, } = useSelector((state) => ({
         categories: state.category.categories,
-        adList: state.ad.adList,
-        instantAdsInfo: state.ad.instantAdsInfo,
     }), shallowEqual);
+
+    console.log("ads in props", ads)
+    console.log("instantAds", instantAds)
     const queryString = require('query-string');
     let breadcrumb = [
         { title: 'Anasayfa', url: '/' },
         { title: 'İlanlar', url: '/ilanlar' },
     ];
 
-    const items = adList || [];
+    const items = ads || [];
     const parsed = queryString.parse(location?.search);
     const { parentId, categoryId, brandId } = parsed;
 
@@ -60,7 +63,7 @@ export default function Ads(props) {
         ...(item ? [{ title: item && `${item.brandName}`, url: `/ilanlar/?categoryId=${parseInt(brandId)}` }] : []),
         ];
     } else {
-        filteredList = adList;
+        filteredList = ads;
     }
     const sidebar = (
         <div className="shop-layout__sidebar">
@@ -96,4 +99,17 @@ export default function Ads(props) {
             </div>
         </>
     );
+}
+export const getStaticProps = async () => {
+    const { data: instantAds } = await axios.get(`${API_BASE}/routines/instantadinfo`);
+    const { data: ads } = await axios.get(`${API_BASE}/routines/ads`);
+    console.log("instantAds", instantAds)
+    console.log("ads", ads)
+
+    return {
+        props: {
+            ads,
+            instantAds
+        }
+    }
 }

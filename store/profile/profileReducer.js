@@ -13,6 +13,7 @@ import {
     CLEAR_ADDRESS
 
 } from './profileActions';
+import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
     isLoading: false,
@@ -35,30 +36,34 @@ const editAddress = (state, item) => {
         isLoading: false,
     };
 };
-// const deleteAddress = (state, id) => {
-//     const tmp = [...state.address];
-//     const index = tmp.findIndex((item) => item.id === id);
-//     const newAddress = [
-//         ...state.address.slice(0, index),
-//         ...state.address.slice(index + 1),
-//     ];
-//     return {
-//         ...state,
-//         address: newAddress,
-//         isLoading: false,
-//     };
-// };
+
 const deleteAddress = (state, id) => {
-    const tmp = [...state.address]
-    const index = tmp.findIndex(item => item.id === id)
-    const tmpAddress = tmp[index];
-    tmpAddress.hidden = 1;
+    const tmp = [...state.address];
+    const index = tmp.findIndex(item => item.id === id);
+    const newAddress = [
+        ...tmp.slice(0, index),
+        ...tmp.slice(index + 1),
+    ];
     return {
         ...state,
-        address: tmp,
-        isLoading: false
-    }
-}
+        address: newAddress,
+        isLoading: false,
+    };
+};
+// const deleteAddress = (state, id) => {
+//     console.log("id in delete address", id)
+//     const tmp = [...state.address]
+//     console.log("address", tmp)
+//     const index = tmp.findIndex(item => item.id === id)
+//     console.log("index", index)
+//     const tmpAddress = tmp[index];
+//     tmpAddress.hidden = 1;
+//     return {
+//         ...state,
+//         address: tmp,
+//         isLoading: false
+//     }
+// }
 const fetchAddress = (state, items) => {
     const newAddress = [...items];
     return {
@@ -73,6 +78,17 @@ function clearAddress(state) {
 
 export default function profileReducer(state = initialState, action) {
     switch (action.type) {
+        case HYDRATE:
+            console.log("mevcut state", state)
+            const { profile } = action.payload
+            console.log("profile", profile)
+            if (profile) {
+                const { address } = profile
+                return {
+                    ...state,
+                    address: address ? [...address] : []
+                };
+            }
         case EDIT_ADDRESS:
             return {
                 ...state,
