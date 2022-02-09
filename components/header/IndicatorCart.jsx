@@ -74,7 +74,7 @@ export default function IndicatorCart(props) {
         if (item.product && item.product.imageUrl) {
             image = (
                 <div className="dropcart__product-image">
-                    <Link href={`/ilanlar/${item?.product?.adId}/${friendlyUrl}`}>
+                    <Link href={`/ilanlar/${item?.product?.adId}?seoUrl=${friendlyUrl}`}>
                         <img src={item.product.imageUrl} alt="" />
                         {/* <a className="footer-links__link">{item.title}</a> */}
                     </Link>
@@ -103,7 +103,7 @@ export default function IndicatorCart(props) {
             <div key={item.adId} className="dropcart__product">
                 {image}
                 <div className="dropcart__product-info">
-                    <Link href={`/ilanlar/${item.product.adId}/${friendlyUrl}`}>
+                    <Link href={`/ilanlar/${item.product.adId}?seoUrl=${friendlyUrl}`}>
                         <a className="dropcart__product-name">
                             {item.product.brandName}
                             {' '}

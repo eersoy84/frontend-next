@@ -36,12 +36,7 @@ function ProductCardSlider(props) {
         setUpdatedParticipants(participants);
     };
 
-    let isFollowing = false;
-    favorites && favorites.map((fav) => {
-        if (fav.adId === product.adId) {
-            isFollowing = true;
-        }
-    });
+    let isFollowing = favorites.some(fav => fav.adId === product.adId)
 
     const image = product && product.imageUrl;
 
@@ -110,7 +105,7 @@ function ProductCardSlider(props) {
     };
     return (
         <Link
-            href={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+            href={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
             <a
                 className="product_home_grid_slider_link"
                 style={{ border: '2px solid #f5f5f5', borderRadius: '10px' }}

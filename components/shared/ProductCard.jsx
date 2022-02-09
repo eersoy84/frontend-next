@@ -33,14 +33,11 @@ export default function ProductCard({ product }) {
     }));
 
     const adName = product && (`${product.categoryName} ${product.brandName} ${product.modelName}`);
-    const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
-    let isFollowing = false;
 
-    favorites && favorites.map((fav) => {
-        if (fav === product.adId) {
-            isFollowing = true;
-        }
-    });
+    const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
+
+    let isFollowing = favorites.some(fav => fav.adId === product.adId)
+
     const [updatedParticipants, setUpdatedParticipants] = useState((product && product.participants) || 0);
     const onAdFollow = (participants) => {
         setUpdatedParticipants(participants);
@@ -48,8 +45,7 @@ export default function ProductCard({ product }) {
 
     const image = (
         product.imageUrl ?
-            <Link href={`/ilanlar/${product.adId}/${friendlyUrl}`} >
-            {/* <Link href={`/ilanlar/${product.adId}`} > */}
+            <Link href={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`} >
                 <a
                     style={{ backgroundImage: `url(${product?.imageUrl})` }}
                 >
@@ -165,7 +161,7 @@ export default function ProductCard({ product }) {
                 <div className="card p-3 bizleal_product_list_container2" style={{ borderRadius: '10px' }}>
                     <div className="row">
                         <div className="col-10 col-sm-4">
-                            <Link href={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+                            <Link href={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
                                 <a>
                                     <div className="bizleal_product_list__title--first">
                                         {product.brandName}
@@ -277,7 +273,7 @@ export default function ProductCard({ product }) {
                                     data-tip
                                     data-for="share"
                                     quote="title"
-                                    url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
+                                    url={`https://bizleal.com/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}
                                 >
                                     <WhatsappIcon
                                         size={32}
@@ -291,8 +287,8 @@ export default function ProductCard({ product }) {
                                     <button data-tip data-for="share"
                                         className="btn btn-plain"
                                         quote={'title'}
-                                        url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
-                                        onClick={() => { shareSheet(`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`) }}
+                                        url={`https://bizleal.com/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}
+                                        onClick={() => { shareSheet(`https://bizleal.com/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`) }}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
                                     </button>
@@ -302,7 +298,7 @@ export default function ProductCard({ product }) {
                                     <FacebookShareButton
                                         data-tip data-for="share"
                                         quote="title"
-                                        url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
+                                        url={`https://bizleal.com/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}
                                     >
                                         <FacebookIcon
                                             size={32} borderRadius={10}
@@ -315,7 +311,7 @@ export default function ProductCard({ product }) {
                                     data-tip
                                     data-for="share"
                                     quote="title"
-                                    url={`https://bizleal.com/ilanlar/${product.adId}/${friendlyUrl}`}
+                                    url={`https://bizleal.com/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}
                                 >
                                     <TelegramIcon
                                         size={32}
@@ -337,7 +333,7 @@ export default function ProductCard({ product }) {
                                 <div className="col-6">
 
                                     <Link
-                                        href={`/ilanlar/${product.adId}/${friendlyUrl}`}
+                                        href={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}
                                     >
                                         <a
                                             className="btn btn-primary btn-lg bizleal_center_btn"

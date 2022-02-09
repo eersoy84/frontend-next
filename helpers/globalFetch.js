@@ -13,7 +13,6 @@ const globalFetch = async (url, data = null, params = null) => {
         return result
     }
     catch (err) {
-        console.log("error==>", err)
     }
 }
 export default globalFetch

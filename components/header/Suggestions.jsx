@@ -49,7 +49,7 @@ function Suggestions(props) {
         )}
         <div className="suggestions__item-info">
           <Link
-            href={`/ilanlar/${product.adId}/${friendlyUrl}`}
+            href={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}
           >
             <a className="suggestions__item-name">
               {product.brandName}

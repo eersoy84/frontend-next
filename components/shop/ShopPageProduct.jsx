@@ -23,12 +23,8 @@ export default function ShopPageProduct(props) {
     let content;
     let product = {};
     let adSpecs;
-    const {
-        adList, numOfOrders, favorites,
-    } = useSelector((state) => ({
+    const {adList} = useSelector((state) => ({
         adList: state.ad.adList,
-        numOfOrders: state.order.numOfOrders,
-        favorites: state.userAccount.favorites,
     }), shallowEqual);
 
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Router from 'next/router';
 import { toast } from 'react-toastify';
 import { API_BASE } from '../../config';
+import { getFavorites } from '../userAccount';
 export const FETCH_ADS = 'FETCH_ADS';
 export const FETCH_ADS_SUCCESS = 'FETCH_ADS_SUCCESS';
 export const FETCH_ADS_FAIL = 'FETCH_ADS_FAIL';

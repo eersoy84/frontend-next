@@ -21,16 +21,3 @@ export default function AccountPageLogout() {
         </>
     )
 }
-// export const getServerSideProps = wrapper.getServerSideProps(
-//     (store) =>
-//         async ({ req, res }) => {
-//             const { data } = await store.dispatch(login({ email: 'eyup@gmail.com', password: 'asdfgh1' }));
-//             const allProfiles = JSON.parse(JSON.stringify(data))
-//             console.log("deee",data.user)
-//             console.log("deee",allProfiles)
-//             return {
-//                 props: {
-//                     user:allProfiles
-//                 }
-//             };
-//         });

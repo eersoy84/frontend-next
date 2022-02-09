@@ -63,7 +63,7 @@ export default function ShopPageCart() {
         const orderCount = item.product.numOrders;
         if (item.product.imageUrl) {
             image = (
-                <Link href={`/ilanlar/${item.product.adId}/${friendlyUrl}`}>
+                <Link href={`/ilanlar/${item.product.adId}?seoUrl=${friendlyUrl}`}>
                     <a>
                         <img src={item.product.imageUrl} alt="" />
                     </a>
@@ -123,7 +123,7 @@ export default function ShopPageCart() {
                             <div className="row">
                                 <div className="col-10">
                                     <Link
-                                        href={`/ilanlar/${item.adId}/${friendlyUrl}`}>
+                                        href={`/ilanlar/${item.adId}?seoUrl=${friendlyUrl}`}>
                                         <a style={{ color: '#F1861D' }}>
                                             <span style={{ fontSize: 'calc(70% + 0.5vw)' }}>
                                                 {`${item.product.brandName} ${item.product.modelName}`}

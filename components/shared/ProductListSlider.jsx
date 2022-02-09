@@ -50,12 +50,8 @@ function ProductListSlider(props) {
     setUpdatedParticipants(participants);
   };
 
-  let isFollowing = false;
-  favorites && favorites.map((fav) => {
-    if (fav.adId === product.adId) {
-      isFollowing = true;
-    }
-  });
+  let isFollowing = favorites.some(fav => fav.adId === product.adId)
+
 
   const image = product && product.imageUrl;
 
@@ -157,20 +153,20 @@ function ProductListSlider(props) {
   return (
     <div className="product_new_ads_slider_link">
       <div className="product_new_ads_slider_card">
-        <Link to={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+        <Link to={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
           <div className="product_new_ads_slider_title">
             {product.brandName}
             {' '}
             {product.modelName}
           </div>
         </Link>
-        <Link to={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+        <Link to={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
           <Countdown
             date={ad_finish_date.toDate()}
             renderer={renderer}
           />
         </Link>
-        <Link to={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+        <Link to={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
           <div
             className="product_home_card_image"
             style={{ backgroundImage: `url(${image}` }}

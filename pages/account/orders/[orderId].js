@@ -435,7 +435,7 @@ export default function AccountPageOrderDetails() {
                                         <div className="row">
                                             <div className="col-12 col-md-4">
                                                 <div className="cart-table__column--image">
-                                                    <Link href={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+                                                    <Link href={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
                                                         <a>
                                                             <Image src={product.imageUrl} height={100} width={100} />
                                                         </a>

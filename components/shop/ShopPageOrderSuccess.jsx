@@ -66,12 +66,12 @@ export default function ShopPageOrderSuccess(props) {
             return (
                 <tr key={item.adId}>
                     <td className="order-list__column-image">
-                        <Link to={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+                        <Link to={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
                             <img src={item.product.imageUrl} alt="" />
                         </Link>
                     </td>
                     <td className="order-list__column-product">
-                        <Link to={`/ilanlar/${product.adId}/${friendlyUrl}`}>
+                        <Link to={`/ilanlar/${product.adId}?seoUrl=${friendlyUrl}`}>
                             {item.product.brandName}
                             {' '}
                             {item.product.modelName}

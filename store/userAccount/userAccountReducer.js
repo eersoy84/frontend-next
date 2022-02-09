@@ -57,6 +57,8 @@ export default function userAccountReducer(state = initialState, action) {
     switch (action.type) {
         case HYDRATE:
             const { userAccount } = action.payload
+            console.log("mevcutState", state)
+            console.log("serverState", userAccount)
             if (userAccount) {
                 const { user, favorites } = userAccount
                 return {

@@ -230,9 +230,11 @@ export function deleteUnconfirmedUser() {
 
 export function getFavorites() {
     return (dispatch) => {
+        console.log("geldi mi buraya=========>")
         dispatch(fetchFavorites(true));
         const asyncAction = axios.get(`${API_BASE}/routines/favorites`,
-            { headers: authHeaderWithSecret() });
+            // { headers: authHeaderWithSecret() }
+        );
         asyncAction.then((response) => {
             dispatch(fetchFavoritesSuccess(response.data));
         }).catch((err) => dispatch(fetchFavoritesFail(err)));

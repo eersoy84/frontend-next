@@ -71,7 +71,6 @@ function Product(props) {
             maximumFractionDigits: 2,
         })}${' '}₺`;
 
-    let isFollowing = false;
     const [updatedParticipants, setUpdatedParticipants] = useState((ad && ad.participants) || 0);
     const onAdFollow = (participants) => {
         setUpdatedParticipants(participants);
@@ -79,11 +78,8 @@ function Product(props) {
 
     const adName = ad && (`${ad.categoryName} ${ad.brandName} ${ad.modelName}`);
     const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
-    favorites && favorites.map((fav) => {
-        if (fav === ad.adId) {
-            isFollowing = true;
-        }
-    });
+    let isFollowing = favorites.some(fav => fav.adId === ad.adId)
+
 
     let instantPrice;
     let instantProfit;
@@ -244,7 +240,7 @@ function Product(props) {
                 <meta name="description" content={`${ad.categoryName} ${ad.brandName} ${ad.modelName}`} />
                 <meta property="og:type" content="https://bizleal.com" />
                 <meta property="og:image" content={`${ad.image}`} />
-                <meta property="og:url" content={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`} />
+                <meta property="og:url" content={`https://bizleal.com/ilanlar/${ad.adId}?seoUrl=${friendlyUrl}`} />
             </Head>
             <div className="row">
                 <div className="col-12 col-md-6 col-lg-4">
@@ -362,7 +358,7 @@ function Product(props) {
                                             //   data-for="share"
                                             quote="title"
                                             description={"deneme"}
-                                            url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
+                                            url={`https://bizleal.com/ilanlar/${ad.adId}?seoUrl=${friendlyUrl}`}
                                         >
                                             <WhatsappIcon
                                                 size={32}
@@ -375,8 +371,8 @@ function Product(props) {
                                             <button data-tip data-for="share"
                                                 className="btn btn-plain"
                                                 quote={'title'}
-                                                url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
-                                                onClick={() => { shareSheet(`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`) }}
+                                                url={`https://bizleal.com/ilanlar/${ad.adId}?seoUrl=${friendlyUrl}`}
+                                                onClick={() => { shareSheet(`https://bizleal.com/ilanlar/${ad.adId}?seoUrl=${friendlyUrl}`) }}
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
                                             </button>
@@ -386,7 +382,7 @@ function Product(props) {
                                             <FacebookShareButton
                                                 data-tip data-for="share"
                                                 quote="title"
-                                                url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
+                                                url={`https://bizleal.com/ilanlar/${ad.adId}?seoUrl=${friendlyUrl}`}
                                             >
                                                 <FacebookIcon
                                                     size={32} borderRadius={10}
@@ -399,7 +395,7 @@ function Product(props) {
                                             data-tip
                                             data-for="share"
                                             quote="title"
-                                            url={`https://bizleal.com/ilanlar/${ad.adId}/${friendlyUrl}`}
+                                            url={`https://bizleal.com/ilanlar/${ad.adId}?seoUrl=${friendlyUrl}`}
                                         >
                                             <TelegramIcon
                                                 size={32}
