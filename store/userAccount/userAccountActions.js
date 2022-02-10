@@ -228,15 +228,16 @@ export function deleteUnconfirmedUser() {
     };
 }
 
-export function getFavorites() {
+export function getFavorites(token) {
     return (dispatch) => {
         console.log("geldi mi buraya=========>")
         dispatch(fetchFavorites(true));
         const asyncAction = axios.get(`${API_BASE}/routines/favorites`,
-            // { headers: authHeaderWithSecret() }
+            { headers: authHeaderWithSecret(token) }
         );
         asyncAction.then((response) => {
-            dispatch(fetchFavoritesSuccess(response.data));
+            console.log("response", response?.data)
+            dispatch(fetchFavoritesSuccess(response?.data));
         }).catch((err) => dispatch(fetchFavoritesFail(err)));
         return asyncAction;
     };

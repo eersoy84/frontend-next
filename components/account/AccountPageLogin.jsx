@@ -16,7 +16,8 @@ import theme from '../../data/theme';
 import {
     login, loginWithFacebook, loginWithGoogle, loginWithTelegram,
 } from '../../store/userAccount/userAccountActions';
-import { wrapper } from '../../store/configureStore';
+
+import { signIn } from 'next-auth/react'
 
 function AccountPageLogin(props) {
     const { loginWithFacebook, loginWithGoogle, loginWithTelegram } = props

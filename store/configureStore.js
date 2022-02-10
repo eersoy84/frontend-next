@@ -29,11 +29,11 @@ const makeStore = wrapMakeStore(() =>
           "userAccount.favorites",
           "profile.address",
           "order.orders",
-          "category.categories"
+          "category.categories",
         ]
       }),
       thunkMiddleware
     ])
   )
 );
-export const wrapper = createWrapper(makeStore, { debug: true });
+export const wrapper = createWrapper(makeStore);

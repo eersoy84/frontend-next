@@ -1,3 +1,5 @@
+import { getSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react';
 export function authHeader() {
   // return authorization header with jwt token
   const user = JSON.parse(localStorage.getItem('user'));
@@ -21,8 +23,7 @@ export function authHeaderContentType() {
   return {};
 }
 
-export function authHeaderWithSecret() {
-  const token = JSON.parse(localStorage.getItem('token'));
+export async function authHeaderWithSecret(token) {
   if (token) {
     return {
       Authorization: `Bearer ${token}`,

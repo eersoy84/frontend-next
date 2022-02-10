@@ -7,18 +7,22 @@ import Link from 'next/link'
 // application
 import Indicator from './Indicator';
 import IndicatorDeneme from './IndicatorDeneme';
+import { useSession } from 'next-auth/react';
 
-export function IndicatorAccountDispatch({ user }) {
+export function IndicatorAccountDispatch({ user2 }) {
     let dropDown;
     let url;
-    if (user) {
+    const { data: session, status } = useSession()
+    const user = session?.user
+
+    if (status === "authenticated") {
         url = "/hesap"
         dropDown = (
             <div className="account-menu">
                 <Link href={"/hesap"}>
                     <a className='account-menu__user'>
                         <div className="account-menu__user-avatar">
-                            {user?.images && <Image src={user?.image} height={20} width={20} />}
+                            {user?.image && <Image src={user?.image} height={20} width={20} />}
                         </div>
                         <div className="account-menu__user-info">
                             <div className="account-menu__user-name">
@@ -26,7 +30,7 @@ export function IndicatorAccountDispatch({ user }) {
                                 {' '}
                                 {user?.lastName}
                             </div>
-                            <div className="account-menu__user-email">{user.email}</div>
+                            <div className="account-menu__user-email">{user?.email}</div>
                         </div>
                     </a>
                 </Link>

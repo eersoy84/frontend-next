@@ -18,8 +18,8 @@ import RatingPoint from '../components/shared/RatingPoint'
 import { wrapper } from '../store/configureStore';
 // data stubs
 import theme from '../data/theme';
-import { getAds } from '../store/ad';
-
+import { getSession } from 'next-auth/react'
+import { getToken } from "next-auth/jwt"
 function ShopPageFavourites(props) {
     const { favorites, cartUpdate, unfollow, cart, } = props;
     const { info } = cart;
@@ -246,7 +246,8 @@ export default connect(
 
 export const getServerSideProps = wrapper.getServerSideProps(store =>
     async ({ req, res, context }) => {
-        console.log('2. Page.getServerSideProps uses the store to dispatch things');
+        const session = await getSession({ req })
+        console.log('session in getServersideProps==>', session);
         // console.log("req", req)
-        await store.dispatch(getFavorites());
+        await store.dispatch(getFavorites(session?.accessToken));
     });

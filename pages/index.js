@@ -8,6 +8,7 @@ import { getCategories } from '../store/category';
 import { getFavorites } from '../store/userAccount';
 
 export default function Index() {
+
   return (
     <>
       <Head>

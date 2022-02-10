@@ -12,8 +12,8 @@ import { useEffect } from 'react'
 import 'react-toastify/dist/ReactToastify.min.css';
 // import 'react-input-range/lib/css/index.css';
 // import { Provider } from "react-redux";
-import { PersistGate } from 'redux-persist/integration/react';
-import { useStore } from 'react-redux'
+
+import { SessionProvider } from "next-auth/react"
 
 function Main({ Component, pageProps }) {
   const { messages, direction } = languages['tr'];
@@ -31,11 +31,13 @@ function Main({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" />
       </Head>
-      <IntlProvider locale={'tr'} messages={messages} direction={direction}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </IntlProvider>
+      <SessionProvider session={pageProps.session}>
+        <IntlProvider locale={'tr'} messages={messages} direction={direction}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </IntlProvider>
+      </SessionProvider>
     </>
   )
 }

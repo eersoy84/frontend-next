@@ -12,12 +12,16 @@ import { IndicatorAccountDispatch } from './IndicatorAccountDispatch';
 import IndicatorCart from './IndicatorCart';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import useHasMounted from '../../hooks/useHasMounted';
+import { useSession } from "next-auth/react"
 
 function Header() {
-  const { favorites, user } = useSelector((state) => ({
+  const { favorites } = useSelector((state) => ({
     favorites: state.userAccount.favorites,
-    user: state.userAccount.user,
   }), shallowEqual);
+
+
+  const { data: session, status } = useSession()
+  console.log("session in header =>",session)
   const hasMounted = useHasMounted()
   if (!hasMounted) {
     return null;
@@ -38,12 +42,12 @@ function Header() {
 
       <div className="nav-panel__indicators">
 
-        {user && (
+        {session && (
           <div className="account_icons_custom">
 
             <Indicator
-              url={user ? '/favoriler' : '/hesap/cikis'}
-              value={(favorites && (favorites.length > 0 ? favorites.length : undefined)) || undefined}
+              url={session ? '/favoriler' : '/hesap/cikis'}
+              value={favorites?.length != 0 ? favorites?.length : undefined}
               icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
 
             />
@@ -57,7 +61,7 @@ function Header() {
         </div>
 
         <div className="account_icons_custom">
-          <IndicatorAccountDispatch user={user} />
+          <IndicatorAccountDispatch user={session?.user} />
           <p>Hesabım</p>
         </div>
       </div>
