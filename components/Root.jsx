@@ -68,7 +68,7 @@ export default function Root() {
         if (user) {
             dispatch(getUserAddress())
             dispatch(getUserOrders())
-            dispatch(getFavorites());
+            // dispatch(getFavorites());
         }
     }, [user])
     const { messages, direction } = languages[locale];

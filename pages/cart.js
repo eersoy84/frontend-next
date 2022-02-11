@@ -17,7 +17,7 @@ import InputNumber from '../components/shared/InputNumber';
 import PageHeader from '../components/shared/PageHeader';
 import { cartUpdate, cartGet } from '../store/cart/cartActions';
 import RatingPoint from '../components/shared/RatingPoint'
-
+import { useSession } from 'next-auth/react';
 // data stubs
 import theme from '../data/theme';
 
@@ -27,10 +27,8 @@ export default function ShopPageCart() {
     const { cart } = useSelector(state => ({
         cart: state.cart,
     }), shallowEqual);
-    let user;
-    useEffect(() => {
-        user = JSON.parse(localStorage.getItem('user'));
-    })
+    const { data: session } = useSession();
+
     const dispatch = useDispatch();
 
     const cartId = info && info.uuid;
@@ -290,7 +288,7 @@ export default function ShopPageCart() {
                                         {renderTotals()}
                                     </div>
                                 </div>
-                                {user
+                                {session
                                     ? (
                                         <Link
                                             href="/checkout#delivery">
@@ -366,7 +364,7 @@ export default function ShopPageCart() {
                                         </div>
                                     </div>
                                     <div className="col-6 d-flex justify-content-end align-items-center">
-                                        {user
+                                        {session
                                             ? (
                                                 <Link
                                                     href="/checkout#delivery" style={{ borderRadius: '10px' }}>

@@ -17,13 +17,16 @@ import {
     login, loginWithFacebook, loginWithGoogle, loginWithTelegram,
 } from '../../store/userAccount/userAccountActions';
 
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
+import { toast } from 'react-toastify';
+import Router from 'next/router';
 
 function AccountPageLogin(props) {
     const { loginWithFacebook, loginWithGoogle, loginWithTelegram } = props
     const { isLoading } = useSelector((state) => ({
         isLoading: state.userAccount.isLoading,
     }), shallowEqual);
+    const { status } = useSession();
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -39,7 +42,7 @@ function AccountPageLogin(props) {
         });
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const formValid = validator.current.allValid();
         if (!formValid) {
@@ -47,7 +50,22 @@ function AccountPageLogin(props) {
             forceUpdate(1);
             return;
         }
-        dispatch(login({ email, password }))
+        const res = await signIn('credentials', {
+            redirect: false,
+            email: email,
+            password: password,
+            callbackUrl: "localhost:3000"
+        });
+        if (res.error) {
+            toast.error("Kullanıcı adınız veya şifreniz hatalı!")
+            return
+        }
+        if (res.ok) {
+            toast.success("Bizleal'a başarıyla giriş yaptınız")
+            Router.push(res?.url)
+        }
+
+        // dispatch(login({ email, password }))
     }
 
     const responseFacebook = (data) => {
@@ -110,9 +128,12 @@ function AccountPageLogin(props) {
                     <div>
                         <button
                             type="submit"
-                            className={classNames('btn btn-primary btn-lg btn-block', {
-                                'btn-loading': isLoading,
-                            })}
+                            className={classNames('btn btn-primary btn-lg btn-block'
+                                , {
+                                    'btn-loading': status === "loading" ?? false,
+                                }
+                            )
+                            }
                         >
                             Giriş Yap
                         </button>

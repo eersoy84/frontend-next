@@ -10,6 +10,7 @@ export const CART_UPDATE_FAIL = 'CART_UPDATE_FAIL';
 export const CART_GET = 'CART_GET';
 export const CART_GET_SUCCESS = 'CART_GET_SUCCESS';
 export const CART_GET_FAIL = 'CART_GET_FAIL';
+import { getSession } from "next-auth/react"
 
 
 export function cartUpdate(cartId, adId, amount) {
@@ -18,21 +19,22 @@ export function cartUpdate(cartId, adId, amount) {
         adId,
         amount
     }
-    let token = JSON.parse(localStorage.getItem('token'));
-    if (token === null) {
-        Router.push('/hesap/cikis')
-        toast.warning("Ürünü sepete ekleyebilmek için lütfen giriş yapın!")
-        return () => (
-            new Promise((resolve) => {
-                resolve();
-            })
-        );
-    }
-    return (dispatch) => {
+    return async (dispatch) => {
+        const session = await getSession()
+        if (!session) {
+            Router.push('/hesap/cikis')
+            toast.warning("Ürünü sepete ekleyebilmek için lütfen giriş yapın!")
+            return () => (
+                new Promise((resolve) => {
+                    resolve();
+                })
+            );
+        }
         dispatch(postCartUpdate(true));
         let asyncAction = axios.post(`${API_BASE}/cart/update`,
             cartModel,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() }
+        );
         asyncAction.then((response) => {
             dispatch(postCartUpdateSuccess(response.data));
             toast.success(`Sepet güncellendi`);
@@ -69,11 +71,11 @@ export function cartGet(cartId, isOrder) {
         cartId,
         isOrder
     }
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(postCartGet(true));
         let asyncAction = axios.post(`${API_BASE}/cart/get`,
             cartModel,
-            { headers: authHeaderWithSecret() })
+            { headers: await authHeaderWithSecret() })
             .then((response) => {
                 dispatch(postCartGetSuccess(response.data));
             }).catch((err) => {

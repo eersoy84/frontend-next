@@ -8,15 +8,15 @@ import AsyncAction from './AsyncAction';
 import { follow, unfollow } from '../../store/userAccount';
 import Image from 'next/image'
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 export default function FollowButton(props) {
   const {
     adId, isFollowing, onFollow, numOfParticipants,
   } = props;
+  const { data: session } = useSession()
+  const user = session?.user
   const router = useRouter()
-  const { user } = useSelector(state => ({
-    user: state.userAccount.user,
-  }), shallowEqual);
 
   const dispatch = useDispatch();
 

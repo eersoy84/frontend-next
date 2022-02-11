@@ -5,7 +5,6 @@ import HomePage from '../components/home/HomePage';
 import { getAds } from '../store/ad';
 import theme from '../data/theme';
 import { getCategories } from '../store/category';
-import { getFavorites } from '../store/userAccount';
 
 export default function Index() {
 

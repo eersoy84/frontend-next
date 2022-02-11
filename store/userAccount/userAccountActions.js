@@ -58,7 +58,7 @@ export function login({ email, password }) {
             dispatch(postLoginSuccess(response.data));
             localStorage.setItem('token', JSON.stringify(response.data.token));
             Router.push('/', undefined, { shallow: true })
-            dispatch(getFavorites())
+            // dispatch(getFavorites())
             dispatch(getUserAddress())
         }).catch((err) => {
             dispatch(postLoginFail(err?.response?.data?.code));
@@ -228,15 +228,13 @@ export function deleteUnconfirmedUser() {
     };
 }
 
-export function getFavorites(token) {
-    return (dispatch) => {
-        console.log("geldi mi buraya=========>")
+export function getFavorites(req = null) {
+    return async (dispatch) => {
         dispatch(fetchFavorites(true));
         const asyncAction = axios.get(`${API_BASE}/routines/favorites`,
-            { headers: authHeaderWithSecret(token) }
+            { headers: await authHeaderWithSecret(req) }
         );
         asyncAction.then((response) => {
-            console.log("response", response?.data)
             dispatch(fetchFavoritesSuccess(response?.data));
         }).catch((err) => dispatch(fetchFavoritesFail(err)));
         return asyncAction;
@@ -390,19 +388,17 @@ export const logoutNow = () => ({
 
 export function follow(adId) {
     const ParticipantModel = { adId };
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(postFollow());
         const asyncAction = axios.post(`${API_BASE}/routines/follow`,
             ParticipantModel,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(postFollowSuccess(response.data));
             toast.success('İlan Takip Ediliyor');
         }).catch((err) => {
-            if (err && err.response && err.response.data) {
-                toast.error(err.response.data.fail);
-                dispatch(postFollowFail(err));
-            }
+            toast.error(err?.response?.data?.message);
+            dispatch(postFollowFail(err));
         });
         return asyncAction;
     };
@@ -425,27 +421,45 @@ export const postFollowFail = (error) =>
     payload: error.message,
 });
 
-export const unfollow = (adId) => (dispatch) => {
+export function unfollow(adId) {
     const ParticipantModel = { adId };
-    return new Promise((resolve, reject) => {
+    return async (dispatch) => {
         dispatch(postUnFollow());
         const asyncAction = axios.post(`${API_BASE}/routines/unfollow`,
             ParticipantModel,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(postUnFollowSuccess(response.data));
-            // dispatch(getInstantAdsInfo());
             toast.info('İlanı Takipten Çıktınız');
-            resolve();
         }).catch((err) => {
-            if (err && err.response && err.response.data) {
-                toast.error(err.response.data.fail);
-                dispatch(postFollowFail(err));
-                reject();
-            }
+            toast.error(err?.response?.data?.message);
+            dispatch(postUnFollowFail(err));
         });
-    });
-};
+        return asyncAction;
+    };
+}
+
+// export const unfollow = (adId) => (dispatch) => {
+//     const ParticipantModel = { adId };
+//     return new Promise((resolve, reject) => {
+//         dispatch(postUnFollow());
+//         const asyncAction = axios.post(`${API_BASE}/routines/unfollow`,
+//             ParticipantModel,
+//             { headers: authHeaderWithSecret() });
+//         asyncAction.then((response) => {
+//             dispatch(postUnFollowSuccess(response.data));
+//             // dispatch(getInstantAdsInfo());
+//             toast.info('İlanı Takipten Çıktınız');
+//             resolve();
+//         }).catch((err) => {
+//             if (err && err.response && err.response.data) {
+//                 toast.error(err.response.data.fail);
+//                 dispatch(postFollowFail(err));
+//                 reject();
+//             }
+//         });
+//     });
+// };
 
 export const postUnFollow = () =>
 // return a action type and a loading state indicating it is getting data.

@@ -177,9 +177,11 @@ class AccountPageRegister extends Component {
                                             </div> */}
                     <button
                         type="submit"
-                        className={classNames('btn btn-primary btn-lg btn-block', {
-                            'btn-loading': isLoading,
-                        })}
+                        className={classNames('btn btn-primary btn-lg btn-block'
+                        // , {
+                        //     'btn-loading': isLoading,
+                        // }
+                        )}
                     >
                         Üye ol
                     </button>

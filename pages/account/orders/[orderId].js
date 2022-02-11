@@ -23,6 +23,7 @@ import { Collapse } from 'reactstrap';
 import ReviewProductModal from '../../../components/account/ReviewProductModal';
 import { toast } from 'react-toastify';
 import AccountLayout from '../../../components/account/AccountLayout';
+import { useSession } from 'next-auth/react';
 
 const formatDate = (date) => {
     let newDate = moment(date)
@@ -61,10 +62,10 @@ export default function AccountPageOrderDetails() {
     const [returnCargoCodeCreated, setReturnCargoCodeCreated] = useState(null);
     const [isAdId, setIsAdId] = useState(null)
 
-    useEffect(() => {
+    useEffect(async () => {
         const asyncAction = axios.post(`${API_BASE}/cart/get`,
             { cartId: orderId, isOrder: 1 },
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then(({ data }) => {
             let cart = data;
             setCart(cart);

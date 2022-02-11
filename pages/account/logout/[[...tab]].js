@@ -8,11 +8,12 @@ import { wrapper } from '../../../store/configureStore'
 import {
     login
 } from '../../../store/userAccount/userAccountActions';
+
 export default function AccountPageLogout() {
     const { query } = useRouter()
     const { tab } = query
     const dispatch = useDispatch();
-    useEffect(() => {
+    useEffect(async () => {
         dispatch(logout())
     }, [])
     return (

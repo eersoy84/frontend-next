@@ -13,15 +13,30 @@ import IndicatorCart from './IndicatorCart';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import useHasMounted from '../../hooks/useHasMounted';
 import { useSession } from "next-auth/react"
-
+import { getFavorites } from '../../store/userAccount';
+import { useEffect, useCallback } from 'react';
+import { cartGet } from '../../store/cart';
+import { getUserAddress } from '../../store/profile';
+import { getUserOrders } from '../../store/order';
 function Header() {
   const { favorites } = useSelector((state) => ({
     favorites: state.userAccount.favorites,
   }), shallowEqual);
-
-
   const { data: session, status } = useSession()
-  console.log("session in header =>",session)
+  const dispatch = useDispatch();
+  console.log("header rendered", status)
+
+  useEffect(() => {
+    if (session) {
+      console.log("useEffect'e kac kere girdi")
+      // if (session && status === "authenticated") {
+      dispatch(getFavorites())
+      dispatch(getUserAddress())
+      dispatch(getUserOrders())
+    }
+    // }
+  }, [session])
+
   const hasMounted = useHasMounted()
   if (!hasMounted) {
     return null;

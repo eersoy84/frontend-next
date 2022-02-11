@@ -244,10 +244,7 @@ export default connect(
 )(ShopPageFavourites);
 
 
-export const getServerSideProps = wrapper.getServerSideProps(store =>
-    async ({ req, res, context }) => {
-        const session = await getSession({ req })
-        console.log('session in getServersideProps==>', session);
-        // console.log("req", req)
-        await store.dispatch(getFavorites(session?.accessToken));
-    });
+// export const getServerSideProps = wrapper.getServerSideProps(store =>
+//     async ({ req, res, context }) => {
+//         await store.dispatch(getFavorites({ req }));
+//     });

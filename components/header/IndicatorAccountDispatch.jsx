@@ -7,14 +7,18 @@ import Link from 'next/link'
 // application
 import Indicator from './Indicator';
 import IndicatorDeneme from './IndicatorDeneme';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
+import Router from 'next/router'
 
-export function IndicatorAccountDispatch({ user2 }) {
+export function IndicatorAccountDispatch() {
     let dropDown;
     let url;
     const { data: session, status } = useSession()
     const user = session?.user
-
+    const logout = async () => {
+        const res = await signOut({ redirect: false, callbackUrl: "/hesap/cikis/1" })
+        Router.push(res?.url)
+    }
     if (status === "authenticated") {
         url = "/hesap"
         dropDown = (
@@ -43,7 +47,7 @@ export function IndicatorAccountDispatch({ user2 }) {
                 </ul>
                 <div className="account-menu__divider" />
                 <ul className="account-menu__links">
-                    <li><Link href="/hesap/cikis"><a>Çıkış</a></Link></li>
+                    <li><Link href="/hesap/cikis"><a onClick={logout}>Çıkış</a></Link></li>
                 </ul>
             </div>
         )

@@ -25,11 +25,11 @@ export const CLEAR_ORDERS = 'CLEAR_ORDERS';
 
 export function placeOrder(orderId) {
     let orderModel = { orderId }
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(postPlaceOrder(true));
         const asyncAction = axios.post(`${API_BASE}/cart/get`,
             orderModel,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(postPlaceOrderSuccess(response.data));
             toast.success('Siparişiniz Başarıyla Teslim Alınmıştır!');
@@ -68,10 +68,10 @@ export const postPlaceOrderFail = (error) =>
 //* ************************* */
 
 export function getUserOrders() {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(fetchOrders(true));
         const asyncAction = axios.get(`${API_BASE}/cart/list`,
-        { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(fetchOrdersSuccess(response.data));
         }).catch((err) => {
@@ -103,7 +103,7 @@ export const fetchOrdersFail = (error) =>
 });
 
 export function clearOrders() {
-    return (dispatch) => (
+    return async (dispatch) => (
         new Promise((resolve) => {
             dispatch(clearOrdersSuccess());
             resolve();
@@ -118,7 +118,7 @@ export function clearOrdersSuccess() {
 }
 
 export function fetchOrderCount() {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(orderCount(true));
         const asyncAction = axios.get(`${API_BASE}/order-count`);
         asyncAction.then((response) => {

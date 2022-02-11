@@ -20,7 +20,7 @@ const options = {
                 }
                 try {
                     const { data } = await axios(options)
-                    console.log(data)
+                    if (!data) return null
                     let user = {
                         ...data.user,
                         accessToken: data.token
@@ -33,6 +33,16 @@ const options = {
             session: { jwt: true },
         })
     ],
+    pages: {
+        signIn: '/hesap/cikis/1',
+        // signOut: 'hesap/cikis'
+    },
+    jwt: {
+        maxAge: 60 * 60 * 24 * 30
+    },
+    session: {
+        jwt: true
+    },
     callbacks: {
         jwt: async ({ token, user }) => {
             // first time jwt callback is run, user object is available
@@ -47,6 +57,7 @@ const options = {
             return token;
         },
         session: async ({ session, token }) => {
+            if (!session) return;
             if (token) {
                 session.user.firstName = token.firstName;
                 session.user.lastName = token.lastName;

@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import MobileHeader from './mobile/MobileHeader'
 
 function Layout({ children, user }) {
+    console.log("layout renderd")
     return (
         <>
             <div className="site">

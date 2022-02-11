@@ -29,11 +29,11 @@ function createNewAddress(address, id) {
 }
 
 export function editAddress(address) {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(postEditAddress(true));
         const asyncAction = axios.post(`${API_BASE}/routines/setAddress`,
             address,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             const newAddress = createNewAddress(address, response.data.id);
             dispatch(postEditAddressSuccess(newAddress));
@@ -68,12 +68,11 @@ export const postEditAddressFail = (error) =>
 });
 
 export function deleteAddress(id) {
-    console.log("id", id)
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(postDeleteAddress(true));
         const asyncAction = axios.post(`${API_BASE}/routines/deleteAddress`,
             { id },
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then(response => {
             console.log("response", response.data)
             dispatch(postDeleteAddressSuccess(response.data.id));
@@ -110,10 +109,10 @@ export const postDeleteAddressFail = (error) =>
 
 
 export function getUserAddress() {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(fetchUserAddress(true));
         const asyncAction = axios.get(`${API_BASE}/user/address`,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(fetchUserAddressSuccess(response.data));
         }).catch((err) => {
