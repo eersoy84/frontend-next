@@ -41,7 +41,7 @@ const options = {
         maxAge: 60 * 60 * 24 * 30
     },
     session: {
-        jwt: true
+        jwt: true,
     },
     callbacks: {
         jwt: async ({ token, user }) => {

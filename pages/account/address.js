@@ -8,11 +8,17 @@ import AddressModal from '../../components/shop/AddressModal';
 import addressInfo from '../../helpers/addressInfo';
 import AccountLayout from '../../components/account/AccountLayout';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Head from 'next/head';
+import theme from '../../data/theme';
+import { useSession } from 'next-auth/react';
+
 
 function Address() {
     const { address } = useSelector(state => ({
         address: state.profile.address
     }), shallowEqual);
+    const { data: session } = useSession();
+    const user = session?.user
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalAddress, setModalAddress] = useState('');
@@ -47,10 +53,12 @@ function Address() {
         </div>
 
     );
-    console.log("address", address)
 
     return (
         <AccountLayout>
+            <Head>
+                <title>{`Adreslerim — ${theme.name}`}</title>
+            </Head>
             {isModalOpen
                 ? (
                     <AddressModal
@@ -76,7 +84,7 @@ function Address() {
                 <div className="card-divider" />
                 <div className="card-body">
                     <div className="row">
-                        {addressList}
+                        {user && addressList}
 
                     </div>
                 </div>

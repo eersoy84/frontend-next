@@ -1,12 +1,8 @@
+import { useSession } from 'next-auth/react';
 import NumberFormat from 'react-number-format';
-import { useSelector, shallowEqual } from 'react-redux';
 export default function addressInfo(item, badge) {
 
-    // const { user } = useSelector(state => ({
-    //     user: state.userAccount.user
-    // }), shallowEqual);
-
-    let user = null;
+    const { data: session } = useSession();
     if (item) {
         return (
             <>
@@ -51,7 +47,7 @@ export default function addressInfo(item, badge) {
                 </div>
                 <div>
                     <div className="address-card__row-title">E-posta</div>
-                    <div>{user?.email}</div>
+                    <div>{session?.user?.email}</div>
                 </div>
                 <div>
                     <div className="address-card__row-title">Telefon</div>

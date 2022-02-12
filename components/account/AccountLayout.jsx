@@ -5,13 +5,18 @@ import Link from 'next/link'
 // application
 import PageHeader from '../../components/shared/PageHeader';
 import { useEffect } from 'react';
+import UseHasMounted from '../../hooks/useHasMounted';
+import { useSession } from 'next-auth/react';
 
 export default function AccountLayout({ children }) {
     const router = useRouter();
+    const { data: session } = useSession();
+    const user = session?.user
+
     const { pathname, asPath, query } = router
     const breadcrumb = [
-        { title: 'Ana Sayfa', url: '' },
-        { title: 'Hesabım', url: '' },
+        { title: 'Ana Sayfa', url: '/' },
+        { title: 'Hesabım', url: '/hesap' },
     ];
     const links = [
         { id: 0, title: 'Kullanıcı Bilgileri', url: '/' },
@@ -19,7 +24,7 @@ export default function AccountLayout({ children }) {
         { id: 2, title: 'Değerlendirmelerim', url: '/degerlendirmelerim' },
         { id: 3, title: 'Adres Bilgisi', url: '/adres' },
         { id: 4, title: 'Şifre İşlemleri', url: '/sifre-yenile' },
-    ].map((link) => {
+    ].map(link => {
         const url = `/hesap${link.url}`;
         const isActive = asPath === `${url}`
         const classes = classNames('account-nav__item', {
@@ -41,7 +46,7 @@ export default function AccountLayout({ children }) {
                         <div className="col-12 col-lg-3 d-flex align-items-start">
                             <div className="account-nav flex-grow-1">
                                 <h4 className="account-nav__title">Hesap İşlemleri</h4>
-                                <ul>{links}</ul>
+                                {user && <ul>{links}</ul>}
                             </div>
                         </div>
                         <div className="col-12 col-lg-9 mt-4 mt-lg-0">

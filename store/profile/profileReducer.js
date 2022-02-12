@@ -79,9 +79,7 @@ function clearAddress(state) {
 export default function profileReducer(state = initialState, action) {
     switch (action.type) {
         case HYDRATE:
-            console.log("mevcut state", state)
             const { profile } = action.payload
-            console.log("profile", profile)
             if (profile) {
                 const { address } = profile
                 return {

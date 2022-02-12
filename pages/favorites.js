@@ -20,11 +20,15 @@ import { wrapper } from '../store/configureStore';
 import theme from '../data/theme';
 import { getSession } from 'next-auth/react'
 import { getToken } from "next-auth/jwt"
+import UseHasMounted from '../hooks/useHasMounted';
 function ShopPageFavourites(props) {
     const { favorites, cartUpdate, unfollow, cart, } = props;
     const { info } = cart;
     const cartId = info && info.uuid;
-
+    const hasMounted = UseHasMounted()
+    if (!hasMounted) {
+        return null
+    }
     const breadcrumb = [
         { title: 'Ana Sayfa', url: '/' },
         { title: 'Favoriler', url: '/favoriler' },

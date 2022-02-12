@@ -18,18 +18,19 @@ import { useEffect, useCallback } from 'react';
 import { cartGet } from '../../store/cart';
 import { getUserAddress } from '../../store/profile';
 import { getUserOrders } from '../../store/order';
+
+
+
 function Header() {
   const { favorites } = useSelector((state) => ({
     favorites: state.userAccount.favorites,
   }), shallowEqual);
   const { data: session, status } = useSession()
   const dispatch = useDispatch();
-  console.log("header rendered", status)
 
   useEffect(() => {
-    if (session) {
+    if (session && status === "authenticated") {
       console.log("useEffect'e kac kere girdi")
-      // if (session && status === "authenticated") {
       dispatch(getFavorites())
       dispatch(getUserAddress())
       dispatch(getUserOrders())
@@ -37,10 +38,10 @@ function Header() {
     // }
   }, [session])
 
-  const hasMounted = useHasMounted()
-  if (!hasMounted) {
-    return null;
-  }
+  // const hasMounted = useHasMounted()
+  // if (!hasMounted) {
+  //   return null;
+  // }
 
   let bannerSection = (
     <div className="site-header__middle container">

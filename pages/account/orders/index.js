@@ -16,11 +16,43 @@ import moment from 'moment';
 import Spinner from '../../../components/shared/Spinner';
 import AccountLayout from '../../../components/account/AccountLayout';
 
+
+const checkOrderStatus = order => {
+    if (order.status === "paid") {
+        return (
+            <div className="d-flex flex-row align-items-center">
+                <i className="far fa-thumbs-up mr-2"
+                    style={{ color: 'green' }} />
+                Sipariş Alındı
+                {/* <p style={{ fontSize: '12px', }}>Ödeme Alındı</p> */}
+            </div>
+        )
+    }
+    else if (order.status === "submitToCargo") {
+        return (
+            <div className="d-flex flex-row align-items-center">
+                <i className="far fa-thumbs-up mr-2"
+                    style={{ color: 'green' }} />
+                Kargoya Verildi
+            </div>
+        )
+    }
+    else if (order.status === "delivered") {
+        return (
+            <div className="d-flex flex-row align-items-center">
+                <i className="far fa-thumbs-up mr-2"
+                    style={{ color: 'green' }} />
+                Teslim Edildi
+            </div>
+        )
+    }
+    else return "Ürün beklemede"
+}
+
 export default function AccountPageOrders() {
     const { orders } = useSelector((state) => ({
         orders: state.order.orders,
     }), shallowEqual);
-
 
     const [orderList, setOrderList] = useState([]);
 
@@ -31,37 +63,7 @@ export default function AccountPageOrders() {
     const filterOrders = (items) => {
         setOrderList(items)
     }
-    const checkOrderStatus = order => {
-        if (order.status === "paid") {
-            return (
-                <div className="d-flex flex-row align-items-center">
-                    <i className="far fa-thumbs-up mr-2"
-                        style={{ color: 'green' }} />
-                    Sipariş Alındı
-                    {/* <p style={{ fontSize: '12px', }}>Ödeme Alındı</p> */}
-                </div>
-            )
-        }
-        else if (order.status === "submitToCargo") {
-            return (
-                <div className="d-flex flex-row align-items-center">
-                    <i className="far fa-thumbs-up mr-2"
-                        style={{ color: 'green' }} />
-                    Kargoya Verildi
-                </div>
-            )
-        }
-        else if (order.status === "delivered") {
-            return (
-                <div className="d-flex flex-row align-items-center">
-                    <i className="far fa-thumbs-up mr-2"
-                        style={{ color: 'green' }} />
-                    Teslim Edildi
-                </div>
-            )
-        }
-        else return "Ürün beklemede"
-    }
+
 
 
     moment().locale('tr');
@@ -113,9 +115,13 @@ export default function AccountPageOrders() {
         </div>
     ));
 
-    if (orders && orders.length > 0) {
-        return (
-            <AccountLayout>
+
+    return (
+        <AccountLayout>
+            <Head>
+                <title>{`Siparişler — ${theme.name}`}</title>
+            </Head>
+            {orders?.length > 0 ?
                 <div className="card">
                     <Head>
                         <title>{`Siparişlerim — ${theme.name}`}</title>
@@ -147,39 +153,32 @@ export default function AccountPageOrders() {
                         <Pagination items={orders} onPageChange={handlePageChange} />
                     </div>
                 </div>
-            </AccountLayout>
-        );
-    }
-    else if (orders && orders.length == 0) {
-        return (
-            <AccountLayout>
-
-                <div className="card">
-                    <div className="card-header">
-                        <div className="row d-flex justify-content-between align-items-center">
-                            <div className="col-4 col-sm-6"
-                                style={{ fontSize: 'calc(70% + 0.5vw)', fontWeight: 600 }}
-                            >
-                                Siparişlerim
-                            </div>
-                            <div className="col-8 col-sm-6">
-                                <OrderSearch filterOrders={filterOrders} context="header" />
+                :
+                <>
+                    <div className="card">
+                        <div className="card-header">
+                            <div className="row d-flex justify-content-between align-items-center">
+                                <div className="col-4 col-sm-6"
+                                    style={{ fontSize: 'calc(70% + 0.5vw)', fontWeight: 600 }}
+                                >
+                                    Siparişlerim
+                                </div>
+                                <div className="col-8 col-sm-6">
+                                    <OrderSearch filterOrders={filterOrders} context="header" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="block block-empty">
-                    <div className="container">
-                        <div className="block-empty__body">
-                            <div className="block-empty__message">Herhangi bir siparişiniz bulunmamaktadır!</div>
+                    <div className="block block-empty">
+                        <div className="container">
+                            <div className="block-empty__body">
+                                <div className="block-empty__message">Herhangi bir siparişiniz bulunmamaktadır!</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </AccountLayout>
-        )
-    } else return (
-        <AccountLayout>
-            <Spinner />
+                </>
+            }
         </AccountLayout>
-    );
+    )
+
 }

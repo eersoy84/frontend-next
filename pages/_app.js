@@ -24,7 +24,6 @@ function Main({ Component, pageProps }) {
       window.scrollTo(0, 0);
     }, 1000)
   }, [pathname]);
-  console.log("myapp renderd")
   return (
     <>
       <Head>
