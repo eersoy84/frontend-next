@@ -100,7 +100,7 @@ export default function Ads(props) {
 }
 export const getStaticProps = async () => {
     const ads = await globalFetch(`/routines/ads`)
-    return { 
+    return {
         props: {
             ads,
         },

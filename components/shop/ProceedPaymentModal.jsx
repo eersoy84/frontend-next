@@ -1,7 +1,8 @@
 // react
 import React from 'react';
 
-import { Modal,  ModalBody, ModalFooter,
+import {
+    Modal, ModalBody, ModalFooter,
 } from 'reactstrap';
 import classNames from 'classnames';
 
@@ -44,23 +45,28 @@ export default function ProceedPaymentModal(props) {
                 </div>
             </ModalBody>
             <ModalFooter>
-                <button
-                    type="submit"
-                    className={classNames('btn btn-primary btn-block')}
-                    onClick={handleYes}
-                    style={{ borderRadius: '3px' }}
-                >
-                    Evet
-                </button>
+                <div className="d-grid">
 
-                <button
-                    type="submit"
-                    className={classNames('btn btn-secondary btn-block')}
-                    onClick={handleNo}
-                    style={{ borderRadius: '3px' }}
-                >
-                    Hayır
-                </button>
+                    <button
+                        type="submit"
+                        className={classNames('btn btn-primary')}
+                        onClick={handleYes}
+                        style={{ borderRadius: '3px' }}
+                    >
+                        Evet
+                    </button>
+                </div>
+                <div className="d-grid">
+
+                    <button
+                        type="submit"
+                        className={classNames('btn btn-secondary')}
+                        onClick={handleNo}
+                        style={{ borderRadius: '3px' }}
+                    >
+                        Hayır
+                    </button>
+                </div>
 
 
             </ModalFooter>

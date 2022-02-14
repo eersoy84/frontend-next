@@ -6,6 +6,11 @@ module.exports = {
   async rewrites() {
     return [
       {
+        source: '/tr/odeme',
+        destination: '/tr/payment',
+        locale: false
+      },
+      {
         source: '/tr/favoriler',
         destination: '/tr/favorites',
         locale: false

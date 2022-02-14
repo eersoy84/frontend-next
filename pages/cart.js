@@ -20,6 +20,7 @@ import RatingPoint from '../components/shared/RatingPoint'
 import { useSession } from 'next-auth/react';
 // data stubs
 import theme from '../data/theme';
+import { ArrowRoundedRight8x13Svg } from '../svg';
 
 export default function ShopPageCart() {
     const [cartInstance, setCartInstance] = useState({});
@@ -170,7 +171,7 @@ export default function ShopPageCart() {
                                     <InputNumber
                                         onChange={(amount) => handleChangeQuantity(item.adId, amount)}
                                         value={item.amount}
-                                        min={10}
+                                        min={1}
                                         size="sm"
                                         readOnly
                                     />
@@ -291,13 +292,14 @@ export default function ShopPageCart() {
                                 {session
                                     ? (
                                         <Link
-                                            href="/checkout#delivery">
+                                            href="/odeme">
                                             <a
-                                                className="btn btn-primary btn-lg w-100 mt-3"
+                                                className="d-flex align-items-center justify-content-evenly btn btn-primary btn-lg w-100 mt-3"
                                                 style={{ borderRadius: '10px' }}
                                             >
-                                                <span>Sepeti Onayla</span>&nbsp;&nbsp;
-                                                <Image src="/icons/arrow-rounded-right-8x13.svg" className="prev_arrow_custom" height={10} width={10} />
+                                                <span>Sepeti Onayla</span>
+                                                <ArrowRoundedRight8x13Svg />
+                                                {/* <Image src="/icons/arrow-rounded-right-8x13.svg" className="prev_arrow_custom" height={15} width={15} /> */}
                                             </a>
                                         </Link>
                                     )
@@ -309,8 +311,8 @@ export default function ShopPageCart() {
                                                 className="btn btn-primary btn-lg w-100 mt-3"
                                                 style={{ borderRadius: '10px' }}
                                             >
-                                                <span>Sepeti Onayla</span>&nbsp;&nbsp;
-                                                <Image src="/icons/arrow-rounded-right-8x13.svg" className="prev_arrow_custom" height={10} width={10} />
+                                                <span>Sepeti Onayla</span>
+                                                <ArrowRoundedRight8x13Svg />
                                             </a>
                                         </Link>
                                     )}
@@ -367,23 +369,21 @@ export default function ShopPageCart() {
                                         {session
                                             ? (
                                                 <Link
-                                                    href="/checkout#delivery" style={{ borderRadius: '10px' }}>
-                                                    <a className="btn btn-primary px-2 w-100"  >
+                                                    href="/odeme">
+                                                    <a className="d-flex align-items-center justify-content-evenly btn btn-primary btn-lg w-100 mt-3"
+                                                        style={{ borderRadius: '10px' }}  >
                                                         <span style={{ fontSize: '12px' }}> Sepeti Onayla</span>
-                                                        <span className="ml-3">
-                                                            <Image src="/icons/arrow-rounded-right-8x13.svg" className="prev_arrow_custom" height={10} width={10} />
-                                                        </span>
+                                                        <ArrowRoundedRight8x13Svg />
                                                     </a>
                                                 </Link>
                                             )
                                             : (
                                                 <Link
-                                                    href="/hesap/cikis" style={{ borderRadius: '10px' }}>
-                                                    <a className="btn btn-primary px-2 w-100"  >
+                                                    href="/hesap/cikis">
+                                                    <a className="d-flex align-items-center justify-content-evenly btn btn-primary btn-lg w-100 mt-3"
+                                                        style={{ borderRadius: '10px' }}  >
                                                         <span style={{ fontSize: '12px' }}> Sepeti Onayla</span>
-                                                        <span className="ml-3">
-                                                            <Image src="/icons/arrow-rounded-right-8x13.svg" className="prev_arrow_custom" height={10} width={10} />
-                                                        </span>
+                                                        <ArrowRoundedRight8x13Svg />
                                                     </a>
                                                 </Link>
                                             )}

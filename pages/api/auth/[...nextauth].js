@@ -8,7 +8,7 @@ const options = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: "email", type: "text", placeholder: "jsmith" },
+                email: { label: "email", type: "text" },
                 password: { label: "password", type: "password" }
             },
             async authorize(credentials, req) {

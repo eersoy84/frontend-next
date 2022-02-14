@@ -161,30 +161,18 @@ class AccountPageRegister extends Component {
                         />
                         {this.validator.message('şifre', password, 'required|min:6|max:50', { className: 'payment_credit_card_validation' })}
                     </div>
-                    {/* <div className="form-group">
-                                                <label htmlFor="confirm_password">Şifre (Tekrar)</label>
-                                                <input
-                                                    name="confirm_password"
-                                                    type="password"
-                                                    placeholder="dsds"
-                                                    className="form-control"
-                                                    disabled={(password === null ? true : false) || (errors.password.length > 0 ? true : false)}
-
-                                                    onChange={this.handleChange}
-                                                />
-                                                {errors.confirm_password.length > 0 &&
-                                                    <span className='error' style={mystyle}>{errors.confirm_password}</span>}
-                                            </div> */}
-                    <button
-                        type="submit"
-                        className={classNames('btn btn-primary btn-lg btn-block'
-                        // , {
-                        //     'btn-loading': isLoading,
-                        // }
-                        )}
-                    >
-                        Üye ol
-                    </button>
+                    <div className='d-grid'>
+                        <button
+                            type="submit"
+                            className={classNames('btn btn-primary btn-lg'
+                                // , {
+                                //     'btn-loading': isLoading,
+                                // }
+                            )}
+                        >
+                            Üye ol
+                        </button>
+                    </div>
                     <div className="orDivider">veya</div>
 
                     <div className="row">

@@ -34,6 +34,7 @@ import ToolTip from './ToolTip';
 import RatingPoint from '../shared/RatingPoint'
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Cart16Svg, InfoIcon } from '../../svg';
 // import ChartView from './ChartView'
 
 function Product(props) {
@@ -344,9 +345,11 @@ function Product(props) {
                                     className="col-12 d-flex"
                                     data-tip data-for="shareInfo"
                                 >
-                                    <span><Image src={'/icons/info-icon.svg'} height={16} width={16} /></span>&nbsp;&nbsp;
+                                    <span>
+                                        <InfoIcon/>
+                                        </span>&nbsp;&nbsp;
                                     <span style={{ fontSize: '12px' }} className="pl-2 text-info">
-                                        İlanı arkadaşlarınıza paylaşarak, ürün fiyatının düşmesine katkı sağlayabilirsiniz
+                                        İlanı arkadaşlarınıza paylaşarak, ürün fiyatının düşmesine katkı sağlayabilirsiniz...
                                     </span>
                                 </div>
                                 <ToolTip id={'shareInfo'}
@@ -448,27 +451,25 @@ function Product(props) {
                                                         readOnly
                                                     />
                                                 </span>
-                                                <span>
-                                                    <AsyncAction
-                                                        action={() => dispatch(cartUpdate(cartId, ad.adId, amount))}
-                                                        render={({ run, loading }) => (
-                                                            <button
-                                                                style={{ borderRadius: '10px' }}
-                                                                type="submit"
-                                                                className={classNames('btn btn-primary', {
-                                                                    'btn-loading': loading,
-                                                                })}
-                                                                onClick={run}
-                                                            >
-                                                                <Image src={'/icons/cart-16.svg'} height={16} width={16} />
-                                                                &nbsp;&nbsp;&nbsp;
-                                                                <span style={{ fontSize: '14px' }}>
-                                                                    Sepete Ekle
-                                                                </span>
-                                                            </button>
-                                                        )}
-                                                    />
-                                                </span>
+                                                <AsyncAction
+                                                    action={() => dispatch(cartUpdate(cartId, ad.adId, amount))}
+                                                    render={({ run, loading }) => (
+                                                        <button
+                                                            style={{ borderRadius: '10px' }}
+                                                            type="submit"
+                                                            className={classNames('d-flex align-items-center btn btn-primary', {
+                                                                'btn-loading': loading,
+                                                            })}
+                                                            onClick={run}
+                                                        >
+                                                            {/* <Image src={'/icons/cart-16.svg'} height={18} width={18} /> */}
+                                                            <Cart16Svg />&nbsp;&nbsp;&nbsp;
+                                                            <span style={{ fontSize: '14px' }}>
+                                                                Sepete Ekle
+                                                            </span>
+                                                        </button>
+                                                    )}
+                                                />
                                             </div>
 
                                         </div>
@@ -507,15 +508,13 @@ function Product(props) {
                                                                 <button
                                                                     style={{ borderRadius: '10px' }}
                                                                     type="submit"
-                                                                    className={classNames('btn btn-primary', {
+                                                                    className={classNames('d-flex align-items-center btn btn-primary', {
                                                                         'btn-loading': loading,
                                                                     })}
                                                                     onClick={run}
                                                                 >
 
-                                                                    <span className="mr-3">
-                                                                        <Image src={'/icons/cart-16.svg'} height={16} width={16} />
-                                                                    </span>
+                                                                    <Cart16Svg/>&nbsp;&nbsp;
                                                                     <span style={{ fontSize: '14px' }}>
                                                                         Sepete Ekle
                                                                     </span>

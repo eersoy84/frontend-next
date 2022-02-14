@@ -42,38 +42,38 @@ export class CreateNewAdDeneme extends Component {
     };
   }
 
-    categoryList = () => {
-      const { selectedCategory } = this.state;
-      const { categories } = this.props;
-      return (
-        <div className="form-group">
-          <label htmlFor="category">Kategori</label>
-          <CreatableSelect
-                    // getNewOptionData={(value, label) => ({
-                    //     id: value,
-                    //     name: label,
-                    //     isNew: true
-                    // })}
-            name="category"
-                    // value={selectedCategory}
-            getOptionValue={(v) => v.id}
-            getOptionLabel={(v) => v.name}
-            onChange={this.handleCategoryChange}
-            onInputChange={this.handleCategoryInputChange}
-            options={categories}
-            onCreateOption={this.handleCreateCategory}
-            placeholder="kategori seçiniz..."
-          />
-          {this.validator.message('category', selectedCategory.id === 0, 'required', { className: 'text-danger' })}
-        </div>
-      );
-    }
+  categoryList = () => {
+    const { selectedCategory } = this.state;
+    const { categories } = this.props;
+    return (
+      <div className="form-group">
+        <label htmlFor="category">Kategori</label>
+        <CreatableSelect
+          // getNewOptionData={(value, label) => ({
+          //     id: value,
+          //     name: label,
+          //     isNew: true
+          // })}
+          name="category"
+          // value={selectedCategory}
+          getOptionValue={(v) => v.id}
+          getOptionLabel={(v) => v.name}
+          onChange={this.handleCategoryChange}
+          onInputChange={this.handleCategoryInputChange}
+          options={categories}
+          onCreateOption={this.handleCreateCategory}
+          placeholder="kategori seçiniz..."
+        />
+        {this.validator.message('category', selectedCategory.id === 0, 'required', { className: 'text-danger' })}
+      </div>
+    );
+  }
 
-    subCategoryList = () => {
-      const { subCategories } = this.state;
+  subCategoryList = () => {
+    const { subCategories } = this.state;
 
-      return (
-        (subCategories && subCategories.length > 0) && (
+    return (
+      (subCategories && subCategories.length > 0) && (
         <div className="form-group">
           <label htmlFor="subCategory">Alt Kategori</label>
           <CreatableSelect
@@ -88,36 +88,36 @@ export class CreateNewAdDeneme extends Component {
           {this.validator.message('alt kategori', this.state.selectedSubCategory, 'required', { className: 'text-danger' })}
 
         </div>
-        ));
-    }
+      ));
+  }
 
-    brandList = () => {
-      const { brands, selectedBrand } = this.state;
+  brandList = () => {
+    const { brands, selectedBrand } = this.state;
 
-      return (
-        (brands && brands.length > 0)
-            && (
-            <div className="form-group">
-              <label htmlFor="brands">Marka</label>
-              <CreatableSelect
-                value={selectedBrand}
-                getOptionValue={(v) => v.id}
-                getOptionLabel={(v) => v.name}
-                onChange={this.handleBrandChange}
-                onInputChange={this.handleBrandInputChange}
-                options={brands}
-                placeholder="marka seçiniz..."
-              />
+    return (
+      (brands && brands.length > 0)
+      && (
+        <div className="form-group">
+          <label htmlFor="brands">Marka</label>
+          <CreatableSelect
+            value={selectedBrand}
+            getOptionValue={(v) => v.id}
+            getOptionLabel={(v) => v.name}
+            onChange={this.handleBrandChange}
+            onInputChange={this.handleBrandInputChange}
+            options={brands}
+            placeholder="marka seçiniz..."
+          />
 
-            </div>
-            ));
-    }
+        </div>
+      ));
+  }
 
-    modelList = () => {
-      const { models, selectedModel } = this.state;
+  modelList = () => {
+    const { models, selectedModel } = this.state;
 
-      return (
-        (models && models.length > 0) && (
+    return (
+      (models && models.length > 0) && (
         <div className="form-group">
           <label htmlFor="models">Model</label>
           <CreatableSelect
@@ -131,329 +131,329 @@ export class CreateNewAdDeneme extends Component {
           />
 
         </div>
-        ));
-    }
+      ));
+  }
 
-    deneme = (actionMeta) => {
-      console.log(actionMeta.action);
-    }
+  deneme = (actionMeta) => {
+    console.log(actionMeta.action);
+  }
 
-    handleCategoryChange = (newValue) => {
-      const { categories } = this.props;
-      console.log('categories=>', categories);
+  handleCategoryChange = (newValue) => {
+    const { categories } = this.props;
+    console.log('categories=>', categories);
 
+    this.setState(
+      {
+        selectedCategory: newValue,
+        selectedSubCategory: { id: 0, name: 'alt kategori seçiniz...' },
+        selectedBrand: { id: 0, name: 'marka seçiniz...' },
+        selectedModel: { id: 0, productId: 0, name: '' },
+        subCategories: [],
+        brands: [],
+        models: [],
+      },
+    );
+    const category = categories && categories.find((q) => q.id === parseInt(newValue.id));
+    const { subCategories, brands } = category;
+    if (category && category.subCategories?.length > 0) {
       this.setState(
         {
-          selectedCategory: newValue,
-          selectedSubCategory: { id: 0, name: 'alt kategori seçiniz...' },
-          selectedBrand: { id: 0, name: 'marka seçiniz...' },
-          selectedModel: { id: 0, productId: 0, name: '' },
-          subCategories: [],
+          subCategories, // : category.subCategories,
           brands: [],
-          models: [],
         },
       );
-      const category = categories && categories.find((q) => q.id === parseInt(newValue.id));
-      const { subCategories, brands } = category;
-      if (category && category.subCategories?.length > 0) {
-        this.setState(
-          {
-            subCategories, // : category.subCategories,
-            brands: [],
-          },
-        );
-      } else {
-        this.setState(
-          {
-            subCategories: [],
-            brands, // : category.brands
-          },
-        );
-      }
-    };
-
-    handleCreateCategory = (inputValue, actionMeta) => {
-      const newCategories = this.state.categories;
-      const newCategory = { id: 0, name: inputValue };
-      newCategories.push(newCategory);
+    } else {
       this.setState(
         {
-          newCategory: { id: 0, name: inputValue },
-          categories: newCategories,
+          subCategories: [],
+          brands, // : category.brands
         },
       );
+    }
+  };
 
-      console.log(inputValue);
-      console.groupEnd();
+  handleCreateCategory = (inputValue, actionMeta) => {
+    const newCategories = this.state.categories;
+    const newCategory = { id: 0, name: inputValue };
+    newCategories.push(newCategory);
+    this.setState(
+      {
+        newCategory: { id: 0, name: inputValue },
+        categories: newCategories,
+      },
+    );
+
+    console.log(inputValue);
+    console.groupEnd();
+  };
+
+  handleSubCategoryChange = (newValue, actionMeta) => {
+    const { subCategories } = this.state;
+    const subCategory = subCategories && subCategories.find((q) => q.id === parseInt(newValue.id));
+
+    this.setState(
+      {
+        selectedSubCategory: newValue,
+        selectedBrand: { id: 0, name: 'marka seçiniz...' },
+        selectedModel: { id: 0, productId: 0, name: 'model seçiniz...' },
+        brands: subCategory.brands,
+        models: [],
+      },
+    );
+  };
+
+  handleSubCategoryInputChange = (inputValue, actionMeta) => {
+
+  };
+
+  handleBrandChange = (newValue, actionMeta) => {
+    const { brands } = this.state;
+    const brand = brands && brands.find((q) => q.id === parseInt(newValue.id));
+    this.setState(
+      {
+        selectedBrand: newValue,
+        selectedModel: { id: 0, productId: 0, name: 'model seçiniz...' },
+        models: brand.models,
+      },
+    );
+  };
+
+  handleBrandInputChange = (inputValue, actionMeta) => {
+
+  };
+
+  handleModelChange = (newValue, actionMeta) => {
+    this.setState(
+      {
+        selectedModel: newValue,
+      },
+    );
+  };
+
+  handleModelInputChange = (inputValue, actionMeta) => {
+
+  };
+
+  handlePrice = (values) => {
+    this.setState({ price: values.value });
+  }
+
+  handleDiscountPercent = (values) => {
+    this.setState({ maxDiscountPercent: values.value });
+  }
+
+  handleQuantity = (values) => {
+    this.setState({ quantity: values.value });
+  }
+
+  handleEndDay = (values) => {
+    this.setState({ endDay: values.value });
+  }
+
+  handleMinParticipant = (values) => {
+    this.setState({ minParticipant: values.value });
+  }
+
+  handleMaxParticipant = (values) => {
+    this.setState({ maxParticipant: values.value });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const {
+      selectedModel, price, quantity,
+      maxDiscountPercent, endDay,
+      minParticipant, maxParticipant,
+    } = this.state;
+    if (selectedModel.productId === 0) {
+      return;
+    }
+    if (!this.validator.allValid()) {
+      this.validator.showMessages();
+      this.forceUpdate();
+      return;
+    }
+    if (selectedModel.id === 0) {
+      toast.info('Lütfen model kategorisinden seçim yapınız!');
+      return;
+    }
+    const ProductFeatureModel = {
+      ProductId: selectedModel.productId,
+      MinParticipants: parseInt(minParticipant),
+      MaxParticipants: parseInt(maxParticipant),
+      MaxDiscountPercent: parseFloat(maxDiscountPercent) / 100,
+      ProductPrice: parseFloat(price),
+      Quantity: parseInt(quantity),
+      EndDay: parseInt(endDay),
     };
+    this.props.createAd(ProductFeatureModel);
+    console.log('productFeatureModel', ProductFeatureModel);
+    console.log('submit', this.state);
+  }
 
-    handleSubCategoryChange = (newValue, actionMeta) => {
-      const { subCategories } = this.state;
-      const subCategory = subCategories && subCategories.find((q) => q.id === parseInt(newValue.id));
+  limitMaxDiscountPercent(values) {
+    const { floatValue } = values;
+    return floatValue > 0 && floatValue < 100;
+  }
 
-      this.setState(
-        {
-          selectedSubCategory: newValue,
-          selectedBrand: { id: 0, name: 'marka seçiniz...' },
-          selectedModel: { id: 0, productId: 0, name: 'model seçiniz...' },
-          brands: subCategory.brands,
-          models: [],
-        },
-      );
-    };
+  limitMaxEndDay(values) {
+    const { value } = values;
+    return value >= 0 && value < 31;
+  }
 
-    handleSubCategoryInputChange = (inputValue, actionMeta) => {
+  render() {
+    const {
+      selectedCategory,
+      selectedSubCategory,
+      selectedBrand,
+      selectedModel,
+      photo, price, quantity,
+      maxDiscountPercent, endDay,
+      minParticipant, maxParticipant,
+    } = this.state;
+    const isProductExist = selectedModel.productId == 0;
+    console.log("selectedModel", selectedModel)
 
-    };
+    return (
+      <>
+        <Helmet>
+          <title>{`Yeni İlan Ekle — ${theme.name}`}</title>
+        </Helmet>
 
-    handleBrandChange = (newValue, actionMeta) => {
-      const { brands } = this.state;
-      const brand = brands && brands.find((q) => q.id === parseInt(newValue.id));
-      this.setState(
-        {
-          selectedBrand: newValue,
-          selectedModel: { id: 0, productId: 0, name: 'model seçiniz...' },
-          models: brand.models,
-        },
-      );
-    };
+        {/* <PageHeader header="Yeni İlan" breadcrumb={breadcrumb} /> */}
 
-    handleBrandInputChange = (inputValue, actionMeta) => {
+        <div className="block">
+          <div className="container">
 
-    };
+            <form onSubmit={this.handleSubmit} noValidate>
+              <div className="row">
 
-    handleModelChange = (newValue, actionMeta) => {
-      this.setState(
-        {
-          selectedModel: newValue,
-        },
-      );
-    };
+                <div className="col-lg-4">
+                  <p><strong>Kategoriler</strong></p>
 
-    handleModelInputChange = (inputValue, actionMeta) => {
+                  {this.categoryList()}
+                  {this.subCategoryList()}
+                  {this.brandList()}
+                  {this.modelList()}
 
-    };
+                </div>
 
-    handlePrice = (values) => {
-      this.setState({ price: values.value });
-    }
+                {isProductExist
+                  && (
+                    <>
+                      <div className="col-lg-4">
+                        <p><strong>İlan Bilgileri</strong></p>
 
-    handleDiscountPercent = (values) => {
-      this.setState({ maxDiscountPercent: values.value });
-    }
+                        <div className="row">
 
-    handleQuantity = (values) => {
-      this.setState({ quantity: values.value });
-    }
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label htmlFor="price">Ürün Fiyatı</label>
+                              <NumberFormat
+                                thousandSeparator
+                                suffix=" ₺"
+                                name="price"
+                                className="form-control"
+                                onValueChange={this.handlePrice}
+                                value={price}
+                              />
+                              {this.validator.message('price', price, 'required', { className: 'text-danger' })}
+                            </div>
+                          </div>
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label htmlFor="discountPercent">Max. İndirim Oranı</label>
+                              <NumberFormat
+                                prefix="% "
+                                isAllowed={this.limitMaxDiscountPercent}
+                                name="discountPercent"
+                                className="form-control"
+                                onValueChange={this.handleDiscountPercent}
+                                value={maxDiscountPercent}
+                              />
+                              {this.validator.message('maxDiscountPercent', maxDiscountPercent, 'required', { className: 'text-danger' })}
+                            </div>
 
-    handleEndDay = (values) => {
-      this.setState({ endDay: values.value });
-    }
+                          </div>
 
-    handleMinParticipant = (values) => {
-      this.setState({ minParticipant: values.value });
-    }
+                        </div>
 
-    handleMaxParticipant = (values) => {
-      this.setState({ maxParticipant: values.value });
-    }
+                        <div className="row">
 
-    handleSubmit = (event) => {
-      event.preventDefault();
-      const {
-        selectedModel, price, quantity,
-        maxDiscountPercent, endDay,
-        minParticipant, maxParticipant,
-      } = this.state;
-      if (selectedModel.productId === 0) {
-        return;
-      }
-      if (!this.validator.allValid()) {
-        this.validator.showMessages();
-        this.forceUpdate();
-        return;
-      }
-      if (selectedModel.id === 0) {
-        toast.info('Lütfen model kategorisinden seçim yapınız!');
-        return;
-      }
-      const ProductFeatureModel = {
-        ProductId: selectedModel.productId,
-        MinParticipants: parseInt(minParticipant),
-        MaxParticipants: parseInt(maxParticipant),
-        MaxDiscountPercent: parseFloat(maxDiscountPercent) / 100,
-        ProductPrice: parseFloat(price),
-        Quantity: parseInt(quantity),
-        EndDay: parseInt(endDay),
-      };
-      this.props.createAd(ProductFeatureModel);
-      console.log('productFeatureModel', ProductFeatureModel);
-      console.log('submit', this.state);
-    }
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label htmlFor="quantity">Miktar/Adet</label>
+                              <NumberFormat
+                                name="quantity"
+                                decimalSeparator={false}
+                                className="form-control"
+                                onValueChange={this.handleQuantity}
+                                value={quantity}
+                              />
+                              {this.validator.message('quantity', quantity, 'required', { className: 'text-danger' })}
 
-    limitMaxDiscountPercent(values) {
-      const { floatValue } = values;
-      return floatValue > 0 && floatValue < 100;
-    }
+                            </div>
+                          </div>
 
-    limitMaxEndDay(values) {
-      const { value } = values;
-      return value >= 0 && value < 31;
-    }
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label htmlFor="endDay">İlan Süresi</label>
+                              <NumberFormat
+                                isAllowed={this.limitMaxEndDay}
+                                suffix=" gün"
+                                name="endDay"
+                                decimalSeparator={false}
+                                className="form-control"
+                                onValueChange={this.handleEndDay}
+                                value={endDay}
+                              />
+                              {this.validator.message('endDay', endDay, 'required', { className: 'text-danger' })}
 
-    render() {
-      const {
-        selectedCategory,
-        selectedSubCategory,
-        selectedBrand,
-        selectedModel,
-        photo, price, quantity,
-        maxDiscountPercent, endDay,
-        minParticipant, maxParticipant,
-      } = this.state;
-      const isProductExist = selectedModel.productId == 0;
-      console.log("selectedModel",selectedModel)
+                            </div>
+                          </div>
+                        </div>
 
-      return (
-        <>
-          <Helmet>
-            <title>{`Yeni İlan Ekle — ${theme.name}`}</title>
-          </Helmet>
+                        <div className="row">
 
-          {/* <PageHeader header="Yeni İlan" breadcrumb={breadcrumb} /> */}
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label htmlFor="minParticipant">Min. Katılımcı</label>
+                              <NumberFormat
+                                suffix=" kişi"
+                                name="minParticipant"
+                                decimalSeparator={false}
+                                className="form-control"
+                                onValueChange={this.handleMinParticipant}
+                                value={minParticipant}
+                              />
+                              {this.validator.message('minParticipant', minParticipant, 'required', { className: 'text-danger' })}
 
-          <div className="block">
-            <div className="container">
+                            </div>
+                          </div>
 
-              <form onSubmit={this.handleSubmit} noValidate>
-                <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label htmlFor="maxParticipant">Max. Katılımcı</label>
+                              <NumberFormat
+                                suffix=" kişi"
+                                name="maxParticipant"
+                                decimalSeparator={false}
+                                className="form-control"
+                                onValueChange={this.handleMaxParticipant}
+                                value={maxParticipant}
+                              />
+                              {this.validator.message('maxParticipant', maxParticipant, 'required', { className: 'text-danger' })}
 
-                  <div className="col-lg-4">
-                    <p><strong>Kategoriler</strong></p>
+                            </div>
+                          </div>
+                        </div>
 
-                    {this.categoryList()}
-                    {this.subCategoryList()}
-                    {this.brandList()}
-                    {this.modelList()}
+                      </div>
 
-                  </div>
+                      <div className="col-lg-4">
+                        <p><strong>Ürün Özellikleri</strong></p>
 
-                  {isProductExist
-                                    && (
-                                    <>
-                                      <div className="col-lg-4">
-                                        <p><strong>İlan Bilgileri</strong></p>
-
-                                        <div className="row">
-
-                                          <div className="col-lg-6">
-                                            <div className="form-group">
-                                              <label htmlFor="price">Ürün Fiyatı</label>
-                                              <NumberFormat
-                                                thousandSeparator
-                                                suffix=" ₺"
-                                                name="price"
-                                                className="form-control"
-                                                onValueChange={this.handlePrice}
-                                                value={price}
-                                              />
-                                              {this.validator.message('price', price, 'required', { className: 'text-danger' })}
-                                            </div>
-                                          </div>
-                                          <div className="col-lg-6">
-                                            <div className="form-group">
-                                              <label htmlFor="discountPercent">Max. İndirim Oranı</label>
-                                              <NumberFormat
-                                                prefix="% "
-                                                isAllowed={this.limitMaxDiscountPercent}
-                                                name="discountPercent"
-                                                className="form-control"
-                                                onValueChange={this.handleDiscountPercent}
-                                                value={maxDiscountPercent}
-                                              />
-                                              {this.validator.message('maxDiscountPercent', maxDiscountPercent, 'required', { className: 'text-danger' })}
-                                            </div>
-
-                                          </div>
-
-                                        </div>
-
-                                        <div className="row">
-
-                                          <div className="col-lg-6">
-                                            <div className="form-group">
-                                              <label htmlFor="quantity">Miktar/Adet</label>
-                                              <NumberFormat
-                                                name="quantity"
-                                                decimalSeparator={false}
-                                                className="form-control"
-                                                onValueChange={this.handleQuantity}
-                                                value={quantity}
-                                              />
-                                              {this.validator.message('quantity', quantity, 'required', { className: 'text-danger' })}
-
-                                            </div>
-                                          </div>
-
-                                          <div className="col-lg-6">
-                                            <div className="form-group">
-                                              <label htmlFor="endDay">İlan Süresi</label>
-                                              <NumberFormat
-                                                isAllowed={this.limitMaxEndDay}
-                                                suffix=" gün"
-                                                name="endDay"
-                                                decimalSeparator={false}
-                                                className="form-control"
-                                                onValueChange={this.handleEndDay}
-                                                value={endDay}
-                                              />
-                                              {this.validator.message('endDay', endDay, 'required', { className: 'text-danger' })}
-
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                        <div className="row">
-
-                                          <div className="col-lg-6">
-                                            <div className="form-group">
-                                              <label htmlFor="minParticipant">Min. Katılımcı</label>
-                                              <NumberFormat
-                                                suffix=" kişi"
-                                                name="minParticipant"
-                                                decimalSeparator={false}
-                                                className="form-control"
-                                                onValueChange={this.handleMinParticipant}
-                                                value={minParticipant}
-                                              />
-                                              {this.validator.message('minParticipant', minParticipant, 'required', { className: 'text-danger' })}
-
-                                            </div>
-                                          </div>
-
-                                          <div className="col-lg-6">
-                                            <div className="form-group">
-                                              <label htmlFor="maxParticipant">Max. Katılımcı</label>
-                                              <NumberFormat
-                                                suffix=" kişi"
-                                                name="maxParticipant"
-                                                decimalSeparator={false}
-                                                className="form-control"
-                                                onValueChange={this.handleMaxParticipant}
-                                                value={maxParticipant}
-                                              />
-                                              {this.validator.message('maxParticipant', maxParticipant, 'required', { className: 'text-danger' })}
-
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                      </div>
-
-                                      <div className="col-lg-4">
-                                        <p><strong>Ürün Özellikleri</strong></p>
-
-                                        {/* <div className="form-group">
+                        {/* <div className="form-group">
                                         <ImageUploader
                                             label={''}
                                             buttonText='Resim Ekle'
@@ -464,37 +464,40 @@ export class CreateNewAdDeneme extends Component {
 
                                     </div> */}
 
-                                      </div>
-                                    </>
-                                    )}
+                      </div>
+                    </>
+                  )}
 
-                </div>
-                {isProductExist
-                                && (
-                                <div className="row">
-                                  <div className="col-lg-4" />
-                                  <div className="col-lg-4" />
-                                  <div className="col-lg-4">
+              </div>
+              {isProductExist
+                && (
+                  <div className="row">
+                    <div className="col-lg-4" />
+                    <div className="col-lg-4" />
+                    <div className="col-lg-4">
 
-                                    <div style={{
-                                      display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch',
-                                    }}
-                                    >
-                                      <button type="submit" className="btn btn-primary btn-lg btn-block">
-                                        Yeni İlan Ekle
-                                      </button>
-                                    </div>
-                                  </div>
+                      <div style={{
+                        display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch',
+                      }}
+                      >
+                        <div className="d-grid">
 
-                                </div>
-                                )}
+                          <button type="submit" className="btn btn-primary btn-lg">
+                            Yeni İlan Ekle
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
-              </form>
-            </div>
+                  </div>
+                )}
+
+            </form>
           </div>
-        </>
-      );
-    }
+        </div>
+      </>
+    );
+  }
 }
 CreateNewAdDeneme.propTypes = {
   values: array,

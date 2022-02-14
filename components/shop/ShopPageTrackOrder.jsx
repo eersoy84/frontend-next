@@ -70,10 +70,10 @@ function ShopPageTrackOrder() {
                                             />
                                             {validator.current?.message('sipariş numarası', cartId, 'required|min:8', { className: 'payment_credit_card_validation' })}
                                         </div>
-                                        <div className="pt-3">
+                                        <div className="pt-3 d-grid">
                                             <button
                                                 type="submit"
-                                                className="btn btn-primary btn-lg btn-block">Sorgula
+                                                className="btn btn-primary btn-lg">Sorgula
                                             </button>
                                         </div>
                                     </form>

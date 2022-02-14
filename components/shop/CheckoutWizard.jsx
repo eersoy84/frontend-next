@@ -332,11 +332,11 @@ export default function CheckoutWizard(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="d-none d-lg-block">
+                                    <div className="d-none d-lg-block d-grid">
                                         <button
                                             style={{ borderRadius: '10px' }}
                                             type="submit"
-                                            className={classNames('btn btn-primary btn-lg btn-block mt-3', {
+                                            className={classNames('btn btn-primary btn-lg mt-3', {
                                                 'btn-loading': false,
                                             })}
                                             onClick={() => renderConditions()}
@@ -374,11 +374,11 @@ export default function CheckoutWizard(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 d-flex justify-content-end align-items-center">
+                                                <div className="col-6 d-flex justify-content-end align-items-center d-grid">
                                                     <button
                                                         style={{ borderRadius: '10px' }}
                                                         type="submit"
-                                                        className={classNames('btn btn-primary btn-block', {
+                                                        className={classNames('btn btn-primary', {
                                                             'btn-loading': false,
                                                         })}
 

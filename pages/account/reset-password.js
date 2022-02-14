@@ -151,10 +151,10 @@ class AccountPagePassword extends Component {
                       && <span className="error" style={mystyle}>{errors.newPasswordConfirm}</span>}
                   </div>
 
-                  <div className="form-group mt-5 mb-0">
+                  <div className="form-group mt-5 mb-0 d-grid">
                     <button
                       type="submit"
-                      className={classNames('btn btn-primary btn-block', {
+                      className={classNames('btn btn-primary', {
                         'btn-loading': isLoading,
                       })}
                       disabled={!isEnabled}

@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import { useEffect } from 'react'
 import 'react-toastify/dist/ReactToastify.min.css';
 // import 'react-input-range/lib/css/index.css';
-// import { Provider } from "react-redux";
 
 import { SessionProvider } from "next-auth/react"
 
@@ -24,6 +23,7 @@ function Main({ Component, pageProps }) {
       window.scrollTo(0, 0);
     }, 1000)
   }, [pathname]);
+
   return (
     <>
       <Head>
@@ -31,7 +31,8 @@ function Main({ Component, pageProps }) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" />
       </Head>
       <SessionProvider session={pageProps.session}
-        refetchOnWindowFocus={false}>
+        refetchOnWindowFocus={false}
+        >
         <IntlProvider locale={'tr'} messages={messages} direction={direction}>
           <Layout>
             <Component {...pageProps} />

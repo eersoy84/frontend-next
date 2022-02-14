@@ -421,17 +421,19 @@ export default function AddressModal(props) {
 
                 </ModalBody>
                 <ModalFooter>
-                    <button
-                        type="submit"
-                        className={classNames('btn btn-primary btn-block', {
-                            'btn-loading': false,
-                        })}
-                        style={{ borderRadius: '5px' }}
-                        // disabled={!isEnabled}
-                        onClick={handleSubmit}
-                    >
-                        Kaydet
-                    </button>
+                    <div className="d-grid">
+                        <button
+                            type="submit"
+                            className={classNames('btn btn-primary', {
+                                'btn-loading': false,
+                            })}
+                            style={{ borderRadius: '5px' }}
+                            // disabled={!isEnabled}
+                            onClick={handleSubmit}
+                        >
+                            Kaydet
+                        </button>
+                    </div>
                 </ModalFooter>
             </form>
 

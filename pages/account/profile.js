@@ -91,9 +91,9 @@ class AccountPageProfile extends Component {
                                         />
                                         {this.validator.message('soyisim', lastName, 'required|min:2', { className: 'payment_credit_card_validation' })}
                                     </div>
-                                    <div className="form-group mt-5 mb-0">
+                                    <div className="form-group mt-5 mb-0 d-grid">
                                         <button type="submit"
-                                            className="btn btn-primary btn-block"
+                                            className="btn btn-primary"
                                         // disabled={!isEnabled}
                                         >Kaydet</button>
                                     </div>

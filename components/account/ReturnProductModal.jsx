@@ -200,16 +200,18 @@ export default function ReturnProductModal(props) {
                     </span>
                 </ModalBody>
                 <ModalFooter>
-                    <button
-                        type="submit"
-                        className={classNames('btn btn-primary btn-block', {
-                            'btn-loading': isLoading,
-                        })}
-                        style={{ borderRadius: '5px' }}
-                        disabled={!enabled}
-                    >
-                        Ürünü İade Et
-                    </button>
+                    <div className="d-grid">
+                        <button
+                            type="submit"
+                            className={classNames('btn btn-primary', {
+                                'btn-loading': isLoading,
+                            })}
+                            style={{ borderRadius: '5px' }}
+                            disabled={!enabled}
+                        >
+                            Ürünü İade Et
+                        </button>
+                    </div>
                 </ModalFooter>
             </form>
         </Modal>

@@ -7,12 +7,14 @@ import classNames from "classnames";
 import Link from 'next/link'
 import Image from 'next/image'
 import Search from '../../components/header/Search'
+import { useSession } from "next-auth/react";
 const MobileHeader = () => {
-    const { favorites, cart, user } = useSelector((state) => ({
+    const { favorites, cart } = useSelector((state) => ({
         favorites: state.userAccount.favorites,
         cart: state.cart,
-        user: state.userAccount.user
     }), shallowEqual);
+    const { data: session } = useSession()
+    const user = session?.user
     const [searchOpen, setSearchOpen] = useState(false)
     const searchInput = useRef()
     const dispatch = useDispatch()
@@ -72,8 +74,8 @@ const MobileHeader = () => {
                 <div className="form-group-avatar-icon account-menu__form-button-user-icon">
                     <Link href="/hesap/cikis/1">
                         <a>
-                            <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-                                <button type="submit" className="btn btn-primary btn-sm btn-block">Giriş Yap</button>
+                            <div style={{ paddingLeft: '10px', paddingRight: '10px' }} className='d-grid'>
+                                <button type="submit" className="btn btn-primary btn-sm">Giriş Yap</button>
                             </div>
                         </a>
                     </Link>
@@ -83,8 +85,8 @@ const MobileHeader = () => {
                 </div>
                 <div className="form-group-avatar-icon account-menu__form-button-user-icon">
                     <Link href="/hesap/cikis/2">
-                        <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-                            <button type="submit" className="btn btn-secondary btn-sm btn-block">Üye Ol</button>
+                        <div style={{ paddingLeft: '10px', paddingRight: '10px' }} className='d-grid'>
+                            <button type="submit" className="btn btn-secondary btn-sm">Üye Ol</button>
                         </div>
                     </Link>
                 </div>
@@ -136,7 +138,7 @@ const MobileHeader = () => {
                                 <Indicator
                                     className="indicator--mobile"
                                     url="/sepet"
-                                    value={((cart?.items?.length > 0 && cart?.info?.status === 'created') ? cart?.items?.length : undefined)}
+                                    value={cart?.items?.length > 0 ? cart?.items?.length : undefined}
                                     icon={<Image src="/icons/cart-20.svg" height={20} width={20} />}
 
                                 />

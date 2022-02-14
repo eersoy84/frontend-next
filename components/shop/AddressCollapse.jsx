@@ -1,5 +1,5 @@
 // react
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 // third-party
@@ -12,10 +12,16 @@ import AddressModal from './AddressModal';
 import NumberFormat from 'react-number-format';
 
 import addressInfo from '../../helpers/addressInfo';
-import Ripples from 'react-ripples';
+import { useSession } from 'next-auth/react';
 
 export default function AddressCollapse(props) {
     const { isBillingSame, shippingAddress, billingAddress } = props;
+
+    const { address } = useSelector((state) => ({
+        address: state.profile.address,
+    }), shallowEqual);
+    const { data: session } = useSession();
+    const user = session?.user
 
     const [selectedShippingAddressId, setSelectedShippingAddressId] = useState(() => JSON.parse(localStorage.getItem('selectedShippingAddressId')) || 0);
     const [selectedBillingAddressId, setSelectedBillingAddressId] = useState(() => JSON.parse(localStorage.getItem('selectedBillingAddressId')) || 0);
@@ -26,19 +32,20 @@ export default function AddressCollapse(props) {
     const [modalHeader, setModalHeader] = useState('');
     const [shippingHeader, setShippingHeader] = useState('');
     const [billingHeader, setBillingHeader] = useState('');
-    const dispatch = useDispatch();
 
-    const { address } = useSelector((state) => ({
-        address: state.profile.address,
-    }), shallowEqual);
 
-    useEffect(
-        () => {
-            localStorage.setItem('selectedShippingAddressId', selectedShippingAddressId);
-            localStorage.setItem('selectedBillingAddressId', selectedBillingAddressId);
-            localStorage.setItem('billingAddressCheck', billingAddressCheck);
-        }, [billingAddressCheck, selectedShippingAddressId, selectedBillingAddressId],
-    );
+    useEffect(() => {
+        localStorage.setItem('billingAddressCheck', billingAddressCheck)
+    }, [billingAddressCheck])
+
+    useEffect(() => {
+        localStorage.setItem('selectedShippingAddressId', selectedShippingAddressId);
+    }, [selectedShippingAddressId])
+
+    useEffect(() => {
+        localStorage.setItem('selectedBillingAddressId', selectedBillingAddressId);
+    }, [selectedBillingAddressId])
+
 
     const [isShippingOpen, setIsShippingOpen] = useState(false);
     const [isBillingOpen, setIsBillingOpen] = useState(false);
@@ -46,104 +53,98 @@ export default function AddressCollapse(props) {
     const toggleShipping = () => setIsShippingOpen(!isShippingOpen);
     const toggleBilling = () => setIsBillingOpen(!isBillingOpen);
 
-    const getShippingAddressList = (address) => address && address.length > 0 && address.map((addressItem, index) => !addressItem.hidden && (
-        <React.Fragment key={index}>
-            <div className="col-12 col-sm-6 col-md-4 mt-4">
-                <div className="shop_page_checkout_item_card_radio">
-                    <div className="shop_page_checkout_item_card_radio_button">
-                        <span className="filter-list__input input-radio">
-                            <span className="input-radio__body">
-                                <input
-                                    type="radio"
-                                    className="input-radio__input"
-                                    name="shipping_address"
-                                    value={addressItem.id}
-                                    checked={selectedShippingAddressId === addressItem.id}
-                                    onChange={handleShippingChange}
-                                />
-                                <span className="input-radio__circle" />
-                            </span>
+    const getShippingAddressList = address => address?.length > 0 && address.map((addressItem) => !addressItem.hidden && (
+        <div className="col-12 col-sm-6 col-md-4 mt-4" key={addressItem.id}>
+            <div className="shop_page_checkout_item_card_radio">
+                <div className="shop_page_checkout_item_card_radio_button">
+                    <span className="filter-list__input input-radio">
+                        <span className="input-radio__body">
+                            <input
+                                type="radio"
+                                className="input-radio__input"
+                                name="shipping_address"
+                                value={addressItem.id}
+                                checked={selectedShippingAddressId === addressItem.id}
+                                onChange={handleShippingChange}
+                            />
+                            <span className="input-radio__circle" />
                         </span>
-                        <span className="radio_button-title">{addressItem.addressTitle}</span>
-                    </div>
-                    <div className="shop_page_checkout_item_card_edit">
-                        <button
-                            type="button"
-                            onClick={() => editModal(addressItem, false)}
-                            className="btn btn_edit"
-                        >
-                            <i className="fas fa-pencil-alt" />
-                        </button>
-                    </div>
+                    </span>
+                    <span className="radio_button-title">{addressItem.addressTitle}</span>
                 </div>
-                <div
-                    style={{ borderRadius: '10px' }}
-                    className={classNames('shop_page_checkout_item_card', {
-                        'shop_page_checkout_item_card--active': selectedShippingAddressId === addressItem.id,
-                    })}
-
-                    onClick={() => handleShippingAreaClicked(addressItem)}
-                >
-                    <div
-                        className="address-card__body"
-                        style={{ border: '2px solid #f5f5f5', borderRadius: '10px' }}
+                <div className="shop_page_checkout_item_card_edit">
+                    <button
+                        type="button"
+                        onClick={() => editModal(addressItem, false)}
+                        className="btn btn_edit"
                     >
-                        {addressInfo(addressItem, null)}
-                    </div>
+                        <i className="fas fa-pencil-alt" />
+                    </button>
                 </div>
             </div>
+            <div
+                style={{ borderRadius: '10px' }}
+                className={classNames('shop_page_checkout_item_card', {
+                    'shop_page_checkout_item_card--active': selectedShippingAddressId === addressItem.id,
+                })}
 
-        </React.Fragment>
+                onClick={() => handleShippingAreaClicked(addressItem)}
+            >
+                <div
+                    className="address-card__body"
+                    style={{ border: '2px solid #f5f5f5', borderRadius: '10px' }}
+                >
+                    {addressInfo(addressItem, null, user)}
+                </div>
+            </div>
+        </div>
     ));
 
-    const getBillingAddressList = (address) => address && address.length > 0 && address.map((addressItem, index) => !addressItem.hidden && (
-        <React.Fragment key={index}>
-            <div className="col-12 col-sm-6 col-md-4 mt-4">
-                <div className="shop_page_checkout_item_card_radio">
-                    <div className="shop_page_checkout_item_card_radio_button">
-                        <span className="filter-list__input input-radio">
-                            <span className="input-radio__body">
-                                <input
-                                    type="radio"
-                                    className="input-radio__input"
-                                    name="billing_address"
-                                    value={addressItem.id}
-                                    checked={selectedBillingAddressId == addressItem.id}
-                                    onChange={handleBillingChange}
-                                />
-                                <span className="input-radio__circle" />
-                            </span>
+    const getBillingAddressList = address => address?.length > 0 && address?.map((addressItem) => !addressItem.hidden && (
+        <div className="col-12 col-sm-6 col-md-4 mt-4" key={addressItem.id}>
+            <div className="shop_page_checkout_item_card_radio">
+                <div className="shop_page_checkout_item_card_radio_button">
+                    <span className="filter-list__input input-radio">
+                        <span className="input-radio__body">
+                            <input
+                                type="radio"
+                                className="input-radio__input"
+                                name="billing_address"
+                                value={addressItem.id}
+                                checked={selectedBillingAddressId == addressItem.id}
+                                onChange={handleBillingChange}
+                            />
+                            <span className="input-radio__circle" />
                         </span>
-                        <span className="radio_button-title">{addressItem.addressTitle}</span>
-                    </div>
-                    <div className="shop_page_checkout_item_card_edit">
-                        <button
-                            type="button"
-                            onClick={() => editModal(addressItem, false)}
-                            className="btn btn_edit"
-                        >
-                            <i className="fas fa-pencil-alt" />
-                        </button>
-                    </div>
+                    </span>
+                    <span className="radio_button-title">{addressItem.addressTitle}</span>
                 </div>
-                <div
-                    style={{ borderRadius: '10px' }}
-                    className={classNames('shop_page_checkout_item_card', {
-                        'shop_page_checkout_item_card--active': selectedBillingAddressId === addressItem.id,
-                    })}
-                    onClick={() => handleBillingAreaClicked(addressItem)}
-                >
-
-                    <div
-                        className="address-card__body"
-                        style={{ border: '2px solid #f5f5f5', borderRadius: '10px' }}
+                <div className="shop_page_checkout_item_card_edit">
+                    <button
+                        type="button"
+                        onClick={() => editModal(addressItem, false)}
+                        className="btn btn_edit"
                     >
-                        {addressInfo(addressItem, null)}
-                    </div>
+                        <i className="fas fa-pencil-alt" />
+                    </button>
                 </div>
             </div>
+            <div
+                style={{ borderRadius: '10px' }}
+                className={classNames('shop_page_checkout_item_card', {
+                    'shop_page_checkout_item_card--active': selectedBillingAddressId === addressItem.id,
+                })}
+                onClick={() => handleBillingAreaClicked(addressItem)}
+            >
 
-        </React.Fragment>
+                <div
+                    className="address-card__body"
+                    style={{ border: '2px solid #f5f5f5', borderRadius: '10px' }}
+                >
+                    {addressInfo(addressItem, null, user)}
+                </div>
+            </div>
+        </div>
     ));
 
     const openModal = (val) => {
@@ -182,12 +183,15 @@ export default function AddressCollapse(props) {
         setSelectedBillingAddressId(id);
     };
     const handleAddressCheckBox = (event) => {
+        console.log("geldi")
         isBillingSame(event.target.checked);
         setBillingAddressCheck(event.target.checked);
     };
+    console.log("billingAddressCheck", billingAddressCheck)
+
     useEffect(() => {
         let result;
-        const addressItem = address.find(q => q.id === selectedShippingAddressId);
+        const addressItem = address?.find(q => q.id === selectedShippingAddressId);
         setShippingHeader(() => {
             if (addressItem) {
                 result = (
@@ -255,7 +259,7 @@ export default function AddressCollapse(props) {
 
     useEffect(() => {
         let result;
-        const addressItem = address.find((q) => q.id === selectedBillingAddressId);
+        const addressItem = address?.find((q) => q.id === selectedBillingAddressId);
         setBillingHeader(() => {
             if (addressItem) {
                 result = (
@@ -343,9 +347,8 @@ export default function AddressCollapse(props) {
                                         className="input-check__input"
                                         type="checkbox"
                                         id="checkout-address"
-                                        value={billingAddressCheck}
+                                        // value={billingAddressCheck}
                                         checked={billingAddressCheck}
-                                        // defaultChecked={billingAddressCheck}
                                         onChange={handleAddressCheckBox}
                                     />
                                     <span className="input-check__box" />
@@ -410,43 +413,40 @@ export default function AddressCollapse(props) {
                     </span>
                 </div>
             </div>
-            {
-                !billingAddressCheck
-                && (
-                    <Card>
-                        <div className="card-header card_title address_card_style py-3" onClick={toggleBilling} >
-                            <div className="address-info">
-                                {billingHeader}
-                                <div>
-                                    <i style={{ color: '#f1861d' }}
-                                        className={classNames('fas fa-chevron-up rotate_icon', {
-                                            rotate_icon_active: isBillingOpen ? false : true
-                                        })}
-                                    />
-                                </div>
+            {user && !billingAddressCheck ?
+                (<Card>
+                    <div className="card-header card_title address_card_style py-3" onClick={toggleBilling} >
+                        <div className="address-info">
+                            {billingHeader}
+                            <div>
+                                <i style={{ color: '#f1861d' }}
+                                    className={classNames('fas fa-chevron-up rotate_icon', {
+                                        rotate_icon_active: isBillingOpen ? false : true
+                                    })}
+                                />
                             </div>
                         </div>
-                        <Collapse isOpen={isBillingOpen}>
-                            <CardBody className="pt-0">
-                                <div className="row my-3">
-                                    <div className="col-12">
-                                        <span
-                                            className="add_new_address"
-                                            onClick={() => openModal(true)}
-                                            style={{ fontWeight: 500 }}
-                                        >
-                                            <i className="fas fa-plus mr-2" />
-                                            Yeni Adres Ekle
-                                        </span>
-                                    </div>
+                    </div>
+                    <Collapse isOpen={isBillingOpen}>
+                        <CardBody className="pt-0">
+                            <div className="row my-3">
+                                <div className="col-12">
+                                    <span
+                                        className="add_new_address"
+                                        onClick={() => openModal(true)}
+                                        style={{ fontWeight: 500 }}
+                                    >
+                                        <i className="fas fa-plus mr-2" />
+                                        Yeni Adres Ekle
+                                    </span>
                                 </div>
-                                <div className="row">
-                                    {getBillingAddressList(address)}
-                                </div>
-                            </CardBody>
-                        </Collapse>
-                    </Card>
-                )
+                            </div>
+                            <div className="row">
+                                {getBillingAddressList(address)}
+                            </div>
+                        </CardBody>
+                    </Collapse>
+                </Card>) : null
             }
 
         </div >

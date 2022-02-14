@@ -1,9 +1,10 @@
 /*
 // .indicator
 */
-@import '../variables';
+@use '../mixins/direction';
+@use '../variables';
 @import '../functions';
-@import '../mixins/direction';
+
 
 
 $local-open-transition-duration: .2s;
@@ -68,9 +69,11 @@ $local-open-transition-duration: .2s;
     transition: transform $local-open-transition-duration,
                 opacity $local-open-transition-duration,
                 visibility 0s $local-open-transition-duration;
-
     @include direction {
-        #{$inset-inline-end}: 0;
+        @debug  "$inset-inline-end:  #{$inset-inline-end}";
+
+        // #{$inset-inline-end}: 0;
+        right:0;
     }
 }
 

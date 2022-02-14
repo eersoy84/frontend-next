@@ -21,6 +21,7 @@ import theme from '../data/theme';
 import { getSession } from 'next-auth/react'
 import { getToken } from "next-auth/jwt"
 import UseHasMounted from '../hooks/useHasMounted';
+
 function ShopPageFavourites(props) {
     const { favorites, cartUpdate, unfollow, cart, } = props;
     const { info } = cart;

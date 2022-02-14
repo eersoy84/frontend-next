@@ -1,13 +1,14 @@
 // react
 import React, {
-     useState, useEffect, useRef,
+    useState, useEffect, useRef,
 } from 'react';
-import { Modal, ModalBody, ModalFooter,
+import {
+    Modal, ModalBody, ModalFooter,
 } from 'reactstrap';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import { API_BASE } from '../../config';
-import {  authHeaderWithSecret } from '../../helpers';
+import { authHeaderWithSecret } from '../../helpers';
 // application
 import classNames from 'classnames';
 import PhoneInput from 'react-phone-input-2';
@@ -229,16 +230,18 @@ export default function SmsConfirmationModal(props) {
                     </ModalBody>
                     {errorCounter > 3 ? null :
                         <ModalFooter>
-                            <button
-                                type="submit"
-                                className={classNames('btn btn-primary btn-block', {
-                                    'btn-loading': isConfirmPending,
-                                })}
-                                style={{ borderRadius: '5px' }}
-                                disabled={!isEnabled}
-                            >
-                                Onayla
-                            </button>
+                            <div className="d-grid">
+                                <button
+                                    type="submit"
+                                    className={classNames('btn btn-primary', {
+                                        'btn-loading': isConfirmPending,
+                                    })}
+                                    style={{ borderRadius: '5px' }}
+                                    disabled={!isEnabled}
+                                >
+                                    Onayla
+                                </button>
+                            </div>
                         </ModalFooter>
                     }
                 </form>)
@@ -290,15 +293,18 @@ export default function SmsConfirmationModal(props) {
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        <button
-                            type="submit"
-                            className={classNames('btn btn-primary btn-block', {
-                                'btn-loading': isSent,
-                            })}
-                            style={{ borderRadius: '5px' }}
-                        >
-                            Gönder
-                        </button>
+                        <div className="d-grid">
+
+                            <button
+                                type="submit"
+                                className={classNames('btn btn-primary', {
+                                    'btn-loading': isSent,
+                                })}
+                                style={{ borderRadius: '5px' }}
+                            >
+                                Gönder
+                            </button>
+                        </div>
                     </ModalFooter>
                 </form>)
             }

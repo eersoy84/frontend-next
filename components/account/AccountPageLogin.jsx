@@ -105,7 +105,7 @@ function AccountPageLogin(props) {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        {validator?.current?.message('eposta', email, 'required|email', { className: 'payment_credit_card_validation' })}
+                        {validator?.current?.message('e-posta', email, 'required|email', { className: 'payment_credit_card_validation' })}
                     </div>
 
                     <div className="form-group">
@@ -125,10 +125,10 @@ function AccountPageLogin(props) {
                             </a>
                         </Link>
                     </div>
-                    <div>
+                    <div className='d-grid'>
                         <button
                             type="submit"
-                            className={classNames('btn btn-primary btn-lg btn-block'
+                            className={classNames('btn btn-primary btn-lg'
                                 , {
                                     'btn-loading': status === "loading" ?? false,
                                 }

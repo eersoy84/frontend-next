@@ -225,7 +225,8 @@ span {
         }
 
         &:hover {
-            color: $link-hover-color;
+        @debug  "direction:  #{$link-hover-color}";
+        color: $link-hover-color;
         }
     }
 }

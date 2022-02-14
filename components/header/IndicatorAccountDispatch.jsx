@@ -9,6 +9,7 @@ import Indicator from './Indicator';
 import IndicatorDeneme from './IndicatorDeneme';
 import { useSession, signOut } from 'next-auth/react';
 import Router from 'next/router'
+import { Person20Svg } from '../../svg';
 
 export function IndicatorAccountDispatch() {
     let dropDown;
@@ -61,8 +62,8 @@ export function IndicatorAccountDispatch() {
                         href="/hesap/cikis/1"
                     >
                         <a>
-                            <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-                                <button type="submit" className="btn btn-primary btn-sm btn-block">Giriş Yap</button>
+                            <div style={{ paddingLeft: '10px', paddingRight: '10px' }} className='d-grid'>
+                                <button type="submit" className="btn btn-primary btn-sm">Giriş Yap</button>
                             </div>
                         </a>
                     </Link>
@@ -72,8 +73,8 @@ export function IndicatorAccountDispatch() {
                 </div>
                 <div className="form-group-avatar-icon account-menu__form-button-user-icon">
                     <Link href="/hesap/cikis/2">
-                        <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-                            <button type="submit" className="btn btn-secondary btn-sm btn-block">Üye Ol</button>
+                        <div style={{ paddingLeft: '10px', paddingRight: '10px' }} className='d-grid'>
+                            <button type="submit" className="btn btn-secondary btn-sm">Üye Ol</button>
                         </div>
                     </Link>
                 </div>
@@ -86,7 +87,7 @@ export function IndicatorAccountDispatch() {
             <IndicatorDeneme
                 url={url}
                 dropdown={dropDown}
-                icon={<Image src="/icons/person-20.svg" height={20} width={20} />}
+                icon={<Person20Svg/>}
             />
         </>
     );

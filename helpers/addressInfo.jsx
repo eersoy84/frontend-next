@@ -1,8 +1,7 @@
 import { useSession } from 'next-auth/react';
 import NumberFormat from 'react-number-format';
-export default function addressInfo(item, badge) {
+export default function addressInfo(item, badge, user) {
 
-    const { data: session } = useSession();
     if (item) {
         return (
             <>
@@ -47,7 +46,7 @@ export default function addressInfo(item, badge) {
                 </div>
                 <div>
                     <div className="address-card__row-title">E-posta</div>
-                    <div>{session?.user?.email}</div>
+                    <div>{user?.email}</div>
                 </div>
                 <div>
                     <div className="address-card__row-title">Telefon</div>
@@ -62,6 +61,5 @@ export default function addressInfo(item, badge) {
             </>
         );
     }
-
     return <div>Lütfen Adres Bilgilerinizi Güncelleyiniz...</div>;
 }

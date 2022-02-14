@@ -12,11 +12,14 @@ import AsyncAction from '../shared/AsyncAction';
 import IndicatorDeneme from './IndicatorDeneme';
 // import { Cart20Svg, Cross10Svg } from '../../svg';
 import { cartUpdate, cartGet } from '../../store/cart/cartActions';
+import { useSession } from 'next-auth/react';
+import { Cart20Svg } from '../../svg';
 
 export default function IndicatorCart(props) {
     const { cart } = useSelector((state) => ({
         cart: state.cart,
     }), shallowEqual);
+    const { data: session } = useSession();
     const dispatch = useDispatch();
     const { info, taxes, items, isLoading } = cart;
     const cartId = info && info.uuid;
@@ -24,11 +27,7 @@ export default function IndicatorCart(props) {
 
     let dropdown;
     let totals;
-    let user;
-
-    useEffect(() => {
-        user = JSON.parse(localStorage.getItem('user'));
-    }, [])
+    const user = session?.user
 
     const prePayment = (
         <tr>
@@ -143,13 +142,14 @@ export default function IndicatorCart(props) {
                         <a className="btn btn-secondary">Sepet</a>
                     </Link>
                     {user ?
-                        <Link href="/checkout#delivery">
+                        <Link href="/odeme">
                             <a className="btn btn-primary">Sipariş Onay</a>
                         </Link>
                         : (
                             <Link href="/hesap/cikis">
                                 <a className="btn btn-primary"
-                                    onClick={handleClick}>Sepeti Onayla</a>
+                                    onClick={handleClick}>Sepeti Onayla
+                                </a>
                             </Link>
                         )}
                 </div>
@@ -171,7 +171,7 @@ export default function IndicatorCart(props) {
                 url="/sepet"
                 dropdown={dropdown}
                 value={info?.status === 'created' ? (items?.length || undefined) : undefined}
-                icon={<Image src="/icons/cart-20.svg" height={20} width={20} />}
+                icon={<Cart20Svg />}
             />
         </span>
     );

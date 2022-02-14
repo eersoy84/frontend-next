@@ -19,6 +19,8 @@ import { cartGet } from '../../store/cart';
 import { getUserAddress } from '../../store/profile';
 import { getUserOrders } from '../../store/order';
 
+import { Heart20Svg } from '../../svg'
+
 
 
 function Header() {
@@ -28,15 +30,19 @@ function Header() {
   const { data: session, status } = useSession()
   const dispatch = useDispatch();
 
+  const sessionCallback = useCallback(() => {
+    dispatch(getFavorites())
+    dispatch(getUserAddress())
+    dispatch(getUserOrders())
+  }, [session])
+
+
   useEffect(() => {
     if (session && status === "authenticated") {
-      console.log("useEffect'e kac kere girdi")
-      dispatch(getFavorites())
-      dispatch(getUserAddress())
-      dispatch(getUserOrders())
+      sessionCallback()
     }
-    // }
-  }, [session])
+  }, [sessionCallback])
+
 
   // const hasMounted = useHasMounted()
   // if (!hasMounted) {
@@ -64,7 +70,10 @@ function Header() {
             <Indicator
               url={session ? '/favoriler' : '/hesap/cikis'}
               value={favorites?.length != 0 ? favorites?.length : undefined}
-              icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
+              // icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
+              icon={<Heart20Svg />}
+
+            // icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
 
             />
             <p>Favorilerim</p>

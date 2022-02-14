@@ -110,16 +110,19 @@ export default function AskQuestionModal(props) {
                     </span>
                 </ModalBody>
                 <ModalFooter>
-                    <button
-                        type="submit"
-                        className={classNames('btn btn-primary btn-block', {
-                            'btn-loading': isSent,
-                        })}
-                        style={{ borderRadius: '5px' }}
-                        disabled={!enabled}
-                    >
-                        Soruyu Gönder
-                    </button>
+                    <div className="d-grid">
+
+                        <button
+                            type="submit"
+                            className={classNames('btn btn-primary', {
+                                'btn-loading': isSent,
+                            })}
+                            style={{ borderRadius: '5px' }}
+                            disabled={!enabled}
+                        >
+                            Soruyu Gönder
+                        </button>
+                    </div>
                 </ModalFooter>
             </form>
         </Modal>
