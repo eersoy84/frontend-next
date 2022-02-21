@@ -35,16 +35,21 @@ export default function Payment(props) {
     const [isProceedPayment, setIsProceedPayment] = useState(false);
 
 
-    const [shippingAddressId, setShippingAddressId] = useState(() => {
+    const [shippingAddressId, setShippingAddressId] = useState(0)
+    const [billingAddressId, setBillingAddressId] = useState(0)
+
+    const [isSameBillingAddress, setIsSameBillingAddress] = useState(null)
+
+    const [terms, setTerms] = useState(false)
+
+    useEffect(() => {
         if (user) {
-            return user ? JSON.parse(localStorage.getItem('selectedShippingAddressId')) : 0
+            setShippingAddressId(JSON.parse(localStorage.getItem('selectedShippingAddressId')))
+            setIsSameBillingAddress(JSON.parse(localStorage.getItem('billingAddressCheck')))
+            setBillingAddressId(JSON.parse(localStorage.getItem('selectedBillingAddressId')))
+            setTerms(JSON.parse(localStorage.getItem('terms')))
         }
-    })
-    const [billingAddressId, setBillingAddressId] = useState(() => user ? JSON.parse(localStorage.getItem('selectedBillingAddressId')) : 0)
-
-    const [isSameBillingAddress, setIsSameBillingAddress] = useState(() => user ? JSON.parse(localStorage.getItem('billingAddressCheck')) : 0)
-
-    const [terms, setTerms] = useState(() => user ? JSON.parse(localStorage.getItem('terms')) : false)
+    }, [user])
 
 
     const toggle = () => setDetailOpened(!detailOpened);

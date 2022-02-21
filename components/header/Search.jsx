@@ -8,10 +8,11 @@ import {
 
 // third-party
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import Image from 'next/image'
 // application
 import Suggestions from './Suggestions';
+import { useSelector, shallowEqual } from 'react-redux';
+import axios from 'axios';
 
 function Search(props) {
     const {
@@ -19,9 +20,12 @@ function Search(props) {
         className,
         inputRef,
         onClose,
-        location,
-        adList,
     } = props;
+
+    const { adList } = useSelector((state) => ({
+        adList: state.ad.adList,
+    }), shallowEqual);
+
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
     const [hasSuggestions, setHasSuggestions] = useState(false);
     const [suggestedProducts, setSuggestedProducts] = useState([]);
@@ -35,7 +39,8 @@ function Search(props) {
         setSuggestionsOpen(false);
     }, [onClose]);
 
-    useEffect(() => close(), [close, location]);
+    // useEffect(() => close(),
+    //     [close]);
 
     useEffect(() => {
         const onGlobalClick = (event) => {
@@ -52,7 +57,6 @@ function Search(props) {
     useEffect(() => {
         if (query === '') {
             setHasSuggestions(false);
-
             return undefined;
         }
 
@@ -107,6 +111,7 @@ function Search(props) {
     };
 
     const handleBlur = () => {
+        console.log("geldi mi")
         setTimeout(() => {
             if (!document.activeElement || document.activeElement === document.body) {
                 return;
@@ -114,15 +119,14 @@ function Search(props) {
 
             // Close suggestions if the focus received an external element.
             if (wrapper.current && !wrapper.current.contains(document.activeElement)) {
-                close();
+                onClose();
             }
-        }, 10);
+        }, 100);
     };
 
     const handleKeyDown = (event) => {
-        // Escape.
         if (event.which === 27) {
-            close();
+            onClose();
         }
     };
 
@@ -132,7 +136,7 @@ function Search(props) {
     });
 
     const closeButton = context !== 'mobile-header' ? '' : (
-        <button className="search__button search__button--type--close" type="button" onClick={close}>
+        <button className="search__button search__button--type--close" type="button" onClick={onClose}>
             <Image src="/icons/cross-20.svg" height={20} width={20} />
         </button>
     );
@@ -166,11 +170,4 @@ function Search(props) {
         </div>
     );
 }
-const mapStateToProps = (state) => ({
-    adList: state.ad.adList,
-    instantAdsInfo: state.ad.instantAdsInfo,
-});
-
-const mapDispatchToProps = {
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default Search;

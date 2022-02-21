@@ -80,13 +80,13 @@ function Dashboard(props) {
                                 {user?.lastName}
                             </div>
                             <div className="profile-card__email">{user?.email}</div>
-                            <div className="profile-card__edit">
+                            {/* <div className="profile-card__edit">
                                 <Link href="/hesap/profil">
                                     <a className="btn btn-secondary btn-sm">
                                         Profili Düzenle
                                     </a>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </div>)
                 }

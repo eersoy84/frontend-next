@@ -5,16 +5,15 @@ import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 import Link from 'next/link'
 import Image from 'next/image'
-// import Search from './Search';
+import Search from './Search';
 import Topbar from './Topbar';
 import Indicator from './Indicator';
 import { IndicatorAccountDispatch } from './IndicatorAccountDispatch';
 import IndicatorCart from './IndicatorCart';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import useHasMounted from '../../hooks/useHasMounted';
 import { useSession } from "next-auth/react"
 import { getFavorites } from '../../store/userAccount';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { cartGet } from '../../store/cart';
 import { getUserAddress } from '../../store/profile';
 import { getUserOrders } from '../../store/order';
@@ -59,7 +58,7 @@ function Header() {
         </Link>
       </div>
       <div className="site-header__search">
-        {/* <Search context="header" /> */}
+        <Search context="header" />
       </div>
 
       <div className="nav-panel__indicators">
@@ -72,9 +71,6 @@ function Header() {
               value={favorites?.length != 0 ? favorites?.length : undefined}
               // icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
               icon={<Heart20Svg />}
-
-            // icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
-
             />
             <p>Favorilerim</p>
           </div>

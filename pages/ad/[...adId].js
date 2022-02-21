@@ -26,25 +26,21 @@ export default function ShopPageProduct(props) {
     if (router.isFallback) {
         return <Spinner />
     }
-    useEffect(async () => {
-        try {
-            const { data } = await axios.post(`${API_BASE}/item/questions`, { adId: parseInt(adId) })
-            if (!data) return
-            setQuestions(data)
-        } catch (err) {
-            console.log(err?.response?.data)
-        }
-    }, []);
+    // useEffect(() => {
+    //     const fetcher = async () => {
+    //         const { data } = await axios.post(`${API_BASE}/item/questions`, { adId: parseInt(adId) })
+    //         setQuestions(data)
+    //     }
+    //     fetcher();
+    // }, [adId]);
 
-    useEffect(async () => {
-        try {
-            const { data } = await axios.post(`${API_BASE}/item/reviews`, { adId: parseInt(adId) })
-            if (!data) return
-            setReviews(data)
-        } catch (err) {
-            console.log(err?.response?.data)
-        }
-    }, []);
+    // useEffect(() => {
+    //     const fetcher = async () => {
+    //         const { data } = await axios.post(`${API_BASE}/item/reviews`, { adId: parseInt(adId) })
+    //         setReviews(data)
+    //     }
+    //     fetcher()
+    // }, [adId]);
 
 
     const adSpecs = ad && ad.specs;
@@ -118,10 +114,13 @@ export const getStaticProps = async (ctx) => {
 export const getStaticPaths = async () => {
     const ads = await globalFetch(`/routines/ads`)
     const paths = ads?.slice(0, 10).map(ad => {
+        const { adId } = ad
         return {
-            params: { adId: [`${ad.adId}`] }
+            params: { adId: [`${adId}`] }
+            // params:  adId: [`${adId}`] 
         }
     })
+    console.log("paths", paths)
     // console.log(`Static Path For: /ads/${adId}`)
     return {
         paths,

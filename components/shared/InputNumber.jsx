@@ -16,12 +16,10 @@ function InputNumber(props) {
   };
   const [valueState, setValueState] = useState(value);
   const handleAddMouseDown = () => {
-    console.log("addMousedown")
     change(1);
   };
 
   const handleSubMouseDown = () => {
-    console.log("subMousedown")
     change(-1);
   };
 
@@ -36,10 +34,7 @@ function InputNumber(props) {
       min,
       onChange,
     } = props;
-    console.log("props", props)
-    console.log("isNan", Number.isNaN(value))
     let newValue = (value === '' || Number.isNaN(value) ? 0 : value) + step * direction;
-    console.log("newValue", newValue)
 
     if (max !== null) {
       newValue = Math.min(max, newValue);

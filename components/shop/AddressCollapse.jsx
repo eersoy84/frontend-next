@@ -35,7 +35,7 @@ export default function AddressCollapse(props) {
 
 
     useEffect(() => {
-        localStorage.setItem('billingAddressCheck', billingAddressCheck)
+        localStorage.setItem('billingAddressCheck', billingAddressCheck);
     }, [billingAddressCheck])
 
     useEffect(() => {
@@ -183,11 +183,9 @@ export default function AddressCollapse(props) {
         setSelectedBillingAddressId(id);
     };
     const handleAddressCheckBox = (event) => {
-        console.log("geldi")
         isBillingSame(event.target.checked);
         setBillingAddressCheck(event.target.checked);
     };
-    console.log("billingAddressCheck", billingAddressCheck)
 
     useEffect(() => {
         let result;

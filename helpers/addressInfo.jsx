@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react';
 import NumberFormat from 'react-number-format';
-export default function addressInfo(item, badge, user) {
+function addressInfo(item, badge, user) {
 
     if (item) {
         return (
@@ -63,3 +63,4 @@ export default function addressInfo(item, badge, user) {
     }
     return <div>Lütfen Adres Bilgilerinizi Güncelleyiniz...</div>;
 }
+export default addressInfo

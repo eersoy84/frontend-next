@@ -22,6 +22,6 @@ export default function Index() {
 }
 
 export const getStaticProps = wrapper.getStaticProps(store => async () => {
-  await store.dispatch(getCategories())
-  await store.dispatch(getAds())
+  await store.dispatch(getCategories()) // getParentCategories olmalı, yeni API
+  await store.dispatch(getAds())//getHotAds olacak, yeni API yazılmalı
 })

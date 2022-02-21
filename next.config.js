@@ -35,11 +35,11 @@ module.exports = {
         destination: '/tr/account/orders',
         locale: false // Use `locale: false` so that the prefix matches the desired locale correctly
       },
-      {
-        source: '/tr/hesap/profil',
-        destination: '/tr/account/profile',
-        locale: false // Use `locale: false` so that the prefix matches the desired locale correctly
-      },
+      // {
+      //   source: '/tr/hesap/profil',
+      //   destination: '/tr/account/profile',
+      //   locale: false // Use `locale: false` so that the prefix matches the desired locale correctly
+      // },
 
       {
         source: '/tr/hesap/adres',

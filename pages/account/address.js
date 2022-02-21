@@ -44,7 +44,7 @@ function Address() {
                 className="address-card__body text-center text-sm-left"
                 style={{ border: '2px solid #f5f5f5', borderRadius: '10px' }}
             >
-                {addressInfo(addressItem, null)}
+                {addressInfo(addressItem, null, user)}
                 <div className="address-card__footer">
                     <button className="btn btn-primary btn-sm" onClick={() => editModal(addressItem, false)}>Düzenle</button>
                     <button className="btn btn-secondary btn-sm" onClick={() => dispatch(deleteAddress(addressItem.id))}>Sil</button>

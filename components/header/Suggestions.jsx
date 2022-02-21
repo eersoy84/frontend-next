@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import Link from 'next/link'
 import Image from 'next/image'
-
+import { useDispatch } from 'react-redux';
 // application
 import AsyncAction from '../shared/AsyncAction';
 import Currency from '../shared/Currency';
@@ -17,13 +17,13 @@ function Suggestions(props) {
     context,
     className,
     products,
-    cartUpdate,
   } = props;
+  const dispatch = useDispatch();
   const rootClasses = classNames(`suggestions suggestions--location--${context}`, className);
 
   const checkCondition = (product) => {
     const options = setDefaultProperties(product.specs);
-    return cartUpdate(product, options, 1);
+    return dispatch(cartUpdate(product, options, 1));
   };
   const setDefaultProperties = (specs) => {
     const defaultOptions = [];
@@ -37,7 +37,7 @@ function Suggestions(props) {
     });
     return defaultOptions;
   };
-  const list = (products && products.map((product) => {
+  const list = (products?.map((product) => {
     const adName = product && (`${product.categoryName} ${product.brandName} ${product.modelName}`);
     const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
     return (
@@ -96,13 +96,4 @@ function Suggestions(props) {
   );
 }
 
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = {
-  cartUpdate,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Suggestions);
+export default Suggestions;

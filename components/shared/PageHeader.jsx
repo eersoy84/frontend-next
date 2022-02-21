@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import Link from 'next/link'
 import Image from 'next/image'
 import UseHasMounted from '../../hooks/useHasMounted';
+import { ArrowRoundedRight6x9Svg } from '../../svg';
 
 function PageHeader(props) {
   let { header, breadcrumb } = props;
-  
+
   if (header) {
     header = (
       <div className="page-header__title">
@@ -30,7 +31,7 @@ function PageHeader(props) {
                 {item.title}
               </a>
             </Link>
-            <Image src="/icons/arrow-rounded-right-6x9.svg" className="breadcrumb-arrow" height={10} width={10} />
+            <ArrowRoundedRight6x9Svg  className="breadcrumb-arrow"/>
           </li>
         );
       }

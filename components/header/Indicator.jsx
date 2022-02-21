@@ -106,7 +106,8 @@ class Indicator extends Component {
           </a>
         </Link>
       );
-    } else {
+    } 
+    else {
       button = (
         <button type="button" className="indicator__button" onClick={this.handleButtonClick}>
           {title}
