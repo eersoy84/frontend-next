@@ -84,7 +84,7 @@ export default [
         children: [
             { type: 'link', label: 'Login', url: '/hesap/cikis' },
             { type: 'link', label: 'Dashboard', url: '/hesap' },
-            // { type: 'link', label: 'Edit Profile', url: '/hesap/profil' },
+            { type: 'link', label: 'Edit Profile', url: '/hesap/profil' },
             { type: 'link', label: 'Order History', url: '/hesap/siparis' },
             { type: 'link', label: 'Order Details', url: '/hesap/siparis/5' },
             { type: 'link', label: 'Address Book', url: '/hesap/adres' },

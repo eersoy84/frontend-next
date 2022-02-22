@@ -106,14 +106,14 @@ export default function Payment(props) {
         createPayment(userOrders);
     };
 
-    const createPayment = (userOrders) => {
+    const createPayment = async (userOrders) => {
         axios.post(`${API_BASE}/orders/create`,
             userOrders,
-            { headers: authHeaderWithSecret() })
+            { headers: await authHeaderWithSecret() })
             .then(response => {
                 if (response.data) {
                     toast.info('İyzico Güvenli Ödeme Sayfasına Yönlendiriliyorsunuz!');
-                    if (window) {
+                    if (typeof window !== undefined) {
                         window.location.href = response.data.paymentPageUrl;
                     }
                 }

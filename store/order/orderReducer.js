@@ -18,6 +18,8 @@ import {
     CLEAR_ORDERS,
 
 } from './orderActions';
+import { HYDRATE } from "next-redux-wrapper";
+
 
 const initialState = {
     isLoading: false,
@@ -48,6 +50,11 @@ function clearOrders(state) {
 
 export default function orderReducer(state = initialState, action) {
     switch (action.type) {
+        case HYDRATE:
+            const { order } = action.payload
+            if (order) {
+                return updateOrders(state, order.orders)
+            }
         case PLACE_ORDER:
             return {
                 ...state,

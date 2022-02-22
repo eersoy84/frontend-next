@@ -6,6 +6,16 @@ module.exports = {
   async rewrites() {
     return [
       {
+        source: '/tr/siparis-ozet/hata',
+        destination: '/tr/order-review/fail',
+        locale: false
+      },
+      {
+        source: '/tr/siparis-ozet/basarili/:cartId',
+        destination: '/tr/order-review/success/:cartId',
+        locale: false
+      },
+      {
         source: '/tr/odeme',
         destination: '/tr/payment',
         locale: false
@@ -35,12 +45,11 @@ module.exports = {
         destination: '/tr/account/orders',
         locale: false // Use `locale: false` so that the prefix matches the desired locale correctly
       },
-      // {
-      //   source: '/tr/hesap/profil',
-      //   destination: '/tr/account/profile',
-      //   locale: false // Use `locale: false` so that the prefix matches the desired locale correctly
-      // },
-
+      {
+        source: '/tr/hesap/profil',
+        destination: '/tr/account/profile',
+        locale: false // Use `locale: false` so that the prefix matches the desired locale correctly
+      },
       {
         source: '/tr/hesap/adres',
         destination: '/tr/account/address',

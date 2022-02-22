@@ -345,9 +345,7 @@ function Product(props) {
                                     className="col-12 d-flex"
                                     data-tip data-for="shareInfo"
                                 >
-                                    <span>
-                                        <InfoIcon/>
-                                        </span>&nbsp;&nbsp;
+                                    <span><Image src={'/icons/info-icon.svg'} height={22} width={22} /></span>&nbsp;&nbsp;
                                     <span style={{ fontSize: '12px' }} className="pl-2 text-info">
                                         İlanı arkadaşlarınıza paylaşarak, ürün fiyatının düşmesine katkı sağlayabilirsiniz...
                                     </span>
@@ -514,7 +512,7 @@ function Product(props) {
                                                                     onClick={run}
                                                                 >
 
-                                                                    <Cart16Svg/>&nbsp;&nbsp;
+                                                                    <Cart16Svg />&nbsp;&nbsp;
                                                                     <span style={{ fontSize: '14px' }}>
                                                                         Sepete Ekle
                                                                     </span>

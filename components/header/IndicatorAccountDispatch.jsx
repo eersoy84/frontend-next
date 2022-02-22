@@ -41,7 +41,7 @@ export function IndicatorAccountDispatch() {
                 </Link>
                 <div className="account-menu__divider" />
                 <ul className="account-menu__links">
-                    {/* <li><Link href="/hesap/profil"><a>Profili Düzenle</a></Link></li> */}
+                    <li><Link href="/hesap/profil"><a>Profili Düzenle</a></Link></li>
                     <li><Link href="/hesap/siparis"><a>Siparişlerim</a></Link></li>
                     <li><Link href="/hesap/adres"><a>Adres Bilgisi</a></Link></li>
                     <li><Link href="/hesap/sifre-yenile"><a>Şifre İşlemleri</a></Link></li>

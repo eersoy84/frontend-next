@@ -36,6 +36,8 @@ export default function AccountPageOrderDetails() {
     const { address } = useSelector((state) => ({
         address: state.profile.address,
     }), shallowEqual);
+    const { data: session } = useSession();
+    const user = session?.user
     const [cart, setCart] = useState();
     const [shippingAddress, setShippingAddress] = useState();
     const [invoiceAddress, setInvoiceAddress] = useState();
@@ -62,14 +64,20 @@ export default function AccountPageOrderDetails() {
     const [returnCargoCodeCreated, setReturnCargoCodeCreated] = useState(null);
     const [isAdId, setIsAdId] = useState(null)
 
-    useEffect(async () => {
-        const asyncAction = axios.post(`${API_BASE}/cart/get`,
-            { cartId: orderId, isOrder: 1 },
-            { headers: await authHeaderWithSecret() });
-        asyncAction.then(({ data }) => {
-            let cart = data;
-            setCart(cart);
-        }).catch((err) => { });
+    useEffect(() => {
+        const fether = async () => {
+            try {
+                const { data } = await axios.post(`${API_BASE}/cart/get`,
+                    { cartId: orderId, isOrder: 1 },
+                    { headers: await authHeaderWithSecret() });
+                setCart(data)
+            } catch (err) {
+                if (err) {
+                    toast.error("Hata oluştu!")
+                }
+            }
+        }
+        fether();
     }, [orderId, isReviewButtonVisible, isReturnProductButtonVisible, isCancelProductButtonVisible, isCreateCargoCodeButtonVisible, isReviewProductButtonVisible]);
 
     useEffect(() => {
@@ -463,7 +471,7 @@ export default function AccountPageOrderDetails() {
                                                         onClick={() => evaluateProduct(userCartItem)}
                                                         style={{ fontWeight: 500 }}
                                                     >
-                                                        <i className="fas fa-star mr-2" style={{ color: '#f1861d' }} />
+                                                        <i className="fas fa-star mr-2" style={{ color: '#f1861d' }} />&nbsp;
                                                         <span style={{ fontSize: '12px' }}>Ürünü Değerlendir</span>
                                                     </span>
                                                 </div>}
@@ -499,21 +507,23 @@ export default function AccountPageOrderDetails() {
                             {!isRated &&
                                 <div>
                                     <span
-                                        className="evaluate_button mr-2"
+                                        className="evaluate_button"
                                         onClick={() => evalutateSeller(item.sellerId, item.sellerName, item.sellerLogo)}
                                         style={{ fontWeight: 500 }}
                                     >
-                                        <i className="fas fa-star mr-2" style={{ color: '#f1861d' }} />
+                                        <i className="fas fa-star mr-2" style={{ color: '#f1861d' }} />&nbsp;
                                         <span style={{ fontSize: '12px' }}>Satıcıyı Değerlendir</span>
                                     </span>
-                                </div>}
+                                    &nbsp;&nbsp;
+                                </div>
+                                }
                             <div>
                                 <span
                                     className="evaluate_button"
                                     // onClick={showBill}
                                     style={{ fontWeight: 500 }}
                                 >
-                                    <i className="fas fa-eye mr-2" style={{ color: '#f1861d' }} />
+                                    <i className="fas fa-eye" style={{ color: '#f1861d' }} />&nbsp;
                                     <span style={{ fontSize: '12px' }}>Fatura Göster</span>
                                 </span>
                             </div>
@@ -532,7 +542,7 @@ export default function AccountPageOrderDetails() {
             <div className="col-sm-6 col-12 px-2 py-2 py-sm-0">
                 <div className="card address-card">
                     <div className="address-card__body">
-                        {addressInfo(addressItem, addressStatus)}
+                        {/* {addressInfo(addressItem, addressStatus, user)} */}
                     </div>
                 </div>
             </div>
@@ -555,8 +565,7 @@ export default function AccountPageOrderDetails() {
                             onHide={() => setSellerValues(null)}
                             hideSellerReviewButton={() => { setIsReviewButtonVisible(Math.random()) }}
                             reviewQuestions={reviewQuestions}
-                            cartId={orderId}
-                            {...props}>
+                            cartId={orderId}>
                         </ReviewSellerModal >) : null}
 
                     {reviewProductModalItem ? (<ReviewProductModal
@@ -565,8 +574,7 @@ export default function AccountPageOrderDetails() {
                         onHide={() => setReviewProductModalItem(null)}
                         hideReviewProductButton={() => { setIsReviewProductButtonVisible(Math.random()) }}
                         reasons={reasons}
-                        cartId={orderId}
-                        {...props}>
+                        cartId={orderId}>
                     </ReviewProductModal >) : null}
 
                     {returnModalUserCartItem ? (<ReturnProductModal
@@ -574,8 +582,7 @@ export default function AccountPageOrderDetails() {
                         show={true}
                         onHide={() => setReturnModalUserCartItem(null)}
                         hideReturnProductButton={() => { setIsReturnProductButtonVisible(Math.random()) }}
-                        reasons={reasons}
-                        {...props}>
+                        reasons={reasons}>
                     </ReturnProductModal >) : null}
 
                     {cancelModalUserCartItem ? (<CancelProductModal
@@ -583,8 +590,7 @@ export default function AccountPageOrderDetails() {
                         show={true}
                         onHide={() => setCancelModalUserCartItem(null)}
                         hideCancelProductButton={() => { setIsCancelProductButtonVisible(Math.random()) }}
-                        reasons={reasons}
-                        {...props}>
+                        reasons={reasons}>
                     </CancelProductModal >) : null}
 
 
@@ -594,8 +600,7 @@ export default function AccountPageOrderDetails() {
                         show={true}
                         onHide={() => setReturnCargoCodeCreated(null)}
                         hideCreateCargoButton={() => { setIsCreateCargoCodeButtonVisible(Math.random()) }}
-                        cartId={orderId}
-                        {...props}>
+                        cartId={orderId}>
                     </CreateCargoCodeModal >) : null}
                     <div>
                         <div className="row">

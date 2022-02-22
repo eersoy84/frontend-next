@@ -8,11 +8,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Search from '../../components/header/Search'
 import { useSession } from "next-auth/react";
+import UseHasMounted from "../../hooks/useHasMounted";
 const MobileHeader = () => {
     const { favorites, cart } = useSelector((state) => ({
         favorites: state.userAccount.favorites,
         cart: state.cart,
     }), shallowEqual);
+    const hasMounted = UseHasMounted()
     const { data: session } = useSession()
     const user = session?.user
 
@@ -33,7 +35,7 @@ const MobileHeader = () => {
     });
     let dropdown;
 
-    if (session) {
+    if (hasMounted) {
         dropdown = (
             <div className="account-menu">
                 <Link href="/hesap">
@@ -53,7 +55,7 @@ const MobileHeader = () => {
                 </Link>
                 <div className="account-menu__divider" />
                 <ul className="account-menu__links">
-                    {/* <li><Link href="/hesap/profil"><a>Profili Düzenle</a></Link></li> */}
+                    <li><Link href="/hesap/profil"><a>Profili Düzenle</a></Link></li>
                     <li><Link href="/hesap/siparis"><a>Siparişlerim</a></Link></li>
                     <li><Link href="/hesap/adres"><a>Adres Bilgisi</a></Link></li>
                     <li><Link href="/hesap/sifre-yenile"><a>Şifre İşlemleri</a></Link></li>
@@ -122,13 +124,12 @@ const MobileHeader = () => {
                                     onClick={() => setSearchOpen(true)}
                                     icon={<Image src="/icons/search-20.svg" height={20} width={20} />}
 
-                                /> 
+                                />
                                 {user && (
                                     <Indicator
                                         url={'/favoriler'}
                                         value={favorites?.length > 0 ? favorites?.length : undefined}
                                         icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
-
                                     />
                                 )}
                                 <Indicator

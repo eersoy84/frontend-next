@@ -73,6 +73,7 @@ export function getUserOrders() {
         const asyncAction = axios.get(`${API_BASE}/cart/list`,
             { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
+            console.log("response", response)
             dispatch(fetchOrdersSuccess(response.data));
         }).catch((err) => {
             dispatch(fetchOrdersFail(err));

@@ -15,6 +15,7 @@ import 'moment/locale/tr';
 import moment from 'moment';
 import Spinner from '../../../components/shared/Spinner';
 import AccountLayout from '../../../components/account/AccountLayout';
+import UseHasMounted from '../../../hooks/useHasMounted';
 
 
 const checkOrderStatus = order => {
@@ -53,7 +54,7 @@ export default function AccountPageOrders() {
     const { orders } = useSelector((state) => ({
         orders: state.order.orders,
     }), shallowEqual);
-
+    const hasMounted = UseHasMounted()
     const [orderList, setOrderList] = useState([]);
 
     const handlePageChange = (items) => {
@@ -63,11 +64,9 @@ export default function AccountPageOrders() {
     const filterOrders = (items) => {
         setOrderList(items)
     }
-
-
-
     moment().locale('tr');
-    const list = orderList && orderList.map((order) => (
+
+    const list = orderList?.map((order) => (
         <div key={order.uuid}>
             <div className="row m-2 general_font d-flex d-md-none">
                 <div className="col-6 mb-2">Sipariş No</div>
@@ -115,69 +114,48 @@ export default function AccountPageOrders() {
         </div>
     ));
 
+    const empty = (<div className="block block-empty">
+        <div className="container">
+            <div className="block-empty__body">
+                <div className="block-empty__message">Herhangi bir siparişiniz bulunmamaktadır!</div>
+            </div>
+        </div>
+    </div>)
+
 
     return (
         <AccountLayout>
             <Head>
                 <title>{`Siparişler — ${theme.name}`}</title>
             </Head>
-            {orders?.length > 0 ?
-                <div className="card">
-                    <Head>
-                        <title>{`Siparişlerim — ${theme.name}`}</title>
-                    </Head>
 
-                    <div className="card-header">
-                        <div className="row d-flex justify-content-between align-items-center">
-                            <div className="col-4 col-sm-6"
-                                style={{ fontSize: 'calc(70% + 0.5vw)', fontWeight: 600 }}
-                            >
-                                Siparişlerim
-                            </div>
-                            <div className="col-8 col-sm-6">
-                                <OrderSearch filterOrders={filterOrders} context="header" />
-                            </div>
+            <div className="card">
+                <div className="card-header">
+                    <div className="row d-flex justify-content-between align-items-center">
+                        <div className="col-4 col-sm-6"
+                            style={{ fontSize: 'calc(70% + 0.5vw)', fontWeight: 600 }}
+                        >
+                            Siparişlerim
                         </div>
-                    </div>
-                    <div className="card-divider d-none d-md-flex" />
-                    <div className="row mx-1 my-3 general_font d-none d-md-flex" >
-                        <div className="col-2">Sipariş No</div>
-                        <div className="col-3">Tarih</div>
-                        <div className="col-3">Sipariş Durumu</div>
-                        <div className="col-2">Ödeme</div>
-                        <div className="col-2">İade</div>
-                    </div>
-                    <div className="card-divider" />
-                    {list}
-                    <div className="card-footer">
-                        <Pagination items={orders} onPageChange={handlePageChange} />
+                        <div className="col-8 col-sm-6">
+                            <OrderSearch filterOrders={filterOrders} context="header" />
+                        </div>
                     </div>
                 </div>
-                :
-                <>
-                    <div className="card">
-                        <div className="card-header">
-                            <div className="row d-flex justify-content-between align-items-center">
-                                <div className="col-4 col-sm-6"
-                                    style={{ fontSize: 'calc(70% + 0.5vw)', fontWeight: 600 }}
-                                >
-                                    Siparişlerim
-                                </div>
-                                <div className="col-8 col-sm-6">
-                                    <OrderSearch filterOrders={filterOrders} context="header" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="block block-empty">
-                        <div className="container">
-                            <div className="block-empty__body">
-                                <div className="block-empty__message">Herhangi bir siparişiniz bulunmamaktadır!</div>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            }
+                <div className="card-divider d-none d-md-flex" />
+                <div className="row mx-1 my-3 general_font d-none d-md-flex" >
+                    <div className="col-2">Sipariş No</div>
+                    <div className="col-3">Tarih</div>
+                    <div className="col-3">Sipariş Durumu</div>
+                    <div className="col-2">Ödeme</div>
+                    <div className="col-2">İade</div>
+                </div>
+                <div className="card-divider" />
+                {hasMounted ? list : empty}
+                <div className="card-footer">
+                    <Pagination items={orders} onPageChange={handlePageChange} />
+                </div>
+            </div>
         </AccountLayout>
     )
 

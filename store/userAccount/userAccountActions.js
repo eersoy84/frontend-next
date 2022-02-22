@@ -439,27 +439,6 @@ export function unfollow(adId) {
     };
 }
 
-// export const unfollow = (adId) => (dispatch) => {
-//     const ParticipantModel = { adId };
-//     return new Promise((resolve, reject) => {
-//         dispatch(postUnFollow());
-//         const asyncAction = axios.post(`${API_BASE}/routines/unfollow`,
-//             ParticipantModel,
-//             { headers: authHeaderWithSecret() });
-//         asyncAction.then((response) => {
-//             dispatch(postUnFollowSuccess(response.data));
-//             // dispatch(getInstantAdsInfo());
-//             toast.info('İlanı Takipten Çıktınız');
-//             resolve();
-//         }).catch((err) => {
-//             if (err && err.response && err.response.data) {
-//                 toast.error(err.response.data.fail);
-//                 dispatch(postFollowFail(err));
-//                 reject();
-//             }
-//         });
-//     });
-// };
 
 export const postUnFollow = () =>
 // return a action type and a loading state indicating it is getting data.
@@ -525,16 +504,14 @@ export function editProfile(firstName, lastName) {
         firstName,
         lastName,
     };
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(postEditProfile(true));
         const asyncAction = axios.post(`${API_BASE}/user/editProfile`,
             editProfileModel,
-            { headers: authHeaderWithSecret() });
+            { headers: await authHeaderWithSecret() });
         asyncAction.then((response) => {
             dispatch(postEditProfileSuccess(response.data));
-            localStorage.setItem('user', JSON.stringify(response.data));
             toast.success('Profiliniz başarıyla güncellendi');
-            // Router.back();
         }).catch((err) => {
             dispatch(postEditProfileFail(err));
             toast.error(err.response.data.message);

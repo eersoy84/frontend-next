@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import AsyncAction from '../shared/AsyncAction';
 import Currency from '../shared/Currency';
 import { cartUpdate } from '../../store/cart';
+import { Cart16Svg } from '../../svg';
 
 function Suggestions(props) {
   const {
@@ -77,7 +78,7 @@ function Suggestions(props) {
                     'btn-loading': loading,
                   })}
                 >
-                  <Image src="/icons/cart-16.svg" height={16} width={16} />
+                  <Cart16Svg/>
                 </button>
               )}
             />
