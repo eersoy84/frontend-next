@@ -13,6 +13,8 @@ import { useSelector, shallowEqual } from 'react-redux';
 // data stubs
 import { connect } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import { ArrowRoundedLeft8x13Svg, ArrowRoundedRight8x13Svg } from '../../svg';
+
 
 const Desktop = ({ children }) => {
     const isDesktop = useMediaQuery({ minWidth: 992 });
@@ -41,7 +43,7 @@ function CategorySlider(props) {
                 onClick={onClick}
             >
                 <span className="prev_arrow_custom_border" onClick={onClick}>
-                    <Image src="/icons/arrow-rounded-left-8x13.svg" className="prev_arrow_custom" height={10} width={10} />
+                    <ArrowRoundedLeft8x13Svg className="prev_arrow_custom" />
                 </span>
 
             </div>
@@ -59,8 +61,7 @@ function CategorySlider(props) {
                 onClick={onClick}
             >
                 <span className="next_arrow_custom_border" onClick={onClick}>
-                    <Image src="/icons/arrow-rounded-right-8x13.svg" className="next_arrow_custom" height={10} width={10} />
-
+                    <ArrowRoundedRight8x13Svg className="next_arrow_custom"/>
                 </span>
 
             </div>

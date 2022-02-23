@@ -1,10 +1,11 @@
 // react
-import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image'
-
+import { useState, useEffect } from 'react';
 // third-party
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+
+import { ArrowRoundedLeft8x13Svg, ArrowRoundedRight8x13Svg } from '../../svg';
+
 
 
 const getSlicedArray = (page, items, limit) => {
@@ -78,12 +79,8 @@ function Pagination(props) {
                         aria-label="Previous"
                         onClick={() => setPage(currentPage - 1)}
                     >
-                        <Image
-                            src="/icons/arrow-rounded-left-8x13.svg"
-                            height={8}
-                            width={13}
-                            className="page-link__arrow page-link__arrow--left"
-                        />
+                        <ArrowRoundedLeft8x13Svg className="page-link__arrow page-link__arrow--left" aria-hidden="true" />
+
                     </button>
                 </li>
                 {pages}
@@ -94,12 +91,7 @@ function Pagination(props) {
                         aria-label="Next"
                         onClick={() => setPage(currentPage + 1)}
                     >
-                        <Image
-                            src="/icons/arrow-rounded-right-8x13.svg"
-                            height={8}
-                            width={13}
-                            className="page-link__arrow page-link__arrow--right"
-                        />
+                        <ArrowRoundedRight8x13Svg className="page-link__arrow page-link__arrow--right" aria-hidden="true" />
                     </button>
                 </li>
             </ul>

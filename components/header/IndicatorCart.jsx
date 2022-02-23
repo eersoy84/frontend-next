@@ -9,11 +9,12 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 // application
 import { toast } from 'react-toastify';
 import AsyncAction from '../shared/AsyncAction';
-import IndicatorDeneme from './IndicatorDeneme';
+import IndicatorPopup from './IndicatorPopup';
 // import { Cart20Svg, Cross10Svg } from '../../svg';
 import { cartUpdate, cartGet } from '../../store/cart/cartActions';
 import { useSession } from 'next-auth/react';
 import { Cart20Svg } from '../../svg';
+import Indicator from './Indicator';
 
 export default function IndicatorCart(props) {
     const { cart } = useSelector((state) => ({
@@ -26,7 +27,6 @@ export default function IndicatorCart(props) {
     const status = info && info.status;
 
     let dropdown;
-    let totals;
     const user = session?.user
 
     const prePayment = (
@@ -37,7 +37,7 @@ export default function IndicatorCart(props) {
             </td>
         </tr>
     );
-    totals = (
+    const totals = (
         <>
             <tr>
                 <th>Ürünler Toplamı</th>
@@ -54,13 +54,13 @@ export default function IndicatorCart(props) {
         toast.info('Siparişi onaylamak için giriş yapınız!');
     };
 
-    const itemList = items && items.map((item) => {
-        const adName = item.product && (`${item.product.categoryName} ${item.product.brandName} ${item.product.modelName}`);
-        const friendlyUrl = adName && adName.replace(/\s+/g, '-').toLowerCase();
+    const itemList = items?.map(item => {
+        const adName = item?.product && (`${item?.product?.categoryName} ${item?.product?.brandName} ${item?.product?.modelName}`);
+        const friendlyUrl = adName?.replace(/\s+/g, '-').toLowerCase();
         let options;
         let image;
 
-        if (item.product.options) {
+        if (item?.product?.options) {
             options = (
                 <ul className="dropcart__product-options">
                     {item.product.options.map((option, index) => (
@@ -70,11 +70,11 @@ export default function IndicatorCart(props) {
             );
         }
 
-        if (item.product && item.product.imageUrl) {
+        if (item?.product?.imageUrl) {
             image = (
                 <div className="dropcart__product-image">
                     <Link href={`/ilanlar/${item?.product?.adId}?seoUrl=${friendlyUrl}`}>
-                        <img src={item.product.imageUrl} alt="" />
+                        <img src={item?.product?.imageUrl} alt="product image" />
                         {/* <a className="footer-links__link">{item.title}</a> */}
                     </Link>
                 </div>
@@ -91,7 +91,7 @@ export default function IndicatorCart(props) {
 
                     return (
                         <button type="button" onClick={run} className={classes}>
-                            <Image src="/icons/cross-10.svg" height={10} width={10} />
+                            <Image src="/icons/cross-10.svg" height={12} width={12} />
                         </button>
                     );
                 }}
@@ -121,7 +121,7 @@ export default function IndicatorCart(props) {
         );
     });
 
-    if (items && items.length > 0 && status === 'created') {
+    if (items?.length > 0 && status === 'created') {
         dropdown = (
             <div className="dropcart">
                 <div className="dropcart__products-list">
@@ -164,10 +164,9 @@ export default function IndicatorCart(props) {
             </div>
         );
     }
-
     return (
         <span>
-            <IndicatorDeneme
+            <IndicatorPopup
                 url="/sepet"
                 dropdown={dropdown}
                 value={info?.status === 'created' ? (items?.length || undefined) : undefined}

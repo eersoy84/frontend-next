@@ -10,21 +10,20 @@ import PageHeader from '../../../components/shared/PageHeader';
 import { useRouter } from 'next/router'
 // data stubs
 import theme from '../../../data/theme';
+import { useSession } from 'next-auth/react';
 
-function SitePageContracts(props) {
+function SitePageContracts({address}) {
     const { query } = useRouter()
     const { contractAddressId } = query
+    const { data: session } = useSession();
+    const user = session?.user
     const breadcrumb = [
         { title: 'Ana Sayfa', url: '/' },
         { title: 'Mesafeli Satış Sözleşmesi', url: '/site/sozlesmeler' },
     ];
-    const { address } = props;
     let addressId = contractAddressId ? parseInt(contractAddressId) : null
     const addressItem = addressId && (address?.find(q => q.id === addressId));
-    let user;
-    useEffect(() => {
-        user = JSON.parse(localStorage.getItem('user'));
-    }, [user])
+
 
     return (
         <>

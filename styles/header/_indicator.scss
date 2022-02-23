@@ -70,10 +70,7 @@ $local-open-transition-duration: .2s;
                 opacity $local-open-transition-duration,
                 visibility 0s $local-open-transition-duration;
     @include direction {
-        @debug  "$inset-inline-end:  #{$inset-inline-end}";
-
-        // #{$inset-inline-end}: 0;
-        right:0;
+        #{$inset-inline-end}: 0;
     }
 }
 

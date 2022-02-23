@@ -33,11 +33,10 @@ function Header() {
     dispatch(getFavorites())
     dispatch(getUserAddress())
     dispatch(getUserOrders())
-  }, [session])
-
+  }, [status])
 
   useEffect(() => {
-    if (session && status === "authenticated") {
+    if (status === "authenticated") {
       sessionCallback()
     }
   }, [sessionCallback])

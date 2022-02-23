@@ -6,7 +6,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 // application
 import Indicator from './Indicator';
-import IndicatorDeneme from './IndicatorDeneme';
+// import IndicatorDeneme from './IndicatorDeneme2';
+import IndicatorPopup from './IndicatorPopup';
 import { useSession, signOut } from 'next-auth/react';
 import Router from 'next/router'
 import { Person20Svg } from '../../svg';
@@ -84,7 +85,7 @@ export function IndicatorAccountDispatch() {
     }
     return (
         <>
-            <IndicatorDeneme
+            <IndicatorPopup
                 url={url}
                 dropdown={dropDown}
                 icon={<Person20Svg/>}

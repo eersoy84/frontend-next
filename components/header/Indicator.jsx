@@ -8,7 +8,9 @@ import UseHasMounted from '../../hooks/useHasMounted';
 
 const Indicator = ({ url, className, icon, value, dropdown, onClick, onClose, onOpen }) => {
     const [open, setOpen] = useState(false)
+
     const wrapperRef = useRef(null)
+
     const handleOutsideClick = (event) => {
         if (!wrapperRef?.current?.contains(event.target) && open) {
             close();
