@@ -4,33 +4,17 @@ import React, { Component } from 'react';
 // third-party
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-
 // application
-import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import ProductCardSlider from '../shared/ProductCardSlider';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-function PrevArrow(props) {
-    const { className, onClick } = props;
-
-    return (
-        <div
-            className={className}
-            onClick={onClick}
-        />
-    );
-}
-
-function NextArrow(props) {
-    const { className, style, onClick } = props;
-
-    return (
-        <div
-            className={className}
-            onClick={onClick}
-        />
-    );
-}
+const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+    <FaChevronRight {...props} className={"slick-next slick-arrow"} />
+);
+const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+    <FaChevronLeft {...props} className={"slick-prev slick-arrow"} />
+);
 
 const hotAdsSlideSettings = {
     dots: false,
@@ -41,30 +25,14 @@ const hotAdsSlideSettings = {
     autoplaySpeed: 4000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <PrevArrow className="home_hot_ads_list" />,
-    nextArrow: <NextArrow className="home_hot_ads_list" />,
+    prevArrow: <SlickArrowLeft />,
+    nextArrow: <SlickArrowRight />
 };
 
-class BizlealHotAdsSlider extends Component {
-    handleNextClick = () => {
-        if (this.slickRef) {
-            this.slickRef.slickNext();
-        }
-    };
+const BizlealHotAdsSlider = ({ loading, adList, rows }) => {
 
-    handlePrevClick = () => {
-        if (this.slickRef) {
-            this.slickRef.slickPrev();
-        }
-    };
-
-    setSlickRef = (ref) => {
-        this.slickRef = ref;
-    };
-
-    productsColumns() {
+    const productsColumns = () => {
         const columns = [];
-        const { rows, adList } = this.props;
         let slicedList = [];
         if (rows > 0) {
             slicedList = (adList && adList.length > 0) && adList.slice();
@@ -77,38 +45,33 @@ class BizlealHotAdsSlider extends Component {
         return columns;
     }
 
-    render() {
-        const { loading } = this.props;
+    const blockClasses = classNames('home_hot_ads_list', {
+        'block-products-carousel--loading': loading,
+    });
 
-        const blockClasses = classNames('home_hot_ads_list', {
-            'block-products-carousel--loading': loading,
-        });
-
-        const columns = this.productsColumns().map((column, index) => {
-            const products = column.map((product) => (
-                <div
-                    key={product.adId}
-                    className="block-products-carousel__cell"
-                >
-                    <ProductCardSlider product={product} />
-                </div>
-            ));
-
-            return (
-                <div key={index} className="block-products-carousel__column">
-                    {products}
-                </div>
-            );
-        });
+    const columns = productsColumns().map((column, index) => {
+        const products = column.map((product) => (
+            <div
+                key={product.adId}
+                className="block-products-carousel__cell"
+            >
+                <ProductCardSlider product={product} />
+            </div>
+        ));
 
         return (
-            <div className={blockClasses}>
-                <Slider {...hotAdsSlideSettings}>
-                    {columns}
-                </Slider>
+            <div key={index} className="block-products-carousel__column">
+                {products}
             </div>
         );
-    }
+    });
+    return (
+        <div className={blockClasses}>
+            <Slider {...hotAdsSlideSettings}>
+                {columns}
+            </Slider>
+        </div>
+    );
 }
 
 BizlealHotAdsSlider.propTypes = {

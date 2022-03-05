@@ -60,18 +60,7 @@ export default function ProductsView({ adList }) {
                         </div>
                     )
                     :
-                    (<Spinner />
-                        // <div className="mt-4 text-center">
-                        //     <h3>
-                        //         Şu anda bu kategoride ilan bulunmamaktadır!
-                        //     </h3>
-                        //     <Link href="/ilanlar">
-                        //         <a className="btn btn-primary">
-                        //             Tüm İlanlar
-                        //         </a>
-                        //     </Link>
-                        // </div>
-                    )
+                    <Spinner />
                 }
             </div>
             {(adList?.length > 10)

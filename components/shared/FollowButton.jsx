@@ -11,9 +11,7 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 export default function FollowButton(props) {
-  const {
-    adId, isFollowing, onFollow, numOfParticipants,
-  } = props;
+  const { adId, isFollowing, onFollow, numOfParticipants } = props;
   const { data: session } = useSession()
   const user = session?.user
   const router = useRouter()
@@ -85,7 +83,7 @@ export default function FollowButton(props) {
   );
   return (
     <div>
-      {buttonCondition}
+      {user && buttonCondition}
     </div>
   );
 }

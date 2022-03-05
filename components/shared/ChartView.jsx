@@ -1,11 +1,13 @@
 // react
 import React, { useState, useEffect } from 'react';
-import Chart from 'react-apexcharts'
+import dynamic from 'next/dynamic'
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function ChartView({ product }) {
+
+export default function ChartView({ ad }) {
     const [series, setSeries] = useState([]);
     const [options, setOptions] = useState({});
-    let orderCount = product && product.numOrders;
+    let orderCount = ad?.numOrders;
     const calculateOffset = (instantPrice, targetPrice, productPrice) => {
         let middlePrice = (targetPrice + productPrice) / 2
         if (instantPrice > middlePrice) {
@@ -20,7 +22,7 @@ export default function ChartView({ product }) {
                 maximumFractionDigits: 2,
             })}${' '}₺`;
     }
-    
+
     const setText = (instantPrice, targetPrice, productPrice) => {
         if (instantPrice == targetPrice || instantPrice == productPrice) {
             return '';
@@ -30,14 +32,14 @@ export default function ChartView({ product }) {
 
     useEffect(() => {
         let newData = [];
-        if (orderCount < product.minParticipants) {
-            newData = [[0, product.productPrice], [orderCount, product.instantPrice], [product.minParticipants, product.productPrice], [product.maxParticipants, product.targetPrice]]
+        if (orderCount < ad?.minParticipants) {
+            newData = [[0, ad?.productPrice], [orderCount, ad?.instantPrice], [ad?.minParticipants, ad?.productPrice], [ad?.maxParticipants, ad?.targetPrice]]
         }
-        else if (orderCount >= product.minParticipants && orderCount < product.maxParticipants) {
-            newData = [[0, product.productPrice], [product.minParticipants, product.productPrice], [orderCount, product.instantPrice], [product.maxParticipants, product.targetPrice]]
+        else if (orderCount >= ad?.minParticipants && orderCount < ad?.maxParticipants) {
+            newData = [[0, ad?.productPrice], [ad?.minParticipants, ad?.productPrice], [orderCount, ad?.instantPrice], [ad?.maxParticipants, ad?.targetPrice]]
         }
-        else if (orderCount >= product.maxParticipants) {
-            newData = [[0, product.productPrice], [product.minParticipants, product.productPrice], [product.maxParticipants, product.targetPrice], [orderCount, product.instantPrice]]
+        else if (orderCount >= ad?.maxParticipants) {
+            newData = [[0, ad?.productPrice], [ad?.minParticipants, ad?.productPrice], [ad?.maxParticipants, ad?.targetPrice], [orderCount, ad?.instantPrice]]
         }
         setSeries(
             [
@@ -72,7 +74,7 @@ export default function ChartView({ product }) {
             },
             annotations: {
                 xaxis: [{
-                    x: product.numOrders,
+                    x: ad?.numOrders,
                     strokeDashArray: 3,
                     borderColor: '#c2c2c2',
                     fillColor: '#c2c2c2',
@@ -94,11 +96,11 @@ export default function ChartView({ product }) {
                             fontFamily: undefined,
                             cssClass: 'apexcharts-xaxis-annotation-label',
                         },
-                        text: `${product.numOrders} adet`
+                        text: `${ad?.numOrders} adet`
                     },
                 }],
                 yaxis: [{
-                    y: product.instantPrice,
+                    y: ad?.instantPrice,
                     strokeDashArray: 3,
                     opacity: 0.3,
                     offsetX: 0,
@@ -109,7 +111,7 @@ export default function ChartView({ product }) {
                         position: 'left',
                         orientation: 'horizontal',
                         offsetX: 10,
-                        offsetY: calculateOffset(product.instantPrice, product.targetPrice, product.productPrice),
+                        offsetY: calculateOffset(ad?.instantPrice, ad?.targetPrice, ad?.productPrice),
                         style: {
                             background: '#F1861d',
                             color: 'white',
@@ -118,13 +120,13 @@ export default function ChartView({ product }) {
                             fontFamily: undefined,
                             cssClass: 'apexcharts-xaxis-annotation-label',
                         },
-                        text: setText(product.instantPrice, product.targetPrice, product.productPrice)
+                        text: setText(ad?.instantPrice, ad?.targetPrice, ad?.productPrice)
                     },
                 }],
                 // points: [
                 //     {
-                //         x: product.numOrders,
-                //         y: product.instantPrice,
+                //         x: ad?.numOrders,
+                //         y: ad?.instantPrice,
                 //         marker: {
                 //             size: 6,
                 //             fillColor: '#fff',
@@ -175,8 +177,8 @@ export default function ChartView({ product }) {
                     formatter: (val) => setCurrency(val)
                 },
                 tickAmount: 1,
-                max: product.productPrice,
-                min: product.targetPrice,
+                max: ad?.productPrice,
+                min: ad?.targetPrice,
             },
             crossHairs: {
                 show: false
@@ -194,13 +196,13 @@ export default function ChartView({ product }) {
                         if (val === 0) {
                             return `Başlangıç`
                         }
-                        if (val === product.numOrders) {
+                        if (val === ad?.numOrders) {
                             return `Satılan <span style="color: white;font-size:13px; background-color:#f1861d;display:inline-block;padding: 1px 5px; border-radius:5px">${val}</span> adet`
                         }
-                        if (val === product.minParticipants) {
+                        if (val === ad?.minParticipants) {
                             return `<span style="color: white;font-size:13px; background-color:#f1861d;display:inline-block;padding: 1px 5px; border-radius:5px">${val}</span> satın almadan sonra indirim başlar`
                         }
-                        if (val === product.maxParticipants) {
+                        if (val === ad?.maxParticipants) {
                             return `<span style="color: white;font-size:13px; background-color:#f1861d;display:inline-block;padding: 1px 5px; border-radius:5px">${val}</span> satın almada en düşük fiyat yakalanır`
                         }
                     }
@@ -209,16 +211,16 @@ export default function ChartView({ product }) {
                     show: true,
                     formatter: function (val) {
                         let title;
-                        if (val === product.productPrice) {
+                        if (val === ad?.productPrice) {
                             title = "Satış fiyatı: "
                             return `${title} <span style=\"color: black;font-size:13px; background-color:#F5F5F5;display:inline-block;padding: 1px 5px; border-radius:5px\">${setCurrency(val)}</span>`
                         }
-                        if (val < product.productPrice && val > product.targetPrice) {
-                            let refund = product.productPrice - val;
+                        if (val < ad?.productPrice && val > ad?.targetPrice) {
+                            let refund = ad?.productPrice - val;
                             title = "İade: "
                             return `${title} <span style=\"color: white;font-size:13px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px\">${setCurrency(refund)}</span>`
                         }
-                        if (val === product.targetPrice) {
+                        if (val === ad?.targetPrice) {
                             title = "Son fiyat: "
                             return `${title} <span style=\"color: white;font-size:13px; background-color:#5cb85c;display:inline-block;padding: 1px 5px; border-radius:5px\">${setCurrency(val)}</span>`
                         }
@@ -233,8 +235,6 @@ export default function ChartView({ product }) {
     }, [orderCount]);
 
     return (
-        <div>
-            <Chart options={options} series={series} height={200} />
-        </div>
+        <Chart options={options} series={series} height={200} />
     );
 }

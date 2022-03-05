@@ -52,7 +52,7 @@ function ProductTabReviews(props) {
 
         <div className="reviews-list">
           <ol className="reviews-list__content">
-            {reviews && reviews.length > 0 ? reviewsList :
+            {reviews?.length > 0 ? reviewsList :
               (<div className="block block-empty">
                 <div className="container">
                   <div className="block-empty__body">
@@ -62,7 +62,7 @@ function ProductTabReviews(props) {
               </div>)
             }
           </ol>
-          {reviews && reviews.length > 0 &&
+          {reviews?.length > 0 &&
             < div className="reviews-list__pagination">
               <Pagination items={reviews} onPageChange={handlePageChange} limit={5} />
             </div>

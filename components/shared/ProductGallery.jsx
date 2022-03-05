@@ -1,17 +1,17 @@
 // react
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // third-party
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from "next/link";
+import Image from "next/image";
 
 // application
-import languages from '../../i18n';
-import StroykaSlick from './StroykaSlick';
+import languages from "../../i18n";
+import StroykaSlick from "./StroykaSlick";
 
 const slickSettingsFeatured = {
   dots: false,
@@ -102,7 +102,9 @@ class ProductGallery extends Component {
   }
 
   componentDidMount() {
-    this.createGallery = import('../../components/photoswipe').then((module) => module.createGallery);
+    this.createGallery = import("../../components/photoswipe").then(
+      (module) => module.createGallery
+    );
 
     // this is necessary to reset the transition state, because sometimes
     // react-slick does not trigger an afterChange event after a beforeChange event
@@ -143,7 +145,7 @@ class ProductGallery extends Component {
     const { direction } = languages[locale];
 
     // we need to invert index id direction === 'rtl' due to react-slick bug
-    if (direction === 'rtl') {
+    if (direction === "rtl") {
       return images.length - 1 - index;
     }
 
@@ -166,7 +168,7 @@ class ProductGallery extends Component {
       h: 700,
     }));
 
-    if (direction === 'rtl') {
+    if (direction === "rtl") {
       items.reverse();
     }
 
@@ -179,7 +181,8 @@ class ProductGallery extends Component {
         }
 
         const imageElement = this.imagesRefs[dirDependentIndex];
-        const pageYScroll = window && window.pageYOffset || document.documentElement.scrollTop;
+        const pageYScroll =
+          (window && window.pageYOffset) || document.documentElement.scrollTop;
         const rect = imageElement.getBoundingClientRect();
 
         return {
@@ -200,15 +203,12 @@ class ProductGallery extends Component {
 
       this.gallery = createGallery(items, options);
 
-      this.gallery.listen('beforeChange', () => {
+      this.gallery.listen("beforeChange", () => {
         if (this.gallery && this.slickFeaturedRef) {
-          this.slickFeaturedRef.slickGoTo(
-            this.gallery.getCurrentIndex(),
-            true,
-          );
+          this.slickFeaturedRef.slickGoTo(this.gallery.getCurrentIndex(), true);
         }
       });
-      this.gallery.listen('destroy', () => {
+      this.gallery.listen("destroy", () => {
         this.gallery = null;
       });
 
@@ -255,19 +255,27 @@ class ProductGallery extends Component {
     const featured = images.map((image, index) => (
       <Link
         key={index}
-        href={`/${image}`} onClick={(event) => this.handleFeaturedClick(event, index)} target="_blank">
+        href={`/${image}`}
+        onClick={(event) => this.handleFeaturedClick(event, index)}
+        target="_blank"
+      >
         <a>
-          <Image src={image} alt="" 
-          ref={(element) => { this.imagesRefs[index] = element; }} 
-          width={200}
-           height={300}/>
+          <Image
+            src={image}
+            alt=""
+            ref={(element) => {
+              this.imagesRefs[index] = element;
+            }}
+            width={200}
+            height={300}
+          />
         </a>
       </Link>
     ));
 
     const thumbnails = images.map((image, index) => {
-      const classes = classNames('product-gallery__carousel-item', {
-        'product-gallery__carousel-item--active': index === currentIndex,
+      const classes = classNames("product-gallery__carousel-item", {
+        "product-gallery__carousel-item--active": index === currentIndex,
       });
 
       return (
@@ -308,14 +316,14 @@ class ProductGallery extends Component {
 
 ProductGallery.propTypes = {
   images: PropTypes.array,
-  layout: PropTypes.oneOf(['standard', 'sidebar', 'columnar', 'quickview']),
+  layout: PropTypes.oneOf(["standard", "sidebar", "columnar", "quickview"]),
   /** current locale */
   locale: PropTypes.string,
 };
 
 ProductGallery.defaultProps = {
   images: [],
-  layout: 'standard',
+  layout: "standard",
 };
 
 const mapStateToProps = (state) => ({

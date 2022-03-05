@@ -1,57 +1,45 @@
 // react
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 
 // third-party
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 
-class AsyncAction extends Component {
-    canceled = false;
+const AsyncAction = ({ render, action }) => {
+  const canceled = useRef(null);
+  const [loading, setLoading] = useState(false);
 
-    constructor(props) {
-      super(props);
+  useEffect(() => {
+    canceled.current = false
+    return () => canceled.current = true
+  }, [])
 
-      this.state = {
-        loading: false,
-      };
+  const run = () => {
+    if (loading || !action) {
+      return;
     }
-
-    componentWillUnmount() {
-      this.canceled = true;
-    }
-
-    run = () => {
-      const { action } = this.props;
-      const { loading } = this.state;
-
-      if (loading || !action) {
+    setLoading(true)
+    action().then((resp) => {
+      if (canceled.current) {
         return;
       }
-
-      this.setState({ loading: true });
-      action().then((resp) => {
-        if (this.canceled) {
-          return;
-        }
-        this.setState({ loading: false });
-      }).catch((err) => {
-        if (this.canceled) {
-          return;
-        }
-        this.setState({ loading: false });
-      });
-    };
-
-    render() {
-      const { render } = this.props;
-      const { loading } = this.state;
-
-      if (render) {
-        return render({ run: this.run, loading });
+      setLoading(false)
+    }).catch((err) => {
+      if (canceled.current) {
+        return;
       }
+      setLoading(false)
+    });
+  };
 
-      return null;
-    }
+  if (render) {
+    return render({ run, loading });
+  }
+
+  return null;
 }
+
+
 
 AsyncAction.propTypes = {
   action: PropTypes.func,

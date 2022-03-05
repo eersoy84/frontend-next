@@ -1,57 +1,51 @@
-
-
 // third-party
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 // import { Link } from 'react-router-dom';
-import Link from 'next/link'
-import Image from 'next/image'
-import Search from './Search';
-import Topbar from './Topbar';
-import Indicator from './Indicator';
-import { IndicatorAccountDispatch } from './IndicatorAccountDispatch';
-import IndicatorCart from './IndicatorCart';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useSession } from "next-auth/react"
-import { getFavorites } from '../../store/userAccount';
-import { useEffect, useCallback, useState } from 'react';
-import { cartGet } from '../../store/cart';
-import { getUserAddress } from '../../store/profile';
-import { getUserOrders } from '../../store/order';
+import Link from "next/link";
+import Image from "next/image";
+import Search from "./Search";
+import Topbar from "./Topbar";
+import Indicator from "./Indicator";
+import { IndicatorAccountDispatch } from "./IndicatorAccountDispatch";
+import IndicatorCart from "./IndicatorCart";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useSession } from "next-auth/react";
+import { getFavorites } from "../../store/userAccount";
+import { useEffect, useCallback, useState } from "react";
+import { cartGet } from "../../store/cart";
+import { getUserAddress } from "../../store/profile";
+import { getUserOrders } from "../../store/order";
 
-import { Heart20Svg } from '../../svg'
-
-
+import { Heart20Svg } from "../../svg";
 
 function Header() {
-  const { favorites } = useSelector((state) => ({
-    favorites: state.userAccount.favorites,
-  }), shallowEqual);
-  const { data: session, status } = useSession()
+  const { favorites } = useSelector(
+    (state) => ({
+      favorites: state.userAccount.favorites,
+    }),
+    shallowEqual
+  );
+
+  const { data: session, status } = useSession();
   const dispatch = useDispatch();
 
   const sessionCallback = useCallback(() => {
-    dispatch(getFavorites())
-    dispatch(getUserAddress())
-    dispatch(getUserOrders())
-  }, [status])
+    dispatch(getFavorites());
+    dispatch(getUserAddress());
+    dispatch(getUserOrders());
+  }, [status]);
 
   useEffect(() => {
     if (status === "authenticated") {
-      sessionCallback()
+      sessionCallback();
     }
-  }, [sessionCallback])
-
-
-  // const hasMounted = useHasMounted()
-  // if (!hasMounted) {
-  //   return null;
-  // }
+  }, [sessionCallback]);
 
   let bannerSection = (
     <div className="site-header__middle container">
       <div className="site-header__logo">
         <Link href="/">
-          <a className='logo-bizleal'>
+          <a className="logo-bizleal">
             <Image src={"/png/bizleal-logo.png"} height={43} width={142} />
           </a>
         </Link>
@@ -61,14 +55,11 @@ function Header() {
       </div>
 
       <div className="nav-panel__indicators">
-
         {session && (
           <div className="account_icons_custom">
-
             <Indicator
-              url={session ? '/favoriler' : '/hesap/cikis'}
+              url={session ? "/favoriler" : "/hesap/cikis"}
               value={favorites?.length != 0 ? favorites?.length : undefined}
-              // icon={<Image src="/icons/heart-20.svg" height={20} width={20} />}
               icon={<Heart20Svg />}
             />
             <p>Favorilerim</p>
@@ -88,7 +79,6 @@ function Header() {
     </div>
   );
 
-
   return (
     <div className="site-header">
       <Topbar />
@@ -99,10 +89,10 @@ function Header() {
 
 Header.propTypes = {
   /** one of ['default', 'compact'] (default: 'default') */
-  layout: PropTypes.oneOf(['default', 'compact']),
+  layout: PropTypes.oneOf(["default", "compact"]),
 };
 
 Header.defaultProps = {
-  layout: 'default',
+  layout: "default",
 };
-export default Header
+export default Header;

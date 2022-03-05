@@ -5,7 +5,6 @@ import BizlealHotAdsSlider from '../blocks/BizlealHotAdsSlider';
 import { useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link'
 import Image from 'next/image'
-import PageHeader from '../shared/PageHeader';
 import BlockSlideShow from '../blocks/BlockSlideShow';
 import dynamic from 'next/dynamic'
 const CategorySlider = dynamic(() => import('../blocks/CategorySlider'), { ssr: false });
@@ -18,7 +17,7 @@ export default function HomePage() {
     return (
         <>
             <div className="container block-features--layout--classic">
-                <CategorySlider />
+                    <CategorySlider />
                 <div className="home_layout_grid">
                     <BlockSlideShow />
                     <BizlealHotAdsSlider
@@ -203,19 +202,6 @@ export default function HomePage() {
                     </div>
                 </div>
 
-                {/* <BizlealAdsSlider
-                    gridLayout="home_new_ads_list"
-                    numOfSlidesToShow={4}
-                    list={adList}
-                    title="Yeni Ürünler"
-                />
-                <br />
-                <BizlealAdsSlider
-                    gridLayout="home_favorite_ads_list"
-                    numOfSlidesToShow={4}
-                    list={adList}
-                    title="En Çok Satanlar"
-                /> */}
             </div>
 
         </>

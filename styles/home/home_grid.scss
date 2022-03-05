@@ -31,7 +31,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-template-areas:
-        "slideshow   slideshow slideshow slideshow hotAds hotAds";
+        "slideshow  slideshow slideshow slideshow hotAds hotAds";
     justify-items: stretch;
 
     // grid-column: 3 / span 2;
@@ -79,8 +79,6 @@
             height: 100%;
         }
 
-        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-
         .block-slideshow__slide {
             height: 100%;
         }
@@ -92,7 +90,7 @@
         }
 
         .slick-arrow::before {
-            content: "";
+            display: none;
         }
 
         .slick-prev {
@@ -101,10 +99,11 @@
             z-index: 10;
         }
         .slick-prev::before {
-            font: normal normal normal 14px/1 FontAwesome;
-            content: "\f053";
-            color: #f1861e;
-            font-size: 30px;
+            // font: var(--fa-font-solid);
+            // content: "\f007";
+            // color: #f1861e;
+            // font-size: 300px;
+            display: none;
         }
 
         .slick-next {
@@ -114,21 +113,9 @@
         }
 
         .slick-next::before {
-            font: normal normal normal 14px/1 FontAwesome;
-            content: "\f054";
-            color: #f1861e;
-            font-size: 30px;
+            display: none;
         }
     }
-
-    
-    // .home_categories {
-    //     max-width: 100%;
-    //     min-width: 0;
-    //     min-height: 0;
-    //     grid-area: categories;
-    // }
-
     .home_slideshow {
         max-width: 100%;
         margin: 0;

@@ -19,39 +19,42 @@ const slickSettings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   swipe: true,
+  arrows:false,
 };
+
+const slides = [
+  {
+    id: 1,
+    title: "Türkiye'nin <span style=\"color: white;font-size:25px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px\">Ortak Satın Alma</span><br />Platformu",
+    text: '<p>Ortak ihtiyaçlarınız için, organize olun...</p>',
+    image_desktop: 'png/banner-shop.png',
+    image_mobile: 'png/banner-shop-mobile.png',
+  },
+  {
+    id: 2,
+    title: 'Doğrudan Üreticiden <span style="color: white;font-size:20px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px">Ortak Satın Alma</span> Yapabilirsiniz',
+    text: '<p>Aynı toptancı gibi, birleşerek en uygun fiyatlara satın alma yapabilirsiniz...</p>',
+    image_desktop: 'png/group-buy.png',
+    image_mobile: 'png/group-buy-mobile.png',
+  },
+  {
+    id: 3,
+    title: 'Büyük Firmaların <span style="color: white;font-size:20px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px">Satın Alma Gücüne</span> Ulaşabilirsiniz',
+    text: '<p>Son kullanıcılar olarak, güçlerinizi birleştirip, büyük firmalar karşısında daha güçlü olabilirsiiniz...</p>',
+    image_desktop: 'png/little-fish.png',
+    image_mobile: 'png/little-fish-mobile.png',
+  },
+];
+
+const blockClasses = classNames(
+  'home_slideshow',
+  'block-slideshow block',
+  'block-slideshow--layout--full',
+);
+
 function BlockSlideShow() {
 
-  const blockClasses = classNames(
-    'home_slideshow',
-    'block-slideshow block',
-    'block-slideshow--layout--full',
-  );
-
-  const slides = [
-    {
-      id: 1,
-      title: "Türkiye'nin <span style=\"color: white;font-size:25px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px\">Ortak Satın Alma</span><br />Platformu",
-      text: '<p>Ortak ihtiyaçlarınız için, organize olun...</p>',
-      image_desktop: 'png/banner-shop.png',
-      image_mobile: 'png/banner-shop-mobile.png',
-    },
-    {
-      id: 2,
-      title: 'Doğrudan Üreticiden <span style="color: white;font-size:20px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px">Ortak Satın Alma</span> Yapabilirsiniz',
-      text: '<p>Aynı toptancı gibi, birleşerek en uygun fiyatlara satın alma yapabilirsiniz...</p>',
-      image_desktop: 'png/group-buy.png',
-      image_mobile: 'png/group-buy-mobile.png',
-    },
-    {
-      id: 3,
-      title: 'Büyük Firmaların <span style="color: white;font-size:20px; background-color:#f1861E;display:inline-block;padding: 1px 5px; border-radius:5px">Satın Alma Gücüne</span> Ulaşabilirsiniz',
-      text: '<p>Son kullanıcılar olarak, güçlerinizi birleştirip, büyük firmalar karşısında daha güçlü olabilirsiiniz...</p>',
-      image_desktop: 'png/little-fish.png',
-      image_mobile: 'png/little-fish-mobile.png',
-    },
-  ];
-  const slidesFunction = slides.map((slide) => {
+  const slidesFunction = slides?.map(slide => {
     return (
       <div key={slide.id} className="block-slideshow__slide">
         <div
@@ -80,11 +83,11 @@ function BlockSlideShow() {
     );
   });
 
-  let media;
-  useEffect(() => {
-    media = window && window.matchMedia('(min-width: 992px)');
+  // let media;
+  // useEffect(() => {
+  //   media = window && window.matchMedia('(min-width: 992px)');
 
-  }, [])
+  // }, [])
 
   return (
     <div className={blockClasses} data-layout="grid-1">

@@ -14,19 +14,16 @@ import SimpleReactValidator from 'simple-react-validator';
 // data stubs
 import theme from '../../data/theme';
 import {
-    login, loginWithFacebook, loginWithGoogle, loginWithTelegram,
+    loginWithFacebook, loginWithGoogle, loginWithTelegram,
 } from '../../store/userAccount/userAccountActions';
 
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 
 function AccountPageLogin(props) {
     const { loginWithFacebook, loginWithGoogle, loginWithTelegram } = props
-    const { isLoading } = useSelector((state) => ({
-        isLoading: state.userAccount.isLoading,
-    }), shallowEqual);
-    const { status } = useSession();
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -50,22 +47,24 @@ function AccountPageLogin(props) {
             forceUpdate(1);
             return;
         }
+        setIsLoading(true)
         const res = await signIn('credentials', {
             redirect: false,
             email: email,
             password: password,
-            callbackUrl: "localhost:3000"
+            callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL
         });
         if (res.error) {
+            setIsLoading(false)
             toast.error("Kullanıcı adınız veya şifreniz hatalı!")
             return
         }
         if (res.ok) {
+            setIsLoading(false)
             toast.success("Bizleal'a başarıyla giriş yaptınız")
             Router.push(res?.url)
         }
 
-        // dispatch(login({ email, password }))
     }
 
     const responseFacebook = (data) => {
@@ -121,7 +120,7 @@ function AccountPageLogin(props) {
                         {validator?.current?.message('şifre', password, 'required|min:6', { className: 'payment_credit_card_validation' })}
                         <Link href="/hesap/sifre-yenile">
                             <a>
-                                <span style={{ color: 'blue' }}>Şifremi Unuttum</span>
+                                <span style={{ color: 'blue', marginTop: '5px' }}>Şifremi Unuttum</span>
                             </a>
                         </Link>
                     </div>
@@ -130,7 +129,7 @@ function AccountPageLogin(props) {
                             type="submit"
                             className={classNames('btn btn-primary btn-lg'
                                 , {
-                                    'btn-loading': status === "loading" ?? false,
+                                    'btn-loading': isLoading ?? false,
                                 }
                             )
                             }
